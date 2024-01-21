@@ -46,8 +46,8 @@
 </div>
 {/if}
 <Card class="text-center fixed inset-0 flex items-center justify-center" size="lg" padding="xl">
-  <h1 class="mb-2 text-5xl font-bold text-gray-900 dark:text-white text-[#3ec948]">Pushti</h1>
-  <p class="mb-5 text-base text-gray-500 sm:text-2xl dark:text-gray-400 text-[#90b07d]">Ensuring Nutrition</p>
+  <h1 class="mb-2 text-5xl font-bold dark:text-white text-[#3ec948]">Pushti</h1>
+  <p class="mb-5 text-base sm:text-2xl dark:text-gray-400 text-[#90b07d]">Ensuring Nutrition</p>
   <br />
   <p class="mb-5 text-base text-gray-500 sm:text-2xl dark:text-gray-400">Join us for a better future</p>
   <div class="justify-center items-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4 rtl:space-x-reverse">
