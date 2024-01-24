@@ -5,11 +5,26 @@
   import { fade } from 'svelte/transition';
   import logo from '$lib/images/logo.png';
 
-  const images = ["/images/home1.png", "/images/home2.png", "/images/home3.png"]
+  import  Carousel  from '$lib/Components/Carousel.svelte';
+  import images from '$lib/jsons/carousel.json';
+  // const images = [
+  //   {
+  //     src: "/images/home1.png"
+  //   },
+  //   {
+  //     src: "/images/home2.png"
+  //   }, 
+  //   {
+  //     src:"/images/home3.png"
+  //   }
+  // ]
 
   let currentIndex = 0;
   let currentImage = images[currentIndex];
   let show = true;
+
+  let index = 0;
+  let image;
 
   onMount(() => {
 		  const interval = setInterval(() => {
@@ -27,20 +42,53 @@
 			clearInterval(interval);
 		};
 	});
+
+  // document.body.style.overflow = "hidden";
 </script>
 
-<div class="relative px-8">
-  <Navbar class="px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 start-0 border-b">
+<div class="flex flex-col h-screen" >
+  <Navbar class="px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 start-0 border-b bg-[#EDFFE5]" >
     <NavBrand href="/">
-      <img src={logo} class="me-3 h-6 sm:h-9" alt="Pushti Logo" />
+      <img src={logo} class="me-3 h-12 sm:h-9" alt="Pushti Logo" />
     </NavBrand>
+    <!-- <div class="flex md:order-2">
+    <Button size="sm">Get started</Button>
     <NavHamburger />
-    <NavUl>
-      <NavLi href="/" active={true}>Sign Up</NavLi>
-      <NavLi href="/about">Login</NavLi>
+  </div> -->
+    <NavUl class="flex  items-center">
+      <NavLi href="/about" class="items-center"><Button outline size='xs' class="bg-[#EDFFE5] border-[#EDFFE5] font-bold text-[#27C848] hover:text-[#27C848] hover:bg-[#EDFFE5] text-1xl hover:border-[#27C848]">Login</Button></NavLi>
+      <NavLi href="/" active={true}><Button outline size='xs' class="bg-[#EDFFE5] border-[#27C848] font-bold text-[#27C848] hover:text-white hover:bg-[#27C848] text-1xl hover:border-[#27C848]">Sign Up</Button></NavLi>
     </NavUl>
   </Navbar>
+
+
+  <Carousel {images} let:Controls let:Indicators duration = "5000" on:change={() => (index=(index+1)%3)}>
+    <Indicators />
+    <Controls class="z-20"/>
+  </Carousel>
+
+  <div class="rounded h-full absolute bg-[#EDFFE5] text-[#27C848] dark:bg-gray-700 dark:text-white p-2 my-2 flex items-center justify-center opacity-90 w-1/4">
+    <div class="p-2 text-2xl font-bold z-10">
+      {#if index==0}
+        <p>Ensuring Nutrition</p>
+      {/if}
+      {#if index==1}
+        <p>Ensuring Nutrition1</p>
+      {/if}
+      {#if index==2}
+        <p>Ensuring Nutrition2</p>
+      {/if}
+    </div>
+    </div>
 </div>
+
+<style>
+  :global(body){
+    overflow-x: hidden;
+  }
+</style>
+
+<!-- 
 {#if show}
 <div style="background-image: url({currentImage}); background-size: cover; background-repeat: no-repeat; height: 100vh;" in:fade out:fade={{delay: 1500}}>
 </div>
@@ -57,4 +105,4 @@
         </svg>
     </Button>
   </div>
-</Card>  
+</Card>   -->

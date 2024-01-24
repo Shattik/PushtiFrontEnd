@@ -1,19 +1,17 @@
 [
     {
-      "alt": "Dark Cow Farm",
-      "src": "/images/home.jpg",
-      "title": "home"
+        "alt": "Dark Cow Farm",
+        "src": "/images/home1.png",
+        "title": "home"
     },
     {
-      "alt": "Dark Cow Farm",
-      "src": "/images/home.jpeg",
-      "title": "home"
+        "alt": "Dark Cow Farm1",
+        "src": "/images/home2.png",
+        "title": "home"
     },
     {
-      "alt": "Dark Cow Farm",
-      "src": "/images/home.png",
-      "title": "home"
+        "alt": "Dark Cow Farm2",
+        "src": "/images/home3.png",
+        "title": "home"
     }
 ]
-
-
