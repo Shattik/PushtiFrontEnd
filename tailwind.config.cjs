@@ -26,7 +26,24 @@ const config = {
                     800: "#CC4522",
                     900: "#A5371B",
                 },
-                "sidebar-bg": "#ED1FE5",
+                sidebar_bg: "#EDFFE5",
+                logo: {
+                    1: "#27C848",
+                    2: "#2CB948",
+                    3: "#37AA4E",
+                    4: "#359B49",
+                    5: "#318B43",
+                    6: "#318241",
+                    7: "#327C40",
+                    8: "#32643B"
+                },
+                body_custom: "#FDFFF5",
+                border_custom: "#BFF8A4",
+                custom_font: {
+                    deep: "#308140",
+                    light: "#67D895",
+                    reddish: "#BD3B3B"
+                } 
             },
         },
     },
