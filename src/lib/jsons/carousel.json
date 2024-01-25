@@ -13,5 +13,10 @@
         "alt": "Dark Cow Farm2",
         "src": "/images/home3.png",
         "title": "home"
+    },
+    {
+        "alt": "Dark Cow Farm3",
+        "src": "/images/home4.png",
+        "title": "home"
     }
 ]
