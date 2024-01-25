@@ -44,7 +44,7 @@
   let upazilla = "";
   let union = "";
   let confirmPassword = "";
-  let divisions = [{value:"", name:""}];
+  let divisions = [{ value: "", name: "" }];
 
   /* { value: "Dhaka", name: "Dhaka" },
     { value: "Chittagong", name: "Chittagong" },
@@ -55,36 +55,10 @@
     { value: "Rangpur", name: "Rangpur" },
     { value: "Mymensingh", name: "Mymensingh" }, */
 
-  let districts = [
-    { value: "Dhaka", name: "Dhaka" },
-    { value: "Chittagong", name: "Chittagong" },
-    { value: "Rajshahi", name: "Rajshahi" },
-    { value: "Khulna", name: "Khulna" },
-    { value: "Barisal", name: "Barisal" },
-    { value: "Sylhet", name: "Sylhet" },
-    { value: "Rangpur", name: "Rangpur" },
-    { value: "Mymensingh", name: "Mymensingh" },
-  ];
-  let upazillas = [
-    { value: "Dhaka", name: "Dhaka" },
-    { value: "Chittagong", name: "Chittagong" },
-    { value: "Rajshahi", name: "Rajshahi" },
-    { value: "Khulna", name: "Khulna" },
-    { value: "Barisal", name: "Barisal" },
-    { value: "Sylhet", name: "Sylhet" },
-    { value: "Rangpur", name: "Rangpur" },
-    { value: "Mymensingh", name: "Mymensingh" },
-  ];
-  let unions = [
-    { value: "Dhaka", name: "Dhaka" },
-    { value: "Chittagong", name: "Chittagong" },
-    { value: "Rajshahi", name: "Rajshahi" },
-    { value: "Khulna", name: "Khulna" },
-    { value: "Barisal", name: "Barisal" },
-    { value: "Sylhet", name: "Sylhet" },
-    { value: "Rangpur", name: "Rangpur" },
-    { value: "Mymensingh", name: "Mymensingh" },
-  ];
+  let districts = [{ value: "", name: "" }];
+
+  let upazillas = [{ value: "", name: "" }];
+  let unions = [{ value: "", name: "" }];
 
   onMount(async () => {
     const response = await fetch(`${apiGatewayUrl}/register/sme`, {
@@ -93,21 +67,132 @@
         "Content-Type": "application/json",
       },
     });
-    
-    
-    let division_json = await response.json();
 
-    // iterate through division JSON and add to divisions array, update value with id, name with name, define type division
+    let divisions_array = await response.json();
+
+    console.log(divisions_array.divisions);
+    let division_json =[{ value: "", name: "" } ];
     
-    // define type Division
-
-
-    division_json.forEach((/** @type {{ id: any; name: any; }} */ element) => {
-        divisions.push({ value: element.id, name: element.name });
+    divisions_array.divisions.forEach((/** @type {{ id: any; name: any; }} */ element) => {
+      const obj = { value: element.id, name: element.name };
+      // division_json.push(obj);
+      // prepend the new division to the array
+      division_json = [obj, ...division_json];
     });
-    console.log(divisions);
-});
 
+    division_json.pop();
+
+    // sort the array by value
+    division_json.sort((a, b) => (a.value > b.value ? 1 : -1));
+    
+    divisions = division_json;
+
+  });
+
+  async function getDistricts() {
+    const req_body = { division };
+    console.log("req_body", req_body);
+    const response = await fetch(`${apiGatewayUrl}/register/district`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req_body),
+    });
+
+    let districts_array = await response.json();
+
+    console.log(districts_array);
+
+    // do same as division
+    let district_json = [{ value: "", name: "" }];
+
+    districts_array.forEach((/** @type {{ id: any; name: any; }} */ element) => {
+      const obj = { value: element.id, name: element.name };
+      // district_json.push(obj);
+      // prepend the new district to the array
+      district_json = [obj, ...district_json];
+    });
+
+    district_json.pop();
+
+    // sort the array by value
+    district_json.sort((a, b) => (a.value > b.value ? 1 : -1));
+
+    districts = district_json;
+
+    console.log(districts);
+  }
+
+  async function getUpazillas() {
+    const req_body = { district };
+    console.log("req_body", req_body);
+    const response = await fetch(`${apiGatewayUrl}/register/upazilla`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req_body),
+    });
+
+    let upazillas_array = await response.json();
+
+    console.log(upazillas_array);
+
+    // do same as division
+    let upazilla_json = [{ value: "", name: "" }];
+
+    upazillas_array.forEach((/** @type {{ id: any; name: any; }} */ element) => {
+      const obj = { value: element.id, name: element.name };
+      // upazilla_json.push(obj);
+      // prepend the new upazilla to the array
+      upazilla_json = [obj, ...upazilla_json];
+    });
+
+    upazilla_json.pop();
+
+    // sort the array by value
+    upazilla_json.sort((a, b) => (a.value > b.value ? 1 : -1));
+
+    upazillas = upazilla_json;
+
+    console.log(upazillas);
+  }
+
+  async function getUnions() {
+    const req_body = { upazilla };
+    console.log("req_body", req_body);
+    const response = await fetch(`${apiGatewayUrl}/register/union`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(req_body),
+    });
+
+    let unions_array = await response.json();
+
+    console.log(unions_array);
+
+    // do same as division
+    let union_json = [{ value: "", name: "" }];
+
+    unions_array.forEach((/** @type {{ id: any; name: any; }} */ element) => {
+      const obj = { value: element.id, name: element.name };
+      // union_json.push(obj);
+      // prepend the new union to the array
+      union_json = [obj, ...union_json];
+    });
+
+    union_json.pop();
+
+    // sort the array by value
+    union_json.sort((a, b) => (a.value > b.value ? 1 : -1));
+
+    unions = union_json;
+
+    console.log(unions);
+  }
 
   async function handleSubmit() {
     // let data;
@@ -292,6 +377,7 @@
               district = "";
               upazilla = "";
               union = "";
+              getDistricts();
             }}
             required
           />
@@ -306,6 +392,7 @@
               on:change={() => {
                 upazilla = "";
                 union = "";
+                getUpazillas();
               }}
               required
             />
@@ -320,6 +407,7 @@
               bind:value={upazilla}
               on:change={() => {
                 union = "";
+                getUnions();
               }}
               required
             />
@@ -412,7 +500,9 @@
           />
         </ButtonGroup>
       </Label>
-      <Button type="submit" class="w-full bg-logo-1 text-white font-bold focus-within:ring-sidebar-bg focus-within:ring-opacity-50"
+      <Button
+        type="submit"
+        class="w-full bg-logo-1 text-white font-bold focus-within:ring-sidebar-bg focus-within:ring-opacity-50"
         >Create Your Account</Button
       >
       <div
