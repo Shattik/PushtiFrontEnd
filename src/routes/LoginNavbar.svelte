@@ -13,7 +13,7 @@
     <NavHamburger />
     <NavUl class="flex  items-center " ulClass="flex flex-col p-1.5 mt-4 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
       <NavLi href="/login" class="items-center"><Button outline size='xs' class="bg-[#EDFFE5] border-[#EDFFE5] font-bold text-[#27C848] hover:text-[#27C848] hover:bg-[#EDFFE5] text-1xl hover:border-[#27C848]">Login</Button></NavLi>
-      <NavLi href="/signup" active={true}><Button outline size='xs' class="bg-sidebar_bg border-[#27C848] font-bold text-[#27C848] hover:text-white hover:bg-[#27C848] text-1xl hover:border-[#27C848] focus-within:ring-[#27C848] focus-within:ring-sidebar-bg">Sign Up</Button></NavLi>
+      <NavLi href="/register" active={true}><Button outline size='xs' class="bg-sidebar_bg border-[#27C848] font-bold text-[#27C848] hover:text-white hover:bg-[#27C848] text-1xl hover:border-[#27C848] focus-within:ring-[#27C848] focus-within:ring-sidebar-bg">Sign Up</Button></NavLi>
     </NavUl>
   </Navbar>
 

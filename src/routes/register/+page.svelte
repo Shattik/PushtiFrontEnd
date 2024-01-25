@@ -1,0 +1,142 @@
+<script>
+    import { Label, Input, ButtonGroup, InputAddon, Button, Alert, Card, Avatar, Radio } from 'flowbite-svelte';
+    import { AddressCardSolid, IdBadgeSolid, KeySolid, UsersSlashSolid } from 'svelte-awesome-icons';
+    import LoginNavbar from '../LoginNavbar.svelte';
+    import { redirect } from '@sveltejs/kit';
+
+    /**
+     * @type {{ error: any; }}
+     */
+    export let res;
+    let nid = '';
+    let password = '';
+    let dob=new Date();
+    let accountType="";
+    let farmerType="";
+    let email="";
+    let name="";
+    let permanentAddress="";
+    let mobile="";
+    let divisions="";
+
+    // async onMount(){
+    //     const response = await fetch('/api/getDivisions', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         }
+    //     });
+    //     divisions = await response.json();
+    // }
+
+    async function handleSubmit() {
+        // let data;
+        // // Perform login logic here
+        // try {
+        //     // Send authentication request to backend
+        //     const response = await fetch('/api/login', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({ nid, password })
+        //     });
+        //     data = await response.json();
+        // } catch (error) {
+        //     console.error('An error occurred during login:', error);
+        //     res = { error: 'An error occurred during login. Please try again later.' };
+        // }
+        // if(data?.success){
+        //     redirect(302,data.redirectURL);
+        // }
+        // else if(data?.error){
+        //     res = { error: data?.error };
+        // }
+        res={error:"Invalid Credentials"};
+
+    }
+</script>
+<LoginNavbar/>
+<div class="grid grid-cols-1 place-items-center h-screen w-screen" >
+    <Card class="w-1/3 max-w-full">
+        <form class="flex flex-col grow space-y-6" on:submit|preventDefault={handleSubmit}>
+            {#if res?.error}
+                <Alert color="red" border dismissable on:close={()=>{res.error=""}}>
+                    <UsersSlashSolid slot="icon" class="w-4 h-4"/>
+                    <span class="font-medium">{res.error}</span>
+                </Alert>
+		    {/if}
+            <h3 class="text-xl text-center font-bold text-gray-900 dark:text-white">Sign Up</h3>
+            <div class="grid grid-cols-1 place-items-center w-full">
+                <Avatar class="ring-[#27C848] ring-opacity-40" size="xl" border />
+            </div>
+            <Label class="space-y-2">
+                <span class="font-bold">NID</span>
+                <ButtonGroup class="w-full">
+                    <InputAddon>
+                        <AddressCardSolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </InputAddon>
+                    <Input class="focus:border-[#27C848] focus:ring-[#27C848]" id="nid" type="number" placeholder="123456789" bind:value={nid} required/>
+                </ButtonGroup>
+            </Label>
+            <Label class="space-y-2">
+                <span class="font-bold">Name</span>
+                <ButtonGroup class="w-full">
+                    <InputAddon>
+                        <IdBadgeSolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </InputAddon>
+                    <Input class="focus:border-[#27C848] focus:ring-[#27C848]" id="nid" placeholder="Name" bind:value={name} required/>
+                </ButtonGroup>
+            </Label>
+            <Label class="space-y-2">
+                <span class="font-bold">User Type</span>
+                <div class="flex flex-row flex-wrap space-x-6">
+                    <Radio name="accountType" bind:group={accountType} value="farmer" class="p-x-2" required>
+                        <span class="text-gray-900 dark:text-white">Farmer</span>
+                    </Radio>
+                    <Radio name="accountType" bind:group={accountType} value="sme" class="p-x-2" required>
+                        <span class="text-gray-900 dark:text-white">SME</span>
+                    </Radio>
+                    <Radio name="accountType" bind:group={accountType} value="vendor" class="p-x-2" required>
+                        <span class="text-gray-900 dark:text-white">Vendor</span>
+                    </Radio>
+                </div>
+            </Label>
+            {#if accountType=="farmer"}
+                <Label class="space-y-2">
+                    <span class="font-bold">Farmer Type</span>
+                    <div class="flex flex-row flex-wrap space-x-6">
+                        <Radio name="farmerType" bind:group={farmerType} value="Dairy" class="p-x-2" required>
+                            <span class="text-gray-900 dark:text-white">Dairy</span>
+                        </Radio>
+                        <Radio name="farmerType" bind:group={farmerType} value="Poultry" class="p-x-2" required>
+                            <span class="text-gray-900 dark:text-white">Poultry</span>
+                        </Radio>
+                    </div>
+                </Label>
+            {/if}
+            <Label class="space-y-2">
+                <span class="font-bold">Email</span>
+                <ButtonGroup class="w-full">
+                    <InputAddon>
+                        <IdBadgeSolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </InputAddon>
+                    <Input class="focus:border-[#27C848] focus:ring-[#27C848]" id="nid" placeholder="Email" bind:value={email} required/>
+                </ButtonGroup>
+            </Label>
+            <Label class="space-y-2">
+                <span class="font-bold">Your password</span>
+                <ButtonGroup class="w-full">
+                    <InputAddon>
+                        <KeySolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    </InputAddon>
+                    <Input class="focus:border-[#27C848] focus:ring-[#27C848]" id="pass" type="password" bind:value={password} required/>
+                </ButtonGroup>
+            </Label>
+            <Button type="submit" class="w-full bg-[#27C848] text-white font-bold">Login to your account</Button>
+            <div class="text-sm text-center font-medium text-gray-500 dark:text-gray-300">
+                Not registered? <a href="/register" class="text-[#27C848] hover:underline dark:text-primary-500"> Create account </a>
+            </div>
+    </form>
+    </Card>
+</div>
