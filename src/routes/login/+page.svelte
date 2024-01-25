@@ -12,29 +12,36 @@
     let password = '';
 
     async function handleSubmit() {
-        // let data;
-        // // Perform login logic here
-        // try {
-        //     // Send authentication request to backend
-        //     const response = await fetch('/api/login', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({ nid, password })
-        //     });
-        //     data = await response.json();
-        // } catch (error) {
-        //     console.error('An error occurred during login:', error);
-        //     res = { error: 'An error occurred during login. Please try again later.' };
-        // }
-        // if(data?.success){
-        //     redirect(302,data.redirectURL);
-        // }
-        // else if(data?.error){
-        //     res = { error: data?.error };
-        // }
-        res={error:"Invalid Credentials"};
+        let data;
+        let request = {
+            "nid": nid,
+            "password": password,
+            "acountType": 'farmer'
+        };
+        console.log(request);
+        // Perform login logic here
+        try {
+            // Send authentication request to backend
+            const response = await fetch('http://localhost:4001/login/validate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(request)
+            });
+            data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('An error occurred during login:', error);
+            res = { error: 'An error occurred during login. Please try again later.' };
+        }
+        if(data?.success){
+            redirect(302,data.redirectURL);
+        }
+        else if(data?.error){
+            res = { error: data?.error };
+        }
+        // res={error:"Invalid Credentials"};
 
     }
 </script>
