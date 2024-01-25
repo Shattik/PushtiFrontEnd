@@ -1,4 +1,4 @@
-<!-- <script lang="ts" context="module">
+<script lang="ts" context="module">
   export type State = {
     images: HTMLImgAttributes[];
     index: number;
@@ -6,7 +6,7 @@
     slideDuration: number; // ms
     forward: boolean;
   };
-</script> -->
+</script>
 
 <script lang="ts">
   import { createEventDispatcher, onMount, setContext } from 'svelte';
