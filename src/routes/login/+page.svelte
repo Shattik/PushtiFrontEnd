@@ -3,11 +3,10 @@
     import { AddressCardSolid, KeySolid, UsersSlashSolid } from 'svelte-awesome-icons';
     import LoginNavbar from '../LoginNavbar.svelte';
     import { redirect } from '@sveltejs/kit';
+    import { goto } from '$app/navigation';
 
-    /**
-     * @type {{ error: any; }}
-     */
-    export let res;
+    
+    let res={error:""};
     let nid = '';
     let password = '';
 
@@ -35,19 +34,21 @@
             console.error('An error occurred during login:', error);
             res = { error: 'An error occurred during login. Please try again later.' };
         }
+        console.log(data.success);
+        console.log(data.message);
+        console.log(res)
         if(data?.success){
-            redirect(302,data.redirectURL);
+            goto(data.redirectUrl);
         }
-        else if(data?.error){
-            res = { error: data?.error };
+        else if(!data?.success){
+            res = { error: data?.message };
         }
-        // res={error:"Invalid Credentials"};
 
     }
 </script>
 <LoginNavbar/>
-<div class="grid grid-cols-1 place-items-center h-screen w-screen" >
-    <Card>
+<div class="grid grid-cols-1 place-items-center h-full w-screen" >
+    <Card class="w-1/4 max-w-full my-16">
         <form class="flex flex-col space-y-6" on:submit|preventDefault={handleSubmit}>
             {#if res?.error}
                 <Alert color="red" border dismissable on:close={()=>{res.error=""}}>
@@ -63,7 +64,7 @@
                 <span class="font-bold">NID</span>
                 <ButtonGroup class="w-full">
                     <InputAddon class="bg-logo-2 text-white">
-                        <AddressCardSolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                        <AddressCardSolid class="w-4 h-4 text-white dark:text-gray-400" />
                     </InputAddon>
                     <Input class="focus:border-logo-1 focus:ring-logo-1" id="nid" type="number" placeholder="123456789" bind:value={nid} required/>
                 </ButtonGroup>
@@ -72,7 +73,7 @@
                 <span class="font-bold">Your password</span>
                 <ButtonGroup class="w-full">
                     <InputAddon class="bg-logo-2 text-white">
-                        <KeySolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                        <KeySolid class="w-4 h-4 text-white dark:text-gray-400" />
                     </InputAddon>
                     <Input class="focus:border-logo-1 focus:ring-logo-1" id="pass" type="password" bind:value={password} required/>
                 </ButtonGroup>
