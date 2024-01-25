@@ -62,7 +62,7 @@
             <Label class="space-y-2">
                 <span class="font-bold">NID</span>
                 <ButtonGroup class="w-full">
-                    <InputAddon>
+                    <InputAddon class="bg-logo-2 text-white">
                         <AddressCardSolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     </InputAddon>
                     <Input class="focus:border-logo-1 focus:ring-logo-1" id="nid" type="number" placeholder="123456789" bind:value={nid} required/>
@@ -71,14 +71,14 @@
             <Label class="space-y-2">
                 <span class="font-bold">Your password</span>
                 <ButtonGroup class="w-full">
-                    <InputAddon>
+                    <InputAddon class="bg-logo-2 text-white">
                         <KeySolid class="w-4 h-4 text-gray-500 dark:text-gray-400" />
                     </InputAddon>
                     <Input class="focus:border-logo-1 focus:ring-logo-1" id="pass" type="password" bind:value={password} required/>
                 </ButtonGroup>
             </Label>
-            <Button type="submit" class="w-full bg-logo-1 text-white font-bold">Login to your account</Button>
-            <div class="text-sm text-center font-medium text-gray-500 dark:text-gray-300">
+            <Button type="submit" class="w-full bg-logo-1 text-white font-bold focus-within:ring-sidebar-bg focus-within:ring-opacity-50">Log In to your account</Button>
+            <div class="text-sm text-center font-medium text-gray-500 dark:text-gray-300 ">
                 Not registered? <a href="/register" class="text-logo-1 hover:underline dark:text-primary-500"> Create account </a>
             </div>
     </form>

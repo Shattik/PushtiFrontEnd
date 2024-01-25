@@ -44,7 +44,7 @@
   let upazilla = "";
   let union = "";
   let confirmPassword = "";
-  let divisions = Array();
+  let divisions = [{value:"", name:""}];
 
   /* { value: "Dhaka", name: "Dhaka" },
     { value: "Chittagong", name: "Chittagong" },
@@ -94,23 +94,20 @@
       },
     });
     
+    
     let division_json = await response.json();
 
     // iterate through division JSON and add to divisions array, update value with id, name with name, define type division
     
     // define type Division
-    type Division = {
-        id: string;
-        name: string;
-    }
 
-    division_json.forEach((element: Division) => {
+
+    division_json.forEach((/** @type {{ id: any; name: any; }} */ element) => {
         divisions.push({ value: element.id, name: element.name });
     });
+    console.log(divisions);
 });
 
-    console.log(divisions);
-  });
 
   async function handleSubmit() {
     // let data;
@@ -408,24 +405,24 @@
           </InputAddon>
           <Input
             class="focus:border-logo-1 focus:ring-logo-1"
-            id="pass"
+            id="confirm_pass"
             type="password"
             bind:value={confirmPassword}
             required
           />
         </ButtonGroup>
       </Label>
-      <Button type="submit" class="w-full bg-logo-1 text-white font-bold"
-        >Login to your account</Button
+      <Button type="submit" class="w-full bg-logo-1 text-white font-bold focus-within:ring-sidebar-bg focus-within:ring-opacity-50"
+        >Create Your Account</Button
       >
       <div
         class="text-sm text-center font-medium text-gray-500 dark:text-gray-300"
       >
-        Not registered? <a
-          href="/register"
+        Already registered? <a
+          href="/login"
           class="text-logo-1 hover:underline dark:text-primary-500"
         >
-          Create account
+          Log In
         </a>
       </div>
     </form>
