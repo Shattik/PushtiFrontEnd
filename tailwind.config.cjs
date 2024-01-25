@@ -20,11 +20,11 @@ const config = {
                     200: "#FFE4DE",
                     300: "#FFD5CC",
                     400: "#FFBCAD",
-                    500: "#FE795D",
-                    600: "#EF562F",
-                    700: "#EB4F27",
-                    800: "#CC4522",
-                    900: "#A5371B",
+                    500: "#27C848",
+                    600: "#2CB948",
+                    700: "#37AA4E",
+                    800: "#359B49",
+                    900: "#318B43",
                 },
                 sidebar_bg: "#EDFFE5",
                 logo: {
@@ -35,15 +35,15 @@ const config = {
                     5: "#318B43",
                     6: "#318241",
                     7: "#327C40",
-                    8: "#32643B"
+                    8: "#32643B",
                 },
                 body_custom: "#FDFFF5",
                 border_custom: "#BFF8A4",
                 custom_font: {
                     deep: "#308140",
                     light: "#67D895",
-                    reddish: "#BD3B3B"
-                } 
+                    reddish: "#BD3B3B",
+                },
             },
         },
     },

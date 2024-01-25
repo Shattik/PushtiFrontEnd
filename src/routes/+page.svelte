@@ -16,7 +16,7 @@
     <Controls class="z-20"/>
   </Carousel>
 
-  <div class="rounded h-full absolute bg-[#EDFFE5] text-[#27C848] dark:bg-gray-700 dark:text-white p-2 my-2 flex items-center justify-center opacity-90 w-1/4">
+  <div class="rounded h-full absolute bg-sidebar_bg text-logo-1 dark:bg-gray-700 dark:text-white p-2 my-2 flex items-center justify-center opacity-90 w-1/4">
     <div class="p-2 text-2xl font-bold z-10">
       {#if index==0}
         <p>Ensuring Nutrition</p>
