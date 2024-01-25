@@ -33,7 +33,7 @@
 
 <style>
   :global(body){
-    background-color: #EDFFE5;
+    background-color: bg-body_custom;
   }
 </style>
 
