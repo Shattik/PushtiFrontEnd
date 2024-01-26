@@ -29,6 +29,7 @@
                 body: JSON.stringify(request)
             });
             data = await response.json();
+            console.log(response);
             console.log(data);
         } catch (error) {
             console.error('An error occurred during login:', error);
