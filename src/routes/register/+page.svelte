@@ -22,7 +22,7 @@
     HouseChimneySolid,
   } from "svelte-awesome-icons";
   import LoginNavbar from "../LoginNavbar.svelte";
-  import { redirect, text } from "@sveltejs/kit";
+  import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
   /**
@@ -45,15 +45,6 @@
   let union = "";
   let confirmPassword = "";
   let divisions = [{ value: "", name: "" }];
-
-  /* { value: "Dhaka", name: "Dhaka" },
-    { value: "Chittagong", name: "Chittagong" },
-    { value: "Rajshahi", name: "Rajshahi" },
-    { value: "Khulna", name: "Khulna" },
-    { value: "Barisal", name: "Barisal" },
-    { value: "Sylhet", name: "Sylhet" },
-    { value: "Rangpur", name: "Rangpur" },
-    { value: "Mymensingh", name: "Mymensingh" }, */
 
   let districts = [{ value: "", name: "" }];
 
@@ -195,29 +186,14 @@
   }
 
   async function handleSubmit() {
-    // let data;
-    // // Perform login logic here
-    // try {
-    //     // Send authentication request to backend
-    //     const response = await fetch('/api/login', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ nid, password })
-    //     });
-    //     data = await response.json();
-    // } catch (error) {
-    //     console.error('An error occurred during login:', error);
-    //     res = { error: 'An error occurred during login. Please try again later.' };
-    // }
-    // if(data?.success){
-    //     redirect(302,data.redirectURL);
-    // }
-    // else if(data?.error){
-    //     res = { error: data?.error };
-    // }
-    console.log(
+
+    if (password != confirmPassword) {
+      res = { error: "Passwords do not match" };
+      return;
+    }
+
+    // construct requestObj using the form data
+    const requestObj = {
       nid,
       password,
       dob,
@@ -227,9 +203,49 @@
       name,
       permanentAddress,
       mobile,
-      division
-    );
-    res = { error: "Invalid Credentials" };
+      union,
+    };
+
+    console.log(requestObj);
+
+    let data;
+    // Perform login logic here
+    try {
+        // Send authentication request to backend
+        const response = await fetch(`${apiGatewayUrl}/register/submit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestObj)
+        });
+        data = await response.json();
+        console.log(response);
+    } catch (error) {
+        console.error('An error occurred during login:', error);
+        res = { error: 'An error occurred during login. Please try again later.' };
+    }
+    if(data?.success){
+        goto(data.redirectUrl);
+    }
+    else if(data?.error){
+        res = { error: data?.error };
+    } else {
+      res = { error: "Invalid Credentials" };
+    }
+    // console.log(
+    //   nid,
+    //   password,
+    //   dob,
+    //   accountType,
+    //   farmerType,
+    //   email,
+    //   name,
+    //   permanentAddress,
+    //   mobile,
+    //   division
+    // );
+    // res = { error: "Invalid Credentials" };
   }
 </script>
 
