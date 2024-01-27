@@ -5,6 +5,10 @@
     import { Table, TableHead, TableHeadCell, TableBody, TableBodyRow, TableBodyCell, Button, Pagination, Checkbox, Input, Label, Modal, Textarea } from "flowbite-svelte";
     import { ChevronLeftSolid, ChevronRightSolid } from "svelte-awesome-icons";
     import { onMount } from "svelte";
+    import NormalSlider from "./NormalSlider.svelte";
+    import { get } from "svelte/store";
+    import { jwtToken } from "$lib/Components/token.js";
+    import { goto } from "$app/navigation";
     let active_loan=false;
     let focused=false;
     let formModal=true;
@@ -48,8 +52,44 @@
 
     let pagination_page=0;
 
+    let values = [10000, 500000];
+
     async function addLoan(){
-        active_loan=true;
+        let data;
+        let request = {
+            "max amount": values[1],
+            "min amount": values[0],
+            "description": description,
+        };
+        console.log(request);
+        // Perform login logic here
+        try {
+            // Send authentication request to backend
+            const response = await fetch('http://localhost:4001/farmer/loan/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: get(jwtToken),
+                },
+                body: JSON.stringify(request)
+            });
+            data = await response.json();
+            console.log(response);
+            console.log(data);
+        } catch (error) {
+            console.error('An error occurred during login:', error);
+        }
+        if(data?.success){
+            ongoing_loan={
+                start_date: new Date().toISOString().slice(0, 10),
+                total: values[1],
+                remaining: values[1],
+                interest: 10,
+                status: "Processing"
+            }
+
+            active_loan=true;
+        }
         formModal=false;
     }
 
@@ -163,10 +203,14 @@
 </div>
 <Modal bind:open={formModal} size="md" autoclose={false} class="w-full">
   <form class="flex flex-col space-y-6" on:submit|preventDefault={addLoan}>
-    <h3 class="mb-4 text-xl font-medium text-gray-900 text-center dark:text-white">Sign in to our platform</h3>
+    <h3 class="mb-4 text-xl font-medium text-gray-900 text-center dark:text-white">Request for a New Loan</h3>
     <Label class="space-y-2">
       <span>Amount</span>
-      <Input type="email" name="email" placeholder="name@company.com" required />
+      <NormalSlider min={10000} max={500000} bind:values={values}/>
+    </Label>
+    <Label class="space-y-2">
+      Minimum: <span>{values[0]}</span>
+        Maximum: <span>{values[1]}</span>
     </Label>
     <Label class="space-y-2">
       <span>Description</span>

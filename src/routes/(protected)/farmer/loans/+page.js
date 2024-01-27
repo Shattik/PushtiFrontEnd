@@ -6,7 +6,7 @@ export const ssr = false;
 export async function load() {
     console.log("load");
     console.log(get(jwtToken));
-    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/farmer/dashboard`, {
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/farmer/loan`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

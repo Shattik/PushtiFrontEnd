@@ -28,6 +28,7 @@
   "type": "module",
   "dependencies": {
     "@skeletonlabs/skeleton": "^2.7.1",
+    "svelte-range-slider-pips": "^2.3.1",
     "tailwind-merge": "^2.2.1"
   }
 }

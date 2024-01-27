@@ -31,7 +31,7 @@
         next_rank: "Gold",
         benefits: ["Free insurance", "Free seeds"],
         type: "Dairy",
-    };;
+    };
     let progress=0;
     let focused=false;
     let textColor="";  
