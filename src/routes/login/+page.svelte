@@ -4,6 +4,7 @@
     import LoginNavbar from '../LoginNavbar.svelte';
     import { redirect } from '@sveltejs/kit';
     import { goto } from '$app/navigation';
+    import { jwtToken } from '$lib/Components/token.js';
 
     
     let res={error:""};
@@ -31,6 +32,7 @@
             data = await response.json();
             console.log(response);
             console.log(data);
+            jwtToken.set(data.token);
         } catch (error) {
             console.error('An error occurred during login:', error);
             res = { error: 'An error occurred during login. Please try again later.' };

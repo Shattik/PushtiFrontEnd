@@ -8,7 +8,7 @@
     import { twJoin } from 'tailwind-merge';
     import { StarRegular } from 'svelte-awesome-icons';
     import { SvelteComponent } from 'svelte';
-
+   
     /** @type { SvelteComponent } */
 	let card;
 

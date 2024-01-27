@@ -27,6 +27,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@skeletonlabs/skeleton": "^2.7.1",
     "tailwind-merge": "^2.2.1"
   }
 }
