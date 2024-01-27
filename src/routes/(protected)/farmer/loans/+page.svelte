@@ -2,12 +2,13 @@
     import Sidebar from "../Sidebar.svelte";
     import RolledSidebar from "../RolledSidebar.svelte";
     import Header from "../../Header.svelte";
-    import { Table, TableHead, TableHeadCell, TableBody, TableBodyRow, TableBodyCell, Button, Pagination, Checkbox, Input, Label, Modal } from "flowbite-svelte";
+    import { Table, TableHead, TableHeadCell, TableBody, TableBodyRow, TableBodyCell, Button, Pagination, Checkbox, Input, Label, Modal, Textarea } from "flowbite-svelte";
     import { ChevronLeftSolid, ChevronRightSolid } from "svelte-awesome-icons";
     import { onMount } from "svelte";
     let active_loan=false;
     let focused=false;
     let formModal=true;
+    let description="";
     let ongoing_loan={
         start_date:"2021-01-01",
         total: 100000,
@@ -49,6 +50,7 @@
 
     async function addLoan(){
         active_loan=true;
+        formModal=false;
     }
 
     function previous(){
@@ -159,24 +161,17 @@
         </div>
     </div>
 </div>
-<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-  <form class="flex flex-col space-y-6" action="#">
+<Modal bind:open={formModal} size="md" autoclose={false} class="w-full">
+  <form class="flex flex-col space-y-6" on:submit|preventDefault={addLoan}>
     <h3 class="mb-4 text-xl font-medium text-gray-900 text-center dark:text-white">Sign in to our platform</h3>
     <Label class="space-y-2">
       <span>Amount</span>
       <Input type="email" name="email" placeholder="name@company.com" required />
     </Label>
     <Label class="space-y-2">
-      <span>Your password</span>
-      <Input type="password" name="password" placeholder="•••••" required />
+      <span>Description</span>
+      <Textarea id="textarea-id" bind:value={description} placeholder="Describe the need for this loan" rows="12" cols="4" name="message" />
     </Label>
-    <div class="flex items-start">
-      <Checkbox>Remember me</Checkbox>
-      <a href="/" class="ms-auto text-sm text-primary-700 hover:underline dark:text-primary-500"> Lost password? </a>
-    </div>
-    <Button type="submit" class="w-full1">Login to your account</Button>
-    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Not registered? <a href="/" class="text-primary-700 hover:underline dark:text-primary-500"> Create account </a>
-    </div>
+    <Button type="submit" class="w-full1">Submit your request</Button>
   </form>
 </Modal>

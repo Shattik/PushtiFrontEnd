@@ -4,36 +4,44 @@
     import { Avatar, Button, Card, Progressbar, Table, TableBody, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
     import RolledSidebar from '../RolledSidebar.svelte';
     import Sidebar from '../Sidebar.svelte';
+    import Scatter from '../../Scatter.svelte'; 
     import { sineOut } from 'svelte/easing';
     import { twJoin } from 'tailwind-merge';
     import { StarRegular } from 'svelte-awesome-icons';
     import { SvelteComponent } from 'svelte';
-   
+    import { page } from '$app/stores';
     /** @type { SvelteComponent } */
 	let card;
 
+    
+    let data=$page.data;
+
+    console.log($page.data);
     let farmer={
-        name:"Bonnie Green",
-        nid:"1234567890",
-        type:"Dairy",
-        agent:"John Doe",
-        points:100,
-        more_points:200,
-        rank:"Gold",
-        next_rank:"Platinum",   
-        benefits:[
-            "Free insurance",
-            "Free seeds",
-        ]
-    }
+        name: data.basicData.name,
+        nid: data.basicData.nid,
+        phone: data.basicData.phone,
+        email: data.basicData.email,
+        agent: data.basicData.agentName,
+        union: data.basicData.unionName,
+        rank: data.rankandpoint.rank,
+        points: data.rankandpoint.points,
+        sellHistory: data.sellHistoryOneYear,
+        more_points: 100,
+        next_rank: "Gold",
+        benefits: ["Free insurance", "Free seeds"],
+        type: "Dairy",
+    };;
     let progress=0;
     let focused=false;
-    let textColor="text-rank-"+farmer.rank.toLowerCase();  
-    let nextRankColor="text-rank-"+farmer.next_rank.toLowerCase(); 
+    let textColor="";  
+    let nextRankColor="";
     let hex="-[#ffd700]";
-
+    console.log(farmer);
     onMount(async () => {
-        progress=farmer.points/(farmer.points+farmer.more_points)*100; 
+        progress=farmer.points/(farmer.points+farmer.more_points)*100;
+        textColor="text-rank-"+farmer.rank.toLowerCase(); 
+        nextRankColor="text-rank-"+farmer.next_rank.toLowerCase();
         card=card;
     });
 
@@ -101,5 +109,8 @@
     <hr class="mb-3 border-divider_col shadow"/>
 
     <!-- Insert chart for card here -->
+    <Card class="max-w-full w-full bg-body_custom mb-5">
+        <Scatter/>
+    </Card>
 </div>
 </div>

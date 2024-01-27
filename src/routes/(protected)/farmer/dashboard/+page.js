@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { jwtToken } from "$lib/Components/token.js"
+import { jwtToken } from "$lib/Components/token.js";
 
 let apiGatewayUrl = "http://localhost:4001";
 export const ssr = false;
@@ -11,10 +11,11 @@ export async function load() {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "authorization": get(jwtToken)
+            authorization: get(jwtToken),
         },
     });
     console.log(response);
-    const data = await response.text();
+    const data = await response.json();
     console.log(data);
+    return data;
 }
