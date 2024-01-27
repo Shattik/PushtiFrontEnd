@@ -12,29 +12,29 @@
       /** @type { SvelteComponent } */
       let card;
   
-      let farmer={
+      let agent={
           name:"Bonnie Green",
           nid:"1234567890",
-          type:"Dairy",
-          agent:"John Doe",
-          points:100,
-          more_points:200,
-          rank:"Gold",
+          email:"Dairy",
+          union:"John Doe",
+          farmers:100,
+          smes:200,
+          vendors:150,
           next_rank:"Platinum",   
           benefits:[
               "Free insurance",
               "Free seeds",
           ]
       }
-      let progress=0;
+    //   let progress=0;
       let focused=false;
-      let textColor="text-rank-"+farmer.rank.toLowerCase();  
-      let nextRankColor="text-rank-"+farmer.next_rank.toLowerCase(); 
-      let hex="-[#ffd700]";
+    //   let textColor="text-rank-"+farmer.rank.toLowerCase();  
+    //   let nextRankColor="text-rank-"+farmer.next_rank.toLowerCase(); 
+    //   let hex="-[#ffd700]";
   
       onMount(async () => {
-          progress=farmer.points/(farmer.points+farmer.more_points)*100; 
-          card=card;
+        //   progress=farmer.points/(farmer.points+farmer.more_points)*100; 
+        //   card=card;
       });
   
   </script>
@@ -54,33 +54,49 @@
       <Card class="max-w-full w-full bg-body_custom" padding="md" horizontal>
           <div class="flex items-center pb-4 w-full">
               <Avatar class="w-48 h-48 ring-border_custom me-12" border/>
+              <div class="grow flex flex-col">
               <Table divClass="grow relative overflow-x-auto">
                   <TableBody>
-                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md">
-                          <TableBodyCell class="w-56 text-custom_font-deep font-bold">Name</TableBodyCell>
-                          <TableBodyCell class="text-custom_font-light">{farmer.name}</TableBodyCell>
+                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl">
+                          <TableBodyCell class="w-96 text-custom_font-deep font-bold">Name</TableBodyCell>
+                          <TableBodyCell class="text-custom_font-light">{agent.name}</TableBodyCell>
                       </TableBodyRow>
-                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md">
+                      <!-- <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl">
                           <TableBodyCell class="text-custom_font-deep font-bold">NID</TableBodyCell>
-                          <TableBodyCell class="text-custom_font-light">{farmer.nid}</TableBodyCell>
+                          <TableBodyCell class="text-custom_font-light">{agent.nid}</TableBodyCell>
+                      </TableBodyRow> -->
+                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl">
+                          <TableBodyCell class="text-custom_font-deep font-bold">Email</TableBodyCell>
+                          <TableBodyCell class="text-custom_font-light">{agent.email}</TableBodyCell>
                       </TableBodyRow>
-                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md">
-                          <TableBodyCell class="text-custom_font-deep font-bold">Type</TableBodyCell>
-                          <TableBodyCell class="text-custom_font-light">{farmer.type}</TableBodyCell>
-                      </TableBodyRow>
-                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md">
-                          <TableBodyCell class="text-custom_font-deep font-bold">Agent</TableBodyCell>
-                          <TableBodyCell class="text-custom_font-light">{farmer.agent}</TableBodyCell>
+                      <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl">
+                          <TableBodyCell class="text-custom_font-deep font-bold">Union</TableBodyCell>
+                          <TableBodyCell class="text-custom_font-light">{agent.union}</TableBodyCell>
                       </TableBodyRow>
                   </TableBody>
               </Table>
+            <div class="flex flex-row items-center w-full space-x-64 mt-10 ml-10">
+                <div class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish">
+                    <p class="mt-2">No. of Farmers</p>
+                    <p class="mt-3 mb-2 text-xl">{agent.farmers}</p>
+                </div>
+                <div class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish">
+                    <p class="mt-2">No. of SMEs</p>
+                    <p class="mt-3 mb-2 text-xl">{agent.smes}</p>
+                </div>
+                <div class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish">
+                    <p class="mt-2">No. of Vendors</p>
+                    <p class="mt-3 mb-2 text-xl">{agent.vendors}</p>
+                </div>
+              </div>
+          </div>
           </div>
       </Card>
   
-      <hr class="mt-3 border-divider_col shadow"/>
-      <hr class="mb-3 border-divider_col shadow"/>
+      <!-- <hr class="mt-3 border-divider_col shadow"/>
+      <hr class="mb-3 border-divider_col shadow"/> -->
   
-      <Card bind:this={card} class="max-w-full w-full bg-body_custom">
+      <!-- <Card bind:this={card} class="max-w-full w-full bg-body_custom">
           <div class="flex flex-row justify-between items-center mb-3">
               
               <h1 class= {twJoin("text-xl font-bold", textColor)}>{farmer.rank}</h1>
@@ -95,10 +111,10 @@
               <p class="text-lg text-custom_font-deep font-medium">{benefit}</p>
           </div>
           {/each}
-      </Card>
+      </Card> -->
   
-      <hr class="mt-3 border-divider_col shadow"/>
-      <hr class="mb-3 border-divider_col shadow"/>
+      <!-- <hr class="mt-3 border-divider_col shadow"/>
+      <hr class="mb-3 border-divider_col shadow"/> -->
   
       <!-- Insert chart for card here -->
   </div>

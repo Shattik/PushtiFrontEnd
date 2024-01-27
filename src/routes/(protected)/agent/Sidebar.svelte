@@ -1,6 +1,6 @@
 <script>
     import { Sidebar, SidebarWrapper, SidebarBrand, SidebarItem, SidebarGroup } from 'flowbite-svelte';
-    import { ChartPieSolid, EnvelopeSolid, HandHoldingDollarSolid, MoneyCheckDollarSolid, TrophySolid } from 'svelte-awesome-icons';
+    import { ChartPieSolid, EnvelopeSolid, HandHoldingDollarSolid, MoneyCheckDollarSolid, TrophySolid, StoreSolid } from 'svelte-awesome-icons';
     import { page } from '$app/stores';
     let spanClass = 'flex-1 ms-3 whitespace-nowrap';
   
@@ -29,7 +29,7 @@
             <ChartPieSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
-        <SidebarItem label="Loans" href="/agent/loans" {spanClass}>
+        <SidebarItem label="Loan Requests" href="/agent/loans" {spanClass}>
           <svelte:fragment slot="icon">
             <HandHoldingDollarSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
@@ -37,6 +37,11 @@
         <SidebarItem label="Transactions" href="/agent/transactions" {spanClass}>
           <svelte:fragment slot="icon">
             <MoneyCheckDollarSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
+          </svelte:fragment>
+        </SidebarItem>
+        <SidebarItem label="Inventory" href="/agent/transactions" {spanClass}>
+          <svelte:fragment slot="icon">
+            <StoreSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
         <SidebarItem label="Leaderboards" href="/agent/leaderboard" {spanClass}>
