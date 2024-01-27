@@ -29,7 +29,7 @@
           <ChartPieSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
         </svelte:fragment>
       </SidebarItem>
-      <SidebarItem label="Loan History" href="/farmer/loans" {spanClass}>
+      <SidebarItem label="Loans" href="/farmer/loans" {spanClass}>
         <svelte:fragment slot="icon">
           <HandHoldingDollarSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
         </svelte:fragment>

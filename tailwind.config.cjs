@@ -47,6 +47,7 @@ const config = {
                     light: "#67D895",
                     reddish: "#BD3B3B99",
                     sub_header: "#3CDE8A",
+                    table_header: "#667085",
                 },
                 divider_col: "#2CB94827",
             },

@@ -7,8 +7,10 @@
     import { sineOut } from 'svelte/easing';
     import { twJoin } from 'tailwind-merge';
     import { StarRegular } from 'svelte-awesome-icons';
+    import { SvelteComponent } from 'svelte';
 
-	let col="sidebar_bg";
+    /** @type { SvelteComponent } */
+	let card;
 
     let farmer={
         name:"Bonnie Green",
@@ -26,17 +28,20 @@
     }
     let progress=0;
     let focused=false;
-    let textColor="text-primary-500";
-    let nextRankColor="text-primary-500";
+    let textColor="text-rank-"+farmer.rank.toLowerCase();  
+    let nextRankColor="text-rank-"+farmer.next_rank.toLowerCase(); 
+    let hex="-[#ffd700]";
 
     onMount(async () => {
         progress=farmer.points/(farmer.points+farmer.more_points)*100; 
-        textColor="text-rank-"+farmer.rank.toLowerCase();  
-        nextRankColor="text-rank-"+farmer.next_rank.toLowerCase(); 
+        card=card;
     });
 
 </script>
 
+<div class="hidden">
+    <p class="text-rank-gold bg-rank-gold">Gold</p>
+</div>
 
 <div class="flex flex-row">
     {#if focused}
@@ -44,8 +49,7 @@
     {:else}    
     <RolledSidebar bind:focused={focused}/>
     {/if}
-<div class="w-full h-screen p-5">
-
+    <div class="w-full h-screen p-5">
     <Header page="Dashboard"/>
     <Card class="max-w-full w-full bg-body_custom" padding="md" horizontal>
         <div class="flex items-center pb-4 w-full">
@@ -76,11 +80,11 @@
     <hr class="mt-3 border-divider_col shadow"/>
     <hr class="mb-3 border-divider_col shadow"/>
 
-    <Card class="max-w-full w-full bg-body_custom">
+    <Card bind:this={card} class="max-w-full w-full bg-body_custom">
         <div class="flex flex-row justify-between items-center mb-3">
             
             <h1 class= {twJoin("text-xl font-bold", textColor)}>{farmer.rank}</h1>
-            <h1 class="text-xl text-custom_font-deep font-bold ms-1">{farmer.points}</h1>
+            <h1 class="text-xl text-custom_font-deep font-bold ms-1">{farmer.points} Points</h1>
         </div>
         <Progressbar {progress} animate tweenDuration={1500} easing={sineOut} size="h-3"  class="mb-3 bg-primary-200" labelInside labelInsideClass="h-3 text-transparent text-xs font-medium text-center p-0.5 leading-none rounded-full bg-rank-{farmer.rank.toLowerCase()}"/>
         <p class="text-lg text-custom_font-deep font-medium">{farmer.more_points} points to <span class={twJoin("text-lg font-medium", nextRankColor)}>{farmer.next_rank}</span></p>
