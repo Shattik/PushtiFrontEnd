@@ -110,7 +110,7 @@
     console.log(response);
     const data = await response.json();
     console.log(data);
-    goto("/agent/loans");
+    location.reload();
 }
   async function reject(i) {
     console.log(get(jwtToken));
@@ -128,7 +128,7 @@
     console.log(response);
     const data = await response.json();
     console.log(data);
-    goto("/agent/loans");
+    location.reload();
   }
 
   async function finalize(i) {
@@ -148,7 +148,7 @@
     console.log(response);
     const data = await response.json();
     console.log(data);
-    goto("/agent/loans");
+    location.reload();
   }
 </script>
 
