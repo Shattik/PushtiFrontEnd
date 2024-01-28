@@ -57,8 +57,8 @@
     async function addLoan(){
         let data;
         let request = {
-            "max amount": values[1],
-            "min amount": values[0],
+            "max": values[1],
+            "min": values[0],
             "description": description,
         };
         console.log(request);
