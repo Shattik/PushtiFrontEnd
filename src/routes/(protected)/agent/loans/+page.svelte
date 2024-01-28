@@ -15,12 +15,14 @@
     Input,
     Label,
     Modal,
+    Tabs,
+    TabItem,
   } from "flowbite-svelte";
   import { ChevronLeftSolid, ChevronRightSolid } from "svelte-awesome-icons";
   import { onMount } from "svelte";
   let active_loan = false;
   let focused = false;
-  let formModal = true;
+  let formModal = false;
   let ongoing_loan = {
     start_date: "2021-01-01",
     total: 100000,
@@ -216,11 +218,44 @@
     <RolledSidebar bind:focused />
   {/if}
   <div class="w-full h-screen p-5">
-    <Header page="Loans" />
+    <Header page="Loan Requests" />
+    <Tabs style="underline">
+      <TabItem open title="Farmer">
+        <Table shadow>
+          <TableHead>
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl"
+              >Name</TableHeadCell
+            >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
+              >Address</TableHeadCell
+            >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
+              >Type</TableHeadCell
+            >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
+              >Rank</TableHeadCell
+            >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl"
+              >Points</TableHeadCell
+            >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
+              >Min Amount</TableHeadCell
+            >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl"
+              >Max Amount</TableHeadCell
+            >
+          </TableHead>
+        </Table>
+      </TabItem>
+    </Tabs>
     <div>
-      <h1 class="text-2xl font-bold text-custom_font-sub_header mb-3">
-        Current Loan
-      </h1>
       <Table shadow>
         <TableHead>
           <TableHeadCell

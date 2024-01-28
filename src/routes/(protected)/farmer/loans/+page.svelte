@@ -9,9 +9,10 @@
     import { get } from "svelte/store";
     import { jwtToken } from "$lib/Components/token.js";
     import { goto } from "$app/navigation";
+    import { page } from '$app/stores';
     let active_loan=false;
     let focused=false;
-    let formModal=true;
+    let formModal=false;
     let description="";
     let ongoing_loan={
         start_date:"2021-01-01",
@@ -21,6 +22,14 @@
         status: "Stage1"
     }
     let loans=[
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" }, 
         { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Done"},
         { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
         { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
@@ -52,13 +61,16 @@
 
     let pagination_page=0;
 
+    let loanData=$page.data;
+    // ongoing_loan=loanData.ongoing;
+
     let values = [10000, 500000];
 
     async function addLoan(){
         let data;
         let request = {
-            "max amount": values[1],
-            "min amount": values[0],
+            "max": values[1],
+            "min": values[0],
             "description": description,
         };
         console.log(request);
