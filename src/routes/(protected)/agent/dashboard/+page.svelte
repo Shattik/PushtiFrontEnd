@@ -8,6 +8,9 @@
       import { twJoin } from 'tailwind-merge';
       import { StarRegular } from 'svelte-awesome-icons';
       import { SvelteComponent } from 'svelte';
+      import Pie from '../../pie.svelte';
+      import Bar from '../../bar.svelte';
+      import Scatter from '../../Scatter.svelte';
      
       /** @type { SvelteComponent } */
       let card;
@@ -36,6 +39,9 @@
         //   progress=farmer.points/(farmer.points+farmer.more_points)*100; 
         //   card=card;
       });
+
+      let pieData = [200000, 32000, 25000];
+      let barData = [57000, 62000, 45000, 23000];
   
   </script>
   
@@ -113,9 +119,26 @@
           {/each}
       </Card> -->
   
-      <!-- <hr class="mt-3 border-divider_col shadow"/>
-      <hr class="mb-3 border-divider_col shadow"/> -->
+      <hr class="mt-3 border-divider_col shadow"/>
+      <hr class="mb-3 border-divider_col shadow"/>
   
       <!-- Insert chart for card here -->
+      <div class="flex flex-row w-full max-w-full items-center space-x-5">
+        <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
+            <p class="text-3xl font-bold text-custom_font-deep mb-5">Budget Status</p>
+          <Pie data={pieData}/>
+          </Card>
+          <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
+            <p class="text-3xl font-bold text-custom_font-deep mb-5">Statistics</p>
+              <Bar data={barData}/>
+              </Card>
+          </div>
+    <div class="flex flex-row w-full max-w-full items-center">
+        <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
+            <p class="text-3xl font-bold text-custom_font-deep mb-5">Monthly Tax Income</p>
+              <Scatter/>
+              </Card>
+    </div>
+      
   </div>
   </div>

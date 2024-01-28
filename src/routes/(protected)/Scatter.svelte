@@ -9,7 +9,7 @@
     let options = {
       chart: {
         height: '400px',
-        width: '60%',
+        width: '100%',
         type: 'line',
         fontFamily: 'Inter, sans-serif',
         dropShadow: {

@@ -109,8 +109,9 @@
     <hr class="mb-3 border-divider_col shadow"/>
 
     <!-- Insert chart for card here -->
-    <Card class="max-w-full w-full bg-body_custom mb-5">
-        <Scatter/>
+    <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
+        <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Tax Income</p>
+              <Scatter/>
     </Card>
 </div>
 </div>
