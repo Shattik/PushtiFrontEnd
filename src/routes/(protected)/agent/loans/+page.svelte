@@ -2,6 +2,7 @@
   import Sidebar from "../Sidebar.svelte";
   import RolledSidebar from "../RolledSidebar.svelte";
   import Header from "../../Header.svelte";
+  import TripleSlider from "../TripleSlider.svelte";
   import {
     Table,
     TableHead,
@@ -13,187 +14,56 @@
     Pagination,
     Checkbox,
     Input,
-    Label,
+    Avatar,
     Modal,
     Tabs,
     TabItem,
   } from "flowbite-svelte";
-  import { ChevronLeftSolid, ChevronRightSolid } from "svelte-awesome-icons";
+  import { ChevronLeftSolid, ChevronRightSolid, LinkSlashSolid } from "svelte-awesome-icons";
   import { onMount } from "svelte";
+    import { slide } from "svelte/transition";
+    import { goto } from "$app/navigation";
+    import { get } from "svelte/store";
+    import { jwtToken } from "$lib/Components/token";
+    import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
+    import { page } from "$app/stores";
   let active_loan = false;
   let focused = false;
   let formModal = false;
-  let ongoing_loan = {
-    start_date: "2021-01-01",
-    total: 100000,
-    remaining: 50000,
-    interest: 10,
-    status: "Stage1",
-  };
-  let loans = [
+  
+  let loans=[
     {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Done",
+      avatarLink: "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+      farmerType: "Dairy",
+      farmername: "test",
+      phone: "1234567890",
+      points: "0",
+      rank: "Iron",
+      requestTime: "2024-01-27T21:11:55.623Z",
+      request_id: "4",
+      requestedMax: 260000,
+      requestedMin: 210000,
+      status: "pending",
+      description: "test",
     },
     {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100000,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100001,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100002,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100003,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100004,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100005,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100006,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100007,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100008,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100009,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100010,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100011,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100012,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100013,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100014,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100015,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100016,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100017,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100018,
-      status: "Done",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100019,
-      status: "Rejected",
-    },
-    {
-      start_date: "2021-01-01",
-      end_date: "2021-01-01",
-      total: 100020,
-      status: "Rejected",
-    },
-  ];
+      "request_id": "2",
+      "requestedMin": 6000,
+      "requestedMax": 8000,
+      "requestTime": "2024-01-22T23:56:46.446Z",
+      "status": "interviewed",
+      "rank": null,
+      "points": "1234",
+      "farmerType": "Dairy",
+      "farmername": "hojoborolo",
+      "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+      "phone": "123",
+      "description": "test"
+    }
+  ]
+  loans=$page.data.request_farmers;
+
+  let value;
 
   let pagination_page = 0;
 
@@ -209,6 +79,77 @@
       pagination_page++;
     }
   }
+  let openRow=-1;
+  
+  let details;
+  let values=[10000,10000,500000];
+
+  const toggleRow = (i) => {
+    if(loans[i].status=="interviewed") {
+      value=(loans[i].requestedMin+loans[i].requestedMax)/2;
+      details=loans[i];
+      values=[loans[i].requestedMin,(loans[i].requestedMin+loans[i].requestedMax)/2,loans[i].requestedMax];
+      return;
+    }
+    openRow = openRow === i ? null : i
+  }
+
+  async function nextStage(i) {
+    console.log(get(jwtToken));
+    let request={
+      "loan_id": i,
+    }
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/loan/response/farmer/next`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify(request)
+    });
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    goto("/agent/loans");
+}
+  async function reject(i) {
+    console.log(get(jwtToken));
+    let request={
+      "loan_id": i,
+    }
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/loan/response/farmer/reject`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify(request)
+    });
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    goto("/agent/loans");
+  }
+
+  async function finalize(i) {
+    console.log(get(jwtToken));
+    let request={
+      "loan_id": i,
+      "amount": value,
+    }
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/loan/response/farmer/accept `, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify(request)
+    });
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    goto("/agent/loans");
+  }
 </script>
 
 <div class="flex flex-row">
@@ -219,18 +160,17 @@
   {/if}
   <div class="w-full h-screen p-5">
     <Header page="Loan Requests" />
-    <Tabs style="underline">
-      <TabItem open title="Farmer">
+    <Tabs style="underline" contentClass="p-4 bg-divider_col rounded-lg dark:bg-gray-800 mt-4 h-4/5">
+      <TabItem open title="Farmer" >
         <Table shadow>
           <TableHead>
             <TableHeadCell
-              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl"
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl w-1/4"
               >Name</TableHeadCell
             >
             <TableHeadCell
               class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-              >Address</TableHeadCell
-            >
+            >Phone</TableHeadCell>
             <TableHeadCell
               class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
               >Type</TableHeadCell
@@ -240,7 +180,7 @@
               >Rank</TableHeadCell
             >
             <TableHeadCell
-              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl"
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg "
               >Points</TableHeadCell
             >
             <TableHeadCell
@@ -248,205 +188,155 @@
               >Min Amount</TableHeadCell
             >
             <TableHeadCell
-              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl"
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg "
               >Max Amount</TableHeadCell
             >
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl"
+              >Status</TableHeadCell
+            >
           </TableHead>
+          {#if loans.length==0}
+            <TableBodyRow class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl">
+              <TableBodyCell colspan="8" class="text-custom_font-table_header items-center rounded-b-xl">
+                  <div class="flex flex-col items-center justify-center ">
+                      <span class="text-custom_font-table_header text-xl">No Previous Loans</span>
+                      <LinkSlashSolid class="w-48 h-48 mt-4 text-gray-400"/>
+                  </div>
+              </TableBodyCell>
+          </TableBodyRow>
+          {:else}
+            {#each loans as loan,i}
+              <TableBodyRow
+                class="border-b-2 border-divider_col bg-body_custom drop-shadow-md"
+                on:click={() => toggleRow(i)}
+                on:dblclick={() => toggleRow(i)}
+              >
+                <TableBodyCell class="text-custom_font-table-header"
+                  >
+                <div class="flex flex-row items-center">
+                  <Avatar
+                    class="w-7 h-7 me-2"
+                    src={loan.avatarLink}
+                    alt="avatar"
+                  />
+                  {loan.farmername}
+                </div>
+                  </TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                >{loan.phone}</TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{loan.farmerType}</TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{loan.rank}</TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{loan.points}</TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{loan.requestedMin}</TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{loan.requestedMax}</TableBodyCell
+                >
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{loan.status[0].toUpperCase()+loan.status.slice(1,loan.status.length)}</TableBodyCell
+                >
+              </TableBodyRow>
+              {#if openRow === i}
+                   <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md" >
+                    <TableBodyCell colspan="8" class="p-0">
+                      <div class="flex flex-row w-full min-w-full space-x-5"  transition:slide={{ duration: 300, axis: 'y' }} >
+                        <div class="grow p-2 h-full">
+                          <span class="text-custom_font-table_header ms-4 mt-2">Loan Description</span>
+                          <div class="px-2 py-3 border rounded-xl m-2 grow w-full h-24 flex-1">
+                            <!-- <ImagePlaceholder /> -->
+                            {loan.description}
+                          </div>
+                        </div>  
+                        <div class="flex flex-col p-2 space-y-4 me-2">
+                          <Button
+                            class="mt-7 w-full rounded-br-xl rounded-tr-xl"
+                            color="primary"
+                            on:click={() => {if(confirm("Are you sure you want to go to the next stage?")) nextStage(loan.request_id);}}
+                            size="md"
+                            >
+                            Next Stage
+                          </Button>
+                          <Button
+                            class="w-full rounded-br-xl rounded-tr-xl"
+                            color="red"
+                            size="md"
+                            on:click={() => {if(confirm("Are you sure you want to reject the request?")) reject(loan.request_id);}}
+                            >
+                            Reject
+                          </Button>
+                        </div>
+                      </div>
+                    </TableBodyCell>
+                  </TableBodyRow>
+              {/if}
+            {/each}
+          {/if}
         </Table>
       </TabItem>
+      <TabItem title="SME">
+
+      </TabItem>
     </Tabs>
-    <div>
-      <Table shadow>
-        <TableHead>
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl"
-            >Start Date</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Total Amount</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Remaining</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Deduction%</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl"
-            >Status</TableHeadCell
-          >
-        </TableHead>
-        <TableBody>
-          {#if active_loan}
-            <TableBodyRow
-              class="border-b-2 border-divider_col bg-body_custom drop-shadow-md"
-            >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{ongoing_loan.start_date}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{ongoing_loan.total}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{ongoing_loan.remaining}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{ongoing_loan.interest}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{ongoing_loan.status}</TableBodyCell
-              >
-            </TableBodyRow>
-          {:else}
-            <TableBodyRow
-              class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl"
-            >
-              <TableBodyCell
-                colspan="5"
-                class="text-custom_font-table_header items-center rounded-b-xl"
-              >
-                <div class="flex flex-col items-center justify-center">
-                  <span>No Active Loan</span>
-                  <Button
-                    on:click={() => (formModal = true)}
-                    class="mt-4 text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md focus:ring-border_custom"
-                    >Apply for Loan</Button
-                  >
-                </div>
-              </TableBodyCell>
-            </TableBodyRow>
-          {/if}
-        </TableBody>
-      </Table>
-    </div>
-
-    <hr class="mt-5 border-divider_col shadow" />
-    <hr class="mb-3 border-divider_col shadow" />
-
-    <div class="mb-5 pb-5">
-      <h1 class="text-2xl font-bold text-custom_font-sub_header mb-3">
-        Previous Loans
-      </h1>
-      <Table shadow>
-        <TableHead>
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Start Date</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >End Date</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Total Amount</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Status</TableHeadCell
-          >
-        </TableHead>
-        <TableBody>
-          {#each loans.slice(pagination_page * 10, pagination_page * 10 + 10) as loan}
-            <TableBodyRow
-              class="px-1 border-b-2 border-spacing-5 border-divider_col bg-body_custom drop-shadow-md"
-            >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{loan.start_date}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{loan.end_date}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{loan.total}</TableBodyCell
-              >
-              <TableBodyCell class="text-custom_font-table-header text-center">
-                {#if loan.status != "Rejected"}
-                  <span class="text-logo-2">{loan.status}</span>
-                {:else}
-                  <span class="text-red-500">{loan.status}</span>
-                {/if}
-              </TableBodyCell>
-            </TableBodyRow>
-          {/each}
-          <TableBodyRow class="border-b-2 border-divider_col rounded-b-xl">
-            <TableBodyCell colspan="4">
-              <div class="flex flex-row items-center justify-between w-full">
-                <Button
-                  on:click={previous}
-                  disabled={pagination_page == 0}
-                  class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom"
-                >
-                  <ChevronLeftSolid class="w-4 h-4" />
-                  Previous
-                </Button>
-                <p class="text-custom_font-table_header">
-                  Showing
-                  <span class="font-bold">{pagination_page * 10 + 1}</span>
-                  to
-                  <span class="font-bold"
-                    >{Math.min(loans.length, pagination_page * 10 + 10)}</span
-                  >
-                  of
-                  <span class="font-bold">{loans.length}</span>
-                  entries
-                </p>
-                <Button
-                  on:click={next}
-                  disabled={pagination_page == loans.length / 10 - 1}
-                  class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom"
-                >
-                  Next
-                  <ChevronRightSolid class="w-4 h-4" />
-                </Button>
-              </div>
-            </TableBodyCell>
-          </TableBodyRow>
-        </TableBody>
-      </Table>
-    </div>
+    <Modal title={"Loan Request of "+details?.farmername} open={!!details} autoclose outsideclose >
+      <div class="flex items-center pb-4 w-full">
+            <Avatar class="w-48 h-48 ring-border_custom me-12" border/>
+            <Table divClass="grow relative overflow-x-auto">
+                <TableBody>
+                    <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md">
+                        <TableBodyCell class="w-56 text-custom_font-deep font-bold">Name</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-light">{details.farmername}</TableBodyCell>
+                    </TableBodyRow>
+                    <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md">
+                        <TableBodyCell class="text-custom_font-deep font-bold">Type</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-light">{details.farmerType}</TableBodyCell>
+                    </TableBodyRow>
+                    <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md">
+                        <TableBodyCell class="text-custom_font-deep font-bold">Points</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-light">{details.points}</TableBodyCell>
+                    </TableBodyRow>
+                    <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md">
+                        <TableBodyCell class="text-custom_font-deep font-bold">Agent</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-light">{details.rank}</TableBodyCell>
+                    </TableBodyRow>
+                </TableBody>
+            </Table>
+        </div>
+        <span class="ms-1 text-custom_font-table_header">Loan Description</span>
+        <div class="px-2 py-3 border rounded-xl  grow w-full h-24">
+          <!-- <ImagePlaceholder /> -->
+          {details.description}
+        </div>
+        <span class="ms-1 mt-3 text-custom_font-table_header">Finalize Amount</span>
+        <TripleSlider bind:value={value} values={values} min={details.requestedMin} max={details.requestedMax} minSlide={details.requestedMin-1000} maxSlide={details.requestedMax+1000} />
+        <div class="flex flex-col p-2 space-y-4">
+                          <Button
+                            class="mt-7 w-full rounded-br-xl rounded-tr-xl"
+                            color="primary"
+                            on:click={() => {if(confirm("Are you sure you want to finalize the loan?")) finalize(details.request_id);}}
+                            size="md"
+                            >
+                            Confirm
+                          </Button>
+                          <Button
+                            class="w-full rounded-br-xl rounded-tr-xl"
+                            color="red"
+                            size="md"
+                            on:click={() => {if(confirm("Are you sure you want to reject the request?")) reject(details.request_id);}}
+                            >
+                            Reject
+                          </Button>
+                        </div>
+    </Modal>
+   
   </div>
 </div>
-<Modal bind:open={formModal} size="xs" autoclose={false} class="w-full">
-  <form class="flex flex-col space-y-6" action="#">
-    <h3
-      class="mb-4 text-xl font-medium text-gray-900 text-center dark:text-white"
-    >
-      Sign in to our platform
-    </h3>
-    <Label class="space-y-2">
-      <span>Amount</span>
-      <Input
-        type="email"
-        name="email"
-        placeholder="name@company.com"
-        required
-      />
-    </Label>
-    <Label class="space-y-2">
-      <span>Your password</span>
-      <Input type="password" name="password" placeholder="•••••" required />
-    </Label>
-    <div class="flex items-start">
-      <Checkbox>Remember me</Checkbox>
-      <a
-        href="/"
-        class="ms-auto text-sm text-primary-700 hover:underline dark:text-primary-500"
-      >
-        Lost password?
-      </a>
-    </div>
-    <Button type="submit" class="w-full1">Login to your account</Button>
-    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-      Not registered? <a
-        href="/"
-        class="text-primary-700 hover:underline dark:text-primary-500"
-      >
-        Create account
-      </a>
-    </div>
-  </form>
-</Modal>

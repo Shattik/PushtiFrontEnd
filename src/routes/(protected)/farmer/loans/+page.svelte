@@ -3,66 +3,65 @@
     import RolledSidebar from "../RolledSidebar.svelte";
     import Header from "../../Header.svelte";
     import { Table, TableHead, TableHeadCell, TableBody, TableBodyRow, TableBodyCell, Button, Pagination, Checkbox, Input, Label, Modal, Textarea } from "flowbite-svelte";
-    import { ChevronLeftSolid, ChevronRightSolid } from "svelte-awesome-icons";
+    import { ChevronLeftSolid, ChevronRightSolid, LinkSlashSolid } from "svelte-awesome-icons";
     import { onMount } from "svelte";
     import NormalSlider from "./NormalSlider.svelte";
     import { get } from "svelte/store";
     import { jwtToken } from "$lib/Components/token.js";
     import { goto } from "$app/navigation";
     import { page } from '$app/stores';
-    let active_loan=false;
     let focused=false;
     let formModal=false;
     let description="";
     let ongoing_loan={
-        start_date:"2021-01-01",
-        total: 100000,
-        remaining: 50000,
-        interest: 10,
+        requestedMin: 10000,
+        requestedMax: 500000,
+        approvedAmount: 0,
+        approvalTime:"",
+        requestTime: "",
+        remainingAmount: 0,
         status: "Stage1"
     }
     let loans=[
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" },
-        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Rejected" }, 
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Done"},
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100000, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100001, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100002, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100003, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100004, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100005, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100006, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100007, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100008, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100009, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100010, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100011, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100012, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100013, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100014, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100015, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100016, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100017, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100018, status: "Done" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100019, status: "Rejected" },
-        { start_date:"2021-01-01", end_date:"2021-01-01", total: 100020, status: "Rejected" }
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, requestTime:"2024-01-24T14:06:12.709Z", approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" }, 
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: 100000, approvalTime:"2024-01-24T14:06:12.709Z", finishTime: "2024-01-24T14:06:12.709Z", status: "Completed" },
+        { approvedAmount: null, approvalTime:null, finishTime: null, status: "Rejected" }
     ];
 
     let pagination_page=0;
 
     let loanData=$page.data;
-    // ongoing_loan=loanData.ongoing;
+    ongoing_loan=loanData.ongoing;
+    loans=loanData.data;
 
     let values = [10000, 500000];
 
@@ -93,14 +92,14 @@
         }
         if(data?.success){
             ongoing_loan={
-                start_date: new Date().toISOString().slice(0, 10),
-                total: values[1],
-                remaining: values[1],
-                interest: 10,
-                status: "Processing"
+                requestedMin: values[0],
+                requestedMax: values[1],
+                approvedAmount: null,
+                approvalTime:null,
+                requestTime: new Date().toISOString(),
+                remainingAmount: null,
+                status: "Pending"
             }
-
-            active_loan=true;
         }
         formModal=false;
     }
@@ -129,20 +128,34 @@
             <h1 class="text-2xl font-bold text-custom_font-sub_header mb-3">Current Loan</h1>
             <Table shadow>
                 <TableHead>
-                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl">Start Date</TableHeadCell>
+                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl">Request Date</TableHeadCell>
+                    { #if ongoing_loan?.status=="ongoing"}
+                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tl-xl">Approval Date</TableHeadCell>
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Total Amount</TableHeadCell>
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Remaining</TableHeadCell>
-                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Deduction%</TableHeadCell>
+                    {:else}
+                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Requested Minimum</TableHeadCell>
+                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Requested Maximum</TableHeadCell>
+                    {/if}
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg rounded-tr-xl">Status</TableHeadCell>
                 </TableHead>
                 <TableBody >
-                    {#if active_loan}
+                    {#if ongoing_loan}
                     <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md">
-                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.start_date}</TableBodyCell>
-                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.total}</TableBodyCell>
-                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.remaining}</TableBodyCell>
-                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.interest}</TableBodyCell>
-                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.status}</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">
+                            {new Date(ongoing_loan.requestTime).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(ongoing_loan.requestTime).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}
+                        </TableBodyCell>
+                        { #if ongoing_loan.status=="ongoing"}
+                        <TableBodyCell class="text-custom_font-table-header text-center">
+                            {new Date(ongoing_loan.approvalTime).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(ongoing_loan.approvalTime).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}
+                        </TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.approvedAmount}</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.remainingAmount}</TableBodyCell>
+                        {:else}
+                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.requestedMin}</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.requestedMax}</TableBodyCell>
+                        {/if}
+                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.status[0].toUpperCase()+ongoing_loan.status.slice(1,ongoing_loan.status.length)}</TableBodyCell>
                     </TableBodyRow>
                     {:else}
                     <TableBodyRow class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl">
@@ -165,22 +178,58 @@
             <h1 class="text-2xl font-bold text-custom_font-sub_header mb-3">Previous Loans</h1>
             <Table shadow >
                 <TableHead>
+                    <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Request Date</TableHeadCell>
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Start Date</TableHeadCell>
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">End Date</TableHeadCell>
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Total Amount</TableHeadCell>
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Status</TableHeadCell>
                 </TableHead>
                 <TableBody >
+                    {#if loans.length==0}
+                    <TableBodyRow class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl">
+                        <TableBodyCell colspan="5" class="text-custom_font-table_header items-center rounded-b-xl">
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="text-custom_font-table_header text-xl">No Previous Loans</span>
+                                <LinkSlashSolid class="w-48 h-48 mt-4 text-gray-400"/>
+                            </div>
+                        </TableBodyCell>
+                    </TableBodyRow>
+                    {:else}
                     {#each loans.slice(pagination_page*10,pagination_page*10+10) as loan}
                     <TableBodyRow class="px-1 border-b-2 border-spacing-5 border-divider_col bg-body_custom drop-shadow-md">
-                        <TableBodyCell class="text-custom_font-table-header text-center">{loan.start_date}</TableBodyCell>
-                        <TableBodyCell class="text-custom_font-table-header text-center">{loan.end_date}</TableBodyCell>
-                        <TableBodyCell class="text-custom_font-table-header text-center">{loan.total}</TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">
+                            {#if loan.requestTime==null}
+                            ---
+                            {:else}
+                            {new Date(loan.requestTime).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(loan.requestTime).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}
+                            {/if}
+                        </TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">
+                            {#if loan.approvalTime==null}
+                            ---
+                            {:else}
+                            {new Date(loan.approvalTime).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(loan.approvalTime).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}
+                            {/if}
+                        </TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">
+                            {#if loan.finishTime==null}
+                            ---
+                            {:else}
+                            {new Date(loan.finishTime).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(loan.finishTime).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}
+                            {/if}
+                        </TableBodyCell>
+                        <TableBodyCell class="text-custom_font-table-header text-center">
+                            {#if loan.approvedAmount==null}
+                            ---
+                            {:else}
+                            {loan.approvedAmount}
+                            {/if}
+                        </TableBodyCell>
                         <TableBodyCell class="text-custom_font-table-header text-center">
                             {#if loan.status!="Rejected"}
-                            <span class="text-logo-2">{loan.status}</span>
+                            <span class="text-logo-2">Completed</span>
                             {:else}
-                            <span class="text-red-500">{loan.status}</span>
+                            <span class="text-red-500">Rejected</span>
                             {/if}
                         </TableBodyCell>
                     </TableBodyRow>
@@ -192,7 +241,7 @@
                                         <ChevronLeftSolid class="w-4 h-4"/>
                                         Previous
                                     </Button>
-                                    <p class="text-custom_font-table_header">
+                                    <p class="text-custom_font-table_header grow text-center">
                                         Showing 
                                         <span class="font-bold">{pagination_page*10+1}</span> 
                                         to 
@@ -201,13 +250,14 @@
                                         <span class="font-bold">{loans.length}</span> 
                                         entries
                                     </p>
-                                    <Button on:click={next} disabled={pagination_page==loans.length/10-1} class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom">
+                                    <Button on:click={next} disabled={pagination_page>=loans.length/10-1 } class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom">
                                         Next
                                         <ChevronRightSolid class="w-4 h-4"/>
                                     </Button>
                                 </div>
                         </TableBodyCell>
                     </TableBodyRow>
+                    {/if}
                 </TableBody>
             </Table>
         </div>

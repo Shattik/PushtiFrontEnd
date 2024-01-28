@@ -81,7 +81,7 @@
                       </TableBodyRow>
                   </TableBody>
               </Table>
-            <div class="flex flex-row items-center w-full space-x-64 mt-10 ml-10">
+            <div class="flex flex-row items-center w-full space-x-48 mt-10 ml-10">
                 <div class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish">
                     <p class="mt-2">No. of Farmers</p>
                     <p class="mt-3 mb-2 text-xl">{agent.farmers}</p>
@@ -128,7 +128,7 @@
             <p class="text-3xl font-bold text-custom_font-deep mb-5">Budget Status</p>
           <Pie data={pieData}/>
           </Card>
-          <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
+          <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
             <p class="text-3xl font-bold text-custom_font-deep mb-5">Statistics</p>
               <Bar data={barData}/>
               </Card>

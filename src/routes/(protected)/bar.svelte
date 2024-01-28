@@ -29,7 +29,7 @@
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '40%',
+        columnWidth: '35%',
         borderRadiusApplication: 'end',
         borderRadius: 8,
         colors: {
