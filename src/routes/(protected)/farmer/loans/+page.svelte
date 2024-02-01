@@ -10,6 +10,7 @@
     import { jwtToken } from "$lib/Components/token.js";
     import { goto } from "$app/navigation";
     import { page } from '$app/stores';
+    import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
     let focused=false;
     let formModal=false;
     let description="";
@@ -76,7 +77,7 @@
         // Perform login logic here
         try {
             // Send authentication request to backend
-            const response = await fetch('http://localhost:4001/farmer/loan/request', {
+            const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/farmer/loan/request`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -155,7 +156,7 @@
                         <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.requestedMin}</TableBodyCell>
                         <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.requestedMax}</TableBodyCell>
                         {/if}
-                        <TableBodyCell class="text-custom_font-table-header text-center">{ongoing_loan.status[0].toUpperCase()+ongoing_loan.status.slice(1,ongoing_loan.status.length)}</TableBodyCell>
+                        <TableBodyCell class="text-logo-1 text-center">{ongoing_loan.status[0].toUpperCase()+ongoing_loan.status.slice(1,ongoing_loan.status.length)}</TableBodyCell>
                     </TableBodyRow>
                     {:else}
                     <TableBodyRow class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl">
@@ -226,7 +227,7 @@
                             {/if}
                         </TableBodyCell>
                         <TableBodyCell class="text-custom_font-table-header text-center">
-                            {#if loan.status!="Rejected"}
+                            {#if loan.status!="rejected"}
                             <span class="text-logo-2">Completed</span>
                             {:else}
                             <span class="text-red-500">Rejected</span>

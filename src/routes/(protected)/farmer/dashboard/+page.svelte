@@ -110,7 +110,7 @@
 
     <!-- Insert chart for card here -->
     <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
-        <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Tax Income</p>
+        <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Sells</p>
               <Scatter/>
     </Card>
 </div>

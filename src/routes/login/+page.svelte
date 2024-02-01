@@ -5,7 +5,7 @@
     import { redirect } from '@sveltejs/kit';
     import { goto } from '$app/navigation';
     import { jwtToken } from '$lib/Components/token.js';
-
+    import { PUBLIC_API_GATEWAY_URL } from '$env/static/public';
     
     let res={error:""};
     let nid = '';
@@ -22,7 +22,7 @@
         // Perform login logic here
         try {
             // Send authentication request to backend
-            const response = await fetch('http://localhost:4001/login/validate', {
+            const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/login/validate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

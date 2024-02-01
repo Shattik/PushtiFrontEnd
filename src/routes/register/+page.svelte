@@ -25,11 +25,11 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
+  import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
   /**
    * @type {{ error: any; }}
    */
   export let res;
-  let apiGatewayUrl = "http://localhost:4001";
   let nid = "";
   let password = "";
   let dob = new Date();
@@ -52,7 +52,7 @@
   let unions = [{ value: "", name: "" }];
 
   onMount(async () => {
-    const response = await fetch(`${apiGatewayUrl}/register/sme`, {
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/sme`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@
   async function getDistricts() {
     const req_body = { division };
     console.log("req_body", req_body);
-    const response = await fetch(`${apiGatewayUrl}/register/district`, {
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/district`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +118,7 @@
   async function getUpazillas() {
     const req_body = { district };
     console.log("req_body", req_body);
-    const response = await fetch(`${apiGatewayUrl}/register/upazilla`, {
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/upazilla`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -153,7 +153,7 @@
   async function getUnions() {
     const req_body = { upazilla };
     console.log("req_body", req_body);
-    const response = await fetch(`${apiGatewayUrl}/register/union`, {
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/union`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -212,7 +212,7 @@
     // Perform login logic here
     try {
         // Send authentication request to backend
-        const response = await fetch(`${apiGatewayUrl}/register/submit`, {
+        const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/submit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

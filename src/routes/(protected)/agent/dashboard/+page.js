@@ -1,17 +1,18 @@
 import { get } from "svelte/store";
-import { jwtToken } from "$lib/Components/token.js"
+import { jwtToken } from "$lib/Components/token.js";
 
-let apiGatewayUrl = "http://localhost:4001";
+import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
+
 export const ssr = false;
 
 export async function load() {
     console.log("load");
     console.log(get(jwtToken));
-    const response = await fetch(`${apiGatewayUrl}/agent/dashboard`, {
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/dashboard`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "authorization": get(jwtToken)
+            authorization: get(jwtToken),
         },
     });
     console.log(response);
