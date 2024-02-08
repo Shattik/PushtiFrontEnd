@@ -24,32 +24,27 @@
     <SidebarWrapper class="overflow-x-hidden h-screen fixed w-64 bg-sidebar_bg">
       <SidebarGroup class="w-48">
         <SidebarBrand {site} class="space-x-5 ps-4" imgClass="h-10" spanClass="self-center text-2xl text-logo-1 font-semibold whitespace-nowrap dark:text-white"/>
-        <SidebarItem label="Dashboard" href="/agent/dashboard" {spanClass}>
+        <SidebarItem label="Dashboard" href="/vendor/dashboard" {spanClass}>
           <svelte:fragment slot="icon">
             <ChartPieSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
-        <SidebarItem label="Loan Requests" href="/agent/loans" {spanClass}>
-          <svelte:fragment slot="icon">
-            <HandHoldingDollarSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
-          </svelte:fragment>
-        </SidebarItem>
-        <SidebarItem label="Transactions" href="/agent/transactions" {spanClass}>
+        <SidebarItem label="Transactions" href="/vendor/transactions" {spanClass}>
           <svelte:fragment slot="icon">
             <MoneyCheckDollarSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
-        <SidebarItem label="Inventory" href="/agent/inventory" {spanClass}>
+        <SidebarItem label="Inventory" href="/vendor/inventory" {spanClass}>
           <svelte:fragment slot="icon">
             <StoreSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
-        <SidebarItem label="Leaderboards" href="/agent/leaderboard" {spanClass}>
+        <SidebarItem label="Leaderboards" href="/vendor/leaderboard" {spanClass}>
           <svelte:fragment slot="icon">
             <TrophySolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
-        <SidebarItem label="Support" href="/agent/support" {spanClass}>
+        <SidebarItem label="Support" href="/vendor/support" {spanClass}>
           <svelte:fragment slot="icon">
             <EnvelopeSolid class="w-7 h-7 ms-1.5 me-3 text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
