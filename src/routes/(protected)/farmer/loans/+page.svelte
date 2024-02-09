@@ -63,7 +63,7 @@
     let loanData=$page.data;
     ongoing_loan=loanData.ongoing;
     loans=loanData.data;
-
+    let size=loanData.size;
     let values = [10000, 500000];
 
     async function addLoan(){
@@ -105,13 +105,37 @@
         formModal=false;
     }
 
-    function previous(){
+    async function previous(){
         pagination_page--;
+        let request = {
+            "page": pagination_page
+        };
+        const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/farmer/loan`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: get(jwtToken),
+            },
+            body: JSON.stringify(request)
+        });
+        const data = await response.json();
+        loans=data.data;
     }
-    function next(){
-        if(pagination_page<loans.length/10-1){
-            pagination_page++;
-        }
+    async function next(){
+        pagination_page++;
+        let request = {
+            "page": pagination_page
+        };
+        const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/farmer/loan`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: get(jwtToken),
+            },
+            body: JSON.stringify(request)
+        });
+        const data = await response.json();
+        loans=data.data;
     }
 
 </script>
@@ -186,7 +210,7 @@
                     <TableHeadCell class="text-custom_font-table_header font-bold text-center bg-sidebar_bg">Status</TableHeadCell>
                 </TableHead>
                 <TableBody >
-                    {#if loans.length==0}
+                    {#if size==0}
                     <TableBodyRow class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl">
                         <TableBodyCell colspan="5" class="text-custom_font-table_header items-center rounded-b-xl">
                             <div class="flex flex-col items-center justify-center">
@@ -196,7 +220,7 @@
                         </TableBodyCell>
                     </TableBodyRow>
                     {:else}
-                    {#each loans.slice(pagination_page*10,pagination_page*10+10) as loan}
+                    {#each loans as loan}
                     <TableBodyRow class="px-1 border-b-2 border-spacing-5 border-divider_col bg-body_custom drop-shadow-md">
                         <TableBodyCell class="text-custom_font-table-header text-center">
                             {#if loan.requestTime==null}
@@ -235,8 +259,8 @@
                         </TableBodyCell>
                     </TableBodyRow>
                     {/each}
-                    <TableBodyRow class="border-b-2 border-divider_col rounded-b-xl">
-                        <TableBodyCell colspan="4">
+                    <TableBodyRow class="bg-body_custom drop-shadow-md border-b-2 border-divider_col rounded-b-xl">
+                        <TableBodyCell colspan="5">
                                 <div class="flex flex-row items-center justify-between w-full">
                                     <Button on:click={previous} disabled={pagination_page==0} class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom">
                                         <ChevronLeftSolid class="w-4 h-4"/>
@@ -246,12 +270,12 @@
                                         Showing 
                                         <span class="font-bold">{pagination_page*10+1}</span> 
                                         to 
-                                        <span class="font-bold">{Math.min(loans.length,pagination_page*10+10)}</span> 
+                                        <span class="font-bold">{Math.min(size,pagination_page*10+10)}</span> 
                                         of 
-                                        <span class="font-bold">{loans.length}</span> 
+                                        <span class="font-bold">{size}</span> 
                                         entries
                                     </p>
-                                    <Button on:click={next} disabled={pagination_page>=loans.length/10-1 } class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom">
+                                    <Button on:click={next} disabled={pagination_page>=size/10-1 } class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom">
                                         Next
                                         <ChevronRightSolid class="w-4 h-4"/>
                                     </Button>

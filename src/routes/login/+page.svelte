@@ -15,8 +15,7 @@
         let data;
         let request = {
             "nid": nid,
-            "password": password,
-            "acountType": 'farmer'
+            "password": password
         };
         console.log(request);
         // Perform login logic here
