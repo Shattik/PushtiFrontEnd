@@ -65,6 +65,8 @@
     // reverse taxDataMonthList and taxDataAmountList
     taxDataMonthList = taxDataMonthList.reverse();
     taxDataAmountList = taxDataAmountList.reverse();
+
+    console.log(taxDataAmountList);
   
 
   //   let progress=0;
