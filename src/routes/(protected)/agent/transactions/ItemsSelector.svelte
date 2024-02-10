@@ -11,7 +11,7 @@
     let itemSearchBox;
     let filteredItems = items;
     $: filteredItems = items.filter((item) => item.name.toLowerCase().includes(itemName.toLowerCase()));
-    $: console.log("selected ",selectedItems);
+    
     const handleItemKey = (event) => {
         if (event.key === "ArrowDown") {
             focusedIndex = (focusedIndex + 1);
@@ -58,13 +58,14 @@
             name: filteredItems[index].name,
             price: filteredItems[index].unitPrice,
             taxPercentage: filteredItems[index].taxPercentage,
+            tax: 0,
             unit: filteredItems[index].unit,
             imageLink: filteredItems[index].imageLink,
             quantity: null,
             total: 0,
         };
         selectedItems = [...selectedItems, item];
-        items = items.filter((it) => item.id !== it.id);
+        items = items.filter((it) => item.productId !== it.id);
         itemName = '';
         showItemDropdown = false;
     }
@@ -82,7 +83,7 @@
         selectedItems = selectedItems.filter((it, i) => i !== index);
         itemSearchBox.focus();
     }
-
+    
 </script>
 
 <style>
@@ -105,7 +106,7 @@
         {#each selectedItems as item,index}
             <input type="search" class="w-full p-2 border-2 border-divider_col rounded-md text-sm col-span-2" value={item.name} on:keydown={(event)=> event.preventDefault()} on:input|preventDefault={()=> {removeItem(index)} } />
             <input class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" value={`${item.price}/${item.unit}`} disabled/>
-            <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" bind:value={item.quantity} on:input={()=>item.total=item.quantity*item.price} on:keydown={handleNumKey} autofocus required/>
+            <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" bind:value={item.quantity} on:input={()=>{item.quantity = Math.max(item.quantity,0);item.total=item.quantity*item.price; item.tax = Math.round(item.total*item.taxPercentage/100);}} on:keydown={handleNumKey} autofocus required/>
             <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" value={item.total} disabled/>
         {/each}
         <div class="relative col-span-2">
@@ -120,7 +121,7 @@
         </div>
     {/if}
     {#if filteredItems.length > 0}
-        <Dropdown bind:open={showItemDropdown} class="w-full" containerClass="divide-y z-50 w-2/5" >
+        <Dropdown bind:open={showItemDropdown} class="w-full max-h-80 overflow-y-auto" containerClass="divide-y z-50 w-2/5" >
             {#each filteredItems as item, index}
                 {#if index === focusedIndex}
                     <DropdownItem 

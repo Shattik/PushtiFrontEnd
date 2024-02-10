@@ -98,11 +98,16 @@
     ]; 
     let openRow = -1;
     let pagination_page=0;
+    let length=transactions.length;
     let filtered_transactions=transactions;
     const placement = "bottom-start";
     export let transactionPerPage=10;
     export let tableTitle="Buy History";
     export let userType="farmer";
+    $:if(transactions.length!=length){
+        filtered_transactions=transactions;
+        length=transactions.length;
+    }
     const toggleRowTransaction = (i) => {
         openRow = openRow === i ? -1 : i
     };
@@ -251,7 +256,7 @@
                                         >{object.productname}</TableBodyCell
                                     >
                                     <TableBodyCell class="text-custom_font-table-header text-right "
-                                        >{object.totalPrice??0/object.quantity}</TableBodyCell
+                                        >{object.totalPrice/object.quantity}</TableBodyCell
                                     >
                                     <TableBodyCell class="text-custom_font-table-header text-right "
                                         >{object.quantity} {object.unit}</TableBodyCell

@@ -2,200 +2,14 @@
     import { Alert, Avatar, Button, Dropdown, DropdownItem, Label, Modal, Search, TabItem, Table, TableBody, TableBodyCell, TableBodyRow, Tabs } from 'flowbite-svelte';
     import { BanSolid, MagnifyingGlassSolid } from 'svelte-awesome-icons';
     import ItemsSelector from './ItemsSelector.svelte';
+    import { onMount } from 'svelte';
+    import { get } from "svelte/store";
+    import { jwtToken } from "$lib/Components/token.js";
+    import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
     let showFarmerDropdown = true;
-    export let farmers = [
-        {
-            "nid": "1234567890",
-            "phone": "1234567890",
-            "name": "test",
-            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
-            "permanentAddress": "test",
-            "rank": "Iron",
-            "points": "0",
-            "farmerType": "Dairy",
-            "cashback": 0,
-            "taxDeduction": 0,
-            "remaining": 157880,
-            "deduction": 10
-        },
-        {
-            "nid": "123",
-            "phone": "123",
-            "name": "hojoborolo",
-            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
-            "permanentAddress": "123",
-            "rank": "Bronze",
-            "points": "330",
-            "farmerType": "Dairy",
-            "cashback": 0.5,
-            "taxDeduction": 1.2,
-            "remaining": 157880,
-            "deduction": 10
-        }
-    ];
+    export let farmers = [];
     export let type = "Farmer";
-    export let farmerItems = [
-        {
-            "id": "3",
-            "name": "Buffalo Milk",
-            "unit": "kg",
-            "unitPrice": 120,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "2",
-            "name": "Goat Milk",
-            "unit": "kg",
-            "unitPrice": 130,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "4",
-            "name": "Sheep milk",
-            "unit": "kg",
-            "unitPrice": 50,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "5",
-            "name": "Cow meat",
-            "unit": "kg",
-            "unitPrice": 650,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "6",
-            "name": "Goat meat",
-            "unit": "kg",
-            "unitPrice": 800,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "7",
-            "name": "Buffalo meat",
-            "unit": "kg",
-            "unitPrice": 500,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "8",
-            "name": "Sheep meat",
-            "unit": "kg",
-            "unitPrice": 450,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "9",
-            "name": "Chicken meat",
-            "unit": "kg",
-            "unitPrice": 150,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "10",
-            "name": "Duck meat",
-            "unit": "piece",
-            "unitPrice": 200,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "11",
-            "name": "Goose meat",
-            "unit": "kg",
-            "unitPrice": 220,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "12",
-            "name": "Chicken egg",
-            "unit": "piece",
-            "unitPrice": 10,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "13",
-            "name": "Duck egg",
-            "unit": "piece",
-            "unitPrice": 8,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "14",
-            "name": "Goose egg",
-            "unit": "piece",
-            "unitPrice": 8,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "15",
-            "name": "Butter",
-            "unit": "litre",
-            "unitPrice": 80,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "16",
-            "name": "Rosogolla",
-            "unit": "kg",
-            "unitPrice": 250,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "17",
-            "name": "Roshmalai",
-            "unit": "kg",
-            "unitPrice": 300,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "18",
-            "name": "Khir",
-            "unit": "kg",
-            "unitPrice": 280,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "1",
-            "name": "Cow Milk",
-            "unit": "kg",
-            "unitPrice": 80,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "22",
-            "name": "Cheese",
-            "unit": "kg",
-            "unitPrice": 250,
-            "taxPercentage": 2,
-            "imageLink": null
-        },
-        {
-            "id": "24",
-            "name": "Curd",
-            "unit": "kg",
-            "unitPrice": 250,
-            "taxPercentage": 3,
-            "imageLink": null
-        }
-    ];
+    export let farmerItems = [];
     let selectedFarmerItems = [];
     let focusedIndex = -1;
     let farmerName = '';
@@ -204,6 +18,9 @@
     let filteredFarmers = farmers;
     export let buyRequestFarmer={
         farmerNid: null,
+        farmername: "",
+        avatarLink: "",
+        phone: "",
         items: [],
         total: 0,
         totalTax: 0,
@@ -214,13 +31,34 @@
     }
     $: filteredFarmers = farmers.filter((farmer) => farmer.name.toLowerCase().includes(farmerName.toLowerCase()));
     $: buyRequestFarmer.farmerNid = selectedFarmer?.nid;
+    $: buyRequestFarmer.farmername = selectedFarmer?.name;
+    $: buyRequestFarmer.avatarLink = selectedFarmer?.avatarLink;
+    $: buyRequestFarmer.phone = selectedFarmer?.phone;
     $: buyRequestFarmer.items = selectedFarmerItems;
     $: buyRequestFarmer.total = selectedFarmerItems.reduce((acc, item) => acc + item.total, 0);
-    $: buyRequestFarmer.totalTax = Math.round(selectedFarmerItems.reduce((acc, item) => acc + item.total*item.taxPercentage/100, 0)*(1-selectedFarmer?.taxDeduction/100));
+    $: buyRequestFarmer.totalTax = Math.round(selectedFarmerItems.reduce((acc, item) => acc + item.tax, 0)*(1-selectedFarmer?.taxDeduction/100));
     $: buyRequestFarmer.totalDeduction = Math.min(selectedFarmer?.remaining,Math.round((buyRequestFarmer.total-buyRequestFarmer.totalTax) * selectedFarmer?.deduction/100));
     $: buyRequestFarmer.cashback = Math.round((buyRequestFarmer.total-buyRequestFarmer.totalTax-buyRequestFarmer.totalDeduction) * selectedFarmer?.cashback/100);
     $: buyRequestFarmer.finalAmount = buyRequestFarmer.total - buyRequestFarmer.totalDeduction - buyRequestFarmer.totalTax + buyRequestFarmer.cashback;
     
+    onMount(async() => {
+        const res= await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/buy/request/${type.toLowerCase()}  `, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: get(jwtToken),
+            },
+        });
+        let data=await res.json();
+        console.log(data);
+        if(type==="Farmer"){
+            farmers=data.farmers;
+        }
+        else{
+            farmers=data.smes;
+        }
+        farmerItems=data.products;
+    });
 
     function handleFarmerKey(event) {
         if (event.key === "ArrowDown") {
@@ -285,7 +123,7 @@
                 <input type="search" id="farmer-search" class="w-full p-2 border-2 border-divider_col rounded-md indent-8 text-sm" bind:value={farmerName} on:keydown={handleFarmerKey} on:focus={()=> showFarmerDropdown=true} on:click={() =>console.log("clicked")} placeholder="Search" autofocus required/>
             </div>
             {#if filteredFarmers.length > 0 }
-                <Dropdown bind:open={showFarmerDropdown}  class="w-full" containerClass="divide-y z-50 w-11/12" >
+                <Dropdown bind:open={showFarmerDropdown}  class="w-full overflow-y-auto max-h-80" containerClass="divide-y z-50 w-11/12" >
                     {#each filteredFarmers as farmer,index}
                         {#if index === focusedIndex}
                             <DropdownItem 
