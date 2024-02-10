@@ -34,7 +34,14 @@
                   const sum = w.globals.seriesTotals.reduce((a, b) => {
                     return a + b;
                   }, 0);
-                  return `${sum}`;
+                  if (sum >= 1000000000)
+                    return `${(sum/1000000000).toFixed(2)}B`;
+                  else if(sum >= 1000000)
+                    return `${(sum/1000000).toFixed(2)}M`;
+                  else if(sum >= 1000)
+                    return `${(sum/1000).toFixed(2)}K`;
+                  else
+                    return `${sum}`;
                 }
               },
               value: {
@@ -42,7 +49,14 @@
                 fontFamily: 'Inter, sans-serif',
                 offsetY: -20,
                 formatter: function (value) {
-                  return value;
+                  if (value >= 1000000000)
+                    return `${(value/1000000000).toFixed(2)}B`;
+                  else if(value >= 1000000)
+                    return `${(value/1000000).toFixed(2)}M`;
+                  else if(value >= 1000)
+                    return `${(value/1000).toFixed(2)}K`;
+                  else
+                    return `${value}`;
                 }
               }
             },

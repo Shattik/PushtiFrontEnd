@@ -11,18 +11,21 @@
       import Pie from '../../pie.svelte';
       import Bar from '../../bar.svelte';
       import Scatter from '../../Scatter.svelte';
+      import {page} from '$app/stores';
      
       /** @type { SvelteComponent } */
       let card;
+      let page_data = $page.data;
+      console.log(page_data);
   
       let agent={
-          name:"Bonnie Green",
-          nid:"1234567890",
-          email:"Dairy",
-          union:"John Doe",
-          farmers:100,
-          smes:200,
-          vendors:150,
+          name:page_data.basicData.name,
+          nid:page_data.basicData.nid,
+          email:page_data.basicData.email,
+          union:page_data.basicData.unionName,
+          farmers:page_data.unionDetails[0].noFarmers,
+          smes:page_data.unionDetails[0].noSme,
+          vendors:page_data.unionDetails[0].noVendors,
           next_rank:"Platinum",   
           benefits:[
               "Free insurance",
@@ -40,8 +43,13 @@
         //   card=card;
       });
 
-      let pieData = [200000, 32000, 25000];
-      let barData = [57000, 62000, 45000, 23000];
+      let totalLoan = parseInt(page_data.unionDetails[0].totalFarmerLoan) + parseInt(page_data.unionDetails[0].totalSmeLoan);
+      let totalBuy = parseInt(page_data.unionDetails[0].totalBuy)
+      let totalSell = parseInt(page_data.unionDetails[0].totalSell)
+      let totalTax = parseInt(page_data.unionDetails[0].totalTax)
+
+      let pieData = [parseInt(page_data.unionDetails[0].availableBudget), parseInt(page_data.unionDetails[0].totalFarmerLoan), parseInt(page_data.unionDetails[0].totalSmeLoan)];
+      let barData = [totalLoan, totalBuy, totalSell, totalTax];
   
   </script>
   
