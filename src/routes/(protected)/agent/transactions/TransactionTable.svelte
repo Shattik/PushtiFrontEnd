@@ -240,10 +240,12 @@
                             class="text-custom_font-table_header font-bold text-right bg-body_custom"
                             >Quantity</TableHeadCell
                             >
+                            {#if tableTitle=="Buy History"}
                             <TableHeadCell
                             class="text-custom_font-table_header font-bold text-right bg-body_custom"
                             >Tax Amount</TableHeadCell
                             >
+                            {/if}
                             <TableHeadCell
                             class="text-custom_font-table_header font-bold text-right bg-body_custom"
                             >Price</TableHeadCell
@@ -256,7 +258,7 @@
                                         >{object.productname}</TableBodyCell
                                     >
                                     <TableBodyCell class="text-custom_font-table-header text-right "
-                                        >{object.totalPrice/object.quantity}</TableBodyCell
+                                        >{(object.totalPrice??0)/object.quantity}</TableBodyCell
                                     >
                                     <TableBodyCell class="text-custom_font-table-header text-right "
                                         >{object.quantity} {object.unit}</TableBodyCell
@@ -265,6 +267,23 @@
                                     >
                                     <TableBodyCell class="text-custom_font-table-header text-right"
                                         >{object.totalPrice??0}</TableBodyCell
+                                    >
+                                </TableBodyRow>
+                            {/each}
+                        {:else}
+                            {#each transaction.sellitems as object}
+                                <TableBodyRow class=" border-transparent bg-body_custom ">
+                                    <TableBodyCell class="text-custom_font-table-header"
+                                        >{object.productname}</TableBodyCell
+                                    >
+                                    <TableBodyCell class="text-custom_font-table-header text-right "
+                                        >{(object.total??0)/object.quantity}</TableBodyCell
+                                    >
+                                    <TableBodyCell class="text-custom_font-table-header text-right "
+                                        >{object.quantity} {object.unit}</TableBodyCell
+                                    >
+                                    <TableBodyCell class="text-custom_font-table-header text-right"
+                                        >{object.total}</TableBodyCell
                                     >
                                 </TableBodyRow>
                             {/each}
@@ -299,7 +318,7 @@
                                 {#if tableTitle=="Buy History"}
                                     {parseInt(transaction.total)-parseInt(transaction.totalDeduction)-parseInt(transaction.totalTax)+parseInt(transaction.cashback)}
                                 {:else}
-                                    {parseInt(transaction.total)+parseInt(transaction.cashback)}
+                                    {parseInt(transaction.total)-parseInt(transaction.cashback)}
                                 {/if}
                             </div>
                         </div>

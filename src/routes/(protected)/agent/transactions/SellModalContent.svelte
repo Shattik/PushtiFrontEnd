@@ -2,66 +2,14 @@
     import { Alert, Avatar, Button, Dropdown, DropdownItem, Label, Modal, Search, TabItem, Table, TableBody, TableBodyCell, TableBodyRow, Tabs } from 'flowbite-svelte';
     import { BanSolid, MagnifyingGlassSolid } from 'svelte-awesome-icons';
     import ItemsSelector from './ItemsSelector.svelte';
+    import { onMount } from 'svelte';
+    import { get } from "svelte/store";
+    import { jwtToken } from "$lib/Components/token.js";
+    import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
     let showFarmerDropdown = true;
-    export let farmers = [
-        {name: 'John Doe', id: 1},
-        {name: 'Jane Doe', id: 2},
-        {name: 'John Doe', id: 3},
-        {name: 'Jane Doe', id: 4},
-    ];
-    export let type = "Farmer";
-    export let farmerItems = [
-        {
-            id: 1,
-            name: "Item 1",
-            price: 100,
-        },
-        {
-            id: 2,
-            name: "Item 2",
-            price: 200,
-        },
-        {
-            id: 3,
-            name: "Item 3",
-            price: 300,
-        },
-        {
-            id: 4,
-            name: "Item 4",
-            price: 400,
-        },
-        {
-            id: 5,
-            name: "Item 5",
-            price: 500,
-        },
-        {
-            id: 6,
-            name: "Item 6",
-            price: 600,
-        },
-        {
-            id: 7,
-            name: "Item 7",
-            price: 700,
-        },
-        {
-            id: 8,
-            name: "Item 8",
-            price: 800,
-        },
-        {
-            id: 9,
-            name: "Item 9",
-            price: 900,
-        },
-        {
-            id: 10,
-            name: "Item 10",
-            price: 1000,
-        }
-    ];
+    export let farmers = [];
+    export let type = "SME";
+    export let farmerItems = [];
     let selectedFarmerItems = [];
     let focusedIndex = -1;
     let farmerName = '';
@@ -69,19 +17,44 @@
     let selectedFarmer = null;
     let filteredFarmers = farmers;
     export let sellRequestFarmer={
-        name: null,
+        farmerNid: null,
+        farmername: "",
+        avatarLink: "",
+        phone: "",
         items: [],
         total: 0,
-        cashBack: 0,
-        finalAmount: 0
+        cashback: 0,
+        finalAmount:0,
     }
+    
     $: filteredFarmers = farmers.filter((farmer) => farmer.name.toLowerCase().includes(farmerName.toLowerCase()));
-    $: sellRequestFarmer.farmer = selectedFarmer;
+    $: sellRequestFarmer.farmerNid = selectedFarmer?.nid;
+    $: sellRequestFarmer.farmername = selectedFarmer?.name;
+    $: sellRequestFarmer.avatarLink = selectedFarmer?.avatarLink;
+    $: sellRequestFarmer.phone = selectedFarmer?.phone;
     $: sellRequestFarmer.items = selectedFarmerItems;
     $: sellRequestFarmer.total = selectedFarmerItems.reduce((acc, item) => acc + item.total, 0);
-    $: sellRequestFarmer.cashBack = sellRequestFarmer.total * 0.05;
-    $: sellRequestFarmer.finalAmount = sellRequestFarmer.total - sellRequestFarmer.cashBack;
+    $: sellRequestFarmer.cashback = Math.round((sellRequestFarmer.total) * selectedFarmer?.cashback/100);
+    $: sellRequestFarmer.finalAmount = sellRequestFarmer.total - sellRequestFarmer.cashback;
     
+    onMount(async() => {
+        const res= await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/sell/request/${type.toLowerCase()}  `, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: get(jwtToken),
+            },
+        });
+        let data=await res.json();
+        console.log(data);
+        if(type==="SME"){
+            farmers=data.smes;
+        }
+        else{
+            farmers=data.vendors;
+        }
+        farmerItems=data.products;
+    });
 
     function handleFarmerKey(event) {
         if (event.key === "ArrowDown") {
@@ -192,7 +165,7 @@
                 </div>
                 <div class="flex flex-row p-3 px-6 border-divider_col bg-body_custom">
                     <div class="grow "><span class="text-custom_font-table-header font-bold">Cash Back</span></div>
-                    <div class="text-custom_font-table-header text-right">{sellRequestFarmer.cashBack}</div>
+                    <div class="text-custom_font-table-header text-right">{sellRequestFarmer.cashback}</div>
                 </div>
                 <div class="grow bg-body_custom">
                 </div>

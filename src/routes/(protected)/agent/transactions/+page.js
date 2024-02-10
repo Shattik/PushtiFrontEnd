@@ -26,8 +26,29 @@ export async function load() {
         },
     });
     const sme = await response.json();
+    response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/sell/history/sme`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+    });
+    const smeSell = await response.json();
+    response = await fetch(
+        `${PUBLIC_API_GATEWAY_URL}/agent/sell/history/vendor`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                authorization: get(jwtToken),
+            },
+        }
+    );
+    const vendorSell = await response.json();
     console.log(farmer);
     console.log(sme);
-    let data = { farmer, sme };
+    console.log(smeSell);
+    console.log(vendorSell);
+    let data = { farmer, sme, smeSell, vendorSell };
     return data;
 }
