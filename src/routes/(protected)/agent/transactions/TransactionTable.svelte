@@ -4,74 +4,105 @@
     import { slide } from "svelte/transition";
 
 
-    export const transactions=[
+    export let transactions=[
         {
-            "tid": 123456789,    
-            "date": "2022-10-31T11:00:00Z",
-            "name": "John Doe",
-            "avatarLink": "avatar23.png",
-            "total": 1000,
-            "Objects": [
+            "transactionid": "3",
+            "farmername": "hojoborolo",
+            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+            "phone": "123",
+            "total": "100",
+            "totalTax": "100",
+            "totalDeduction": "0",
+            "cashback": "0",
+            "timestamp": "2024-02-08T12:41:56.854Z",
+            "status": "approved",
+            "buyitems": [
                 {
-                    "name": "Milk",
-                    "quantity": 10,
-                    "price": 1000
+                    "tid": 3,
+                    "productname": "Cow Milk",
+                    "unit": "kg",
+                    "quantity": 5,
+                    "tax": 10,
+                    "totalPrice": 300
                 },
                 {
-                    "name": "Milk",
+                    "tid": 3,
+                    "productname": "Goat Milk",
+                    "unit": "kg",
                     "quantity": 10,
-                    "price": 1000
-                },
-                {
-                    "name": "Milk",
-                    "quantity": 10,
-                    "price": 1000
-                },
-                {
-                    "name": "Milk",
-                    "quantity": 10,
-                    "price": 1000
-                },
-                {
-                    "name": "Milk",
-                    "quantity": 10,
-                    "price": 1000
-                },
-                {
-                    "name": "Sitamet",
-                    "quantity": 10,
-                    "price": 1000
+                    "tax": 12,
+                    "totalPrice": 350
                 }
-            ],
-            "status": "Done"
+            ]
         },
         {
-            "tid": 123456789,    
-            "date": "2022-10-31T11:00:00Z",
-            "name": "John Doe",
-            "avatarLink": "avatar44.png",
-            "total": 10023,
-            "Objects": [
+            "transactionid": "2",
+            "farmername": "hojoborolo",
+            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+            "phone": "123",
+            "total": "100",
+            "totalTax": "100",
+            "totalDeduction": "0",
+            "cashback": "0",
+            "timestamp": "2024-02-08T12:40:51.698Z",
+            "status": "rejected",
+            "buyitems": [
                 {
-                    "name": "Milk",
-                    "quantity": 10,
-                    "price": 1000
+                    "tid": 2,
+                    "productname": "Cow Milk",
+                    "unit": "kg",
+                    "quantity": 5,
+                    "tax": 10,
+                    "totalPrice": 300
                 },
                 {
-                    "name": "Sitamet",
+                    "tid": 2,
+                    "productname": "Goat Milk",
+                    "unit": "kg",
                     "quantity": 10,
-                    "price": 1000
+                    "tax": 12,
+                    "totalPrice": 350
                 }
-            ],
-            "status": "Rejected"
+            ]
         },
+        {
+            "transactionid": "1",
+            "farmername": "hojoborolo",
+            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+            "phone": "123",
+            "total": "100",
+            "totalTax": "100",
+            "totalDeduction": "0",
+            "cashback": "0",
+            "timestamp": "2023-12-05T18:05:17.000Z",
+            "status": "approved",
+            "buyitems": [
+                {
+                    "tid": 1,
+                    "productname": "Cow Milk",
+                    "unit": "kg",
+                    "quantity": 5,
+                    "tax": null,
+                    "totalPrice": null
+                },
+                {
+                    "tid": 1,
+                    "productname": "Goat Milk",
+                    "unit": "kg",
+                    "quantity": 2,
+                    "tax": null,
+                    "totalPrice": null
+                }
+            ]
+        }
     ]; 
     let openRow = -1;
     let pagination_page=0;
     let filtered_transactions=transactions;
     const placement = "bottom-start";
-    export const transactionPerPage=10;
+    export let transactionPerPage=10;
     export let tableTitle="Buy History";
+    export let userType="farmer";
     const toggleRowTransaction = (i) => {
         openRow = openRow === i ? -1 : i
     };
@@ -88,10 +119,7 @@
     <div class="flex flex-row space-x-2">
         <SlidersSolid class="filter-menu w-5 h-5 me-2 text-center text-custom_font-sub_header"/>
         <Dropdown {placement} triggeredBy=".filter-menu">
-            <DropdownItem>Dashboard</DropdownItem>
-            <DropdownItem>Settings</DropdownItem>
-            <DropdownItem>Earnings</DropdownItem>
-            <DropdownItem slot="footer">Sign out</DropdownItem>
+            <DropdownItem>Filter</DropdownItem>
         </Dropdown>
     </div>
 </div>
@@ -144,7 +172,7 @@
         on:dblclick={() => toggleRowTransaction(i)}
         >
         <TableBodyCell class="text-custom_font-table-header text-center"
-            >{transaction.tid}</TableBodyCell
+            >{transaction.transactionid}</TableBodyCell
         >
         <TableBodyCell class="text-custom_font-table-header"
             >
@@ -154,21 +182,27 @@
             src={transaction.avatarLink}
             alt="avatar"
             />
-            {transaction.name}
+            {#if userType=="farmer"}
+                {transaction.farmername}
+            {:else if userType=="sme"}
+                {transaction.smename}
+            {:else}
+                {transaction.vendorname}
+            {/if}
         </div>
             </TableBodyCell
         >
         <TableBodyCell class="text-custom_font-table-header text-center"
-            >{new Date(transaction.date).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(transaction.date).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}</TableBodyCell
+            >{new Date(transaction.timestamp).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(transaction.timestamp).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})}</TableBodyCell
         >
         <TableBodyCell class="text-custom_font-table-header text-center"
             >{transaction.total}</TableBodyCell
         >
         <TableBodyCell class="text-custom_font-table-header text-center"
             >
-            {#if transaction.status.toLowerCase()=="done"}
+            {#if transaction.status.toLowerCase()=="approved"}
                 <span class="text-logo-2">
-                    Done
+                    Approved
                 </span>
             {:else if transaction.status.toLowerCase()=="pending"}
                 <span class="text-sky-500">
@@ -203,25 +237,33 @@
                             >
                             <TableHeadCell
                             class="text-custom_font-table_header font-bold text-right bg-body_custom"
+                            >Tax Amount</TableHeadCell
+                            >
+                            <TableHeadCell
+                            class="text-custom_font-table_header font-bold text-right bg-body_custom"
                             >Price</TableHeadCell
                             >
                         </TableHead>
-                        {#each transaction.Objects as object}
-                            <TableBodyRow class=" border-transparent bg-body_custom ">
-                                <TableBodyCell class="text-custom_font-table-header"
-                                    >{object.name}</TableBodyCell
-                                >
-                                <TableBodyCell class="text-custom_font-table-header text-right "
-                                    >{object.price/object.quantity}</TableBodyCell
-                                >
-                                <TableBodyCell class="text-custom_font-table-header text-right "
-                                    >{object.quantity}</TableBodyCell
-                                >
-                                <TableBodyCell class="text-custom_font-table-header text-right"
-                                    >{object.price}</TableBodyCell
-                                >
-                            </TableBodyRow>
-                        {/each}
+                        {#if tableTitle=="Buy History"}
+                            {#each transaction.buyitems as object}
+                                <TableBodyRow class=" border-transparent bg-body_custom ">
+                                    <TableBodyCell class="text-custom_font-table-header"
+                                        >{object.productname}</TableBodyCell
+                                    >
+                                    <TableBodyCell class="text-custom_font-table-header text-right "
+                                        >{object.totalPrice??0/object.quantity}</TableBodyCell
+                                    >
+                                    <TableBodyCell class="text-custom_font-table-header text-right "
+                                        >{object.quantity} {object.unit}</TableBodyCell
+                                    ><TableBodyCell class="text-custom_font-table-header text-right "
+                                        >{object.tax??0}</TableBodyCell
+                                    >
+                                    <TableBodyCell class="text-custom_font-table-header text-right"
+                                        >{object.totalPrice??0}</TableBodyCell
+                                    >
+                                </TableBodyRow>
+                            {/each}
+                        {/if}
                     </Table>
                 </div>  
                 <div class="flex flex-col w-1/4 p-2 space-y-4 my-2 border-2 rounded-lg border-divider_col">
@@ -233,22 +275,28 @@
                         {#if tableTitle=="Buy History"}
                         <div class="flex flex-row p-3 px-6 border-b-2 border-divider_col bg-body_custom">
                             <div class="grow "><span class="text-custom_font-table-header font-bold">Due Deduction</span></div>
-                            <div class="text-custom_font-table-header text-right">{transaction.total}</div>
+                            <div class="text-custom_font-table-header text-right">{transaction.totalDeduction??0}</div>
                         </div>
                         <div class="flex flex-row p-3 px-6 border-b-2 border-divider_col bg-body_custom">
                             <div class="grow "><span class="text-custom_font-table-header font-bold">Tax Amount</span></div>
-                            <div class="text-custom_font-table-header text-right">{transaction.total}</div>
+                            <div class="text-custom_font-table-header text-right">{transaction.totalTax??0}</div>
                         </div>
                         {/if}
                         <div class="flex flex-row p-3 px-6 border-divider_col bg-body_custom">
                             <div class="grow "><span class="text-custom_font-table-header font-bold">Cash Back</span></div>
-                            <div class="text-custom_font-table-header text-right">{transaction.total}</div>
+                            <div class="text-custom_font-table-header text-right">{transaction.cashback??0}</div>
                         </div>
                         <div class="grow bg-body_custom">
                         </div>
                         <div class="flex flex-row p-3 px-6 border-t-2 border-divider_col bg-body_custom">
                             <div class="grow"><span class="text-custom_font-table-header font-bold">Final Amount</span></div>
-                            <div class="text-custom_font-table-header text-right">{transaction.total}</div>
+                            <div class="text-custom_font-table-header text-right">
+                                {#if tableTitle=="Buy History"}
+                                    {parseInt(transaction.total)-parseInt(transaction.totalDeduction)-parseInt(transaction.totalTax)+parseInt(transaction.cashback)}
+                                {:else}
+                                    {parseInt(transaction.total)+parseInt(transaction.cashback)}
+                                {/if}
+                            </div>
                         </div>
                     </div>
                 </div>
