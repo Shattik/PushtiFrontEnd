@@ -4,89 +4,222 @@
     import ItemsSelector from './ItemsSelector.svelte';
     let showFarmerDropdown = true;
     export let farmers = [
-        {name: 'John Doe', id: 1},
-        {name: 'Jane Doe', id: 2},
-        {name: 'John Doe', id: 3},
-        {name: 'Jane Doe', id: 4},
+        {
+            "nid": "1234567890",
+            "phone": "1234567890",
+            "name": "test",
+            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+            "permanentAddress": "test",
+            "rank": "Iron",
+            "points": "0",
+            "farmerType": "Dairy",
+            "cashback": 0,
+            "taxDeduction": 0,
+            "remaining": 157880,
+            "deduction": 10
+        },
+        {
+            "nid": "123",
+            "phone": "123",
+            "name": "hojoborolo",
+            "avatarLink": "https://cdn.imgchest.com/files/myd5cjx9pj4.png",
+            "permanentAddress": "123",
+            "rank": "Bronze",
+            "points": "330",
+            "farmerType": "Dairy",
+            "cashback": 0.5,
+            "taxDeduction": 1.2,
+            "remaining": 157880,
+            "deduction": 10
+        }
     ];
     export let type = "Farmer";
     export let farmerItems = [
         {
-            id: 1,
-            name: "Item 1",
-            price: 100,
+            "id": "3",
+            "name": "Buffalo Milk",
+            "unit": "kg",
+            "unitPrice": 120,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 2,
-            name: "Item 2",
-            price: 200,
+            "id": "2",
+            "name": "Goat Milk",
+            "unit": "kg",
+            "unitPrice": 130,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 3,
-            name: "Item 3",
-            price: 300,
+            "id": "4",
+            "name": "Sheep milk",
+            "unit": "kg",
+            "unitPrice": 50,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 4,
-            name: "Item 4",
-            price: 400,
+            "id": "5",
+            "name": "Cow meat",
+            "unit": "kg",
+            "unitPrice": 650,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 5,
-            name: "Item 5",
-            price: 500,
+            "id": "6",
+            "name": "Goat meat",
+            "unit": "kg",
+            "unitPrice": 800,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 6,
-            name: "Item 6",
-            price: 600,
+            "id": "7",
+            "name": "Buffalo meat",
+            "unit": "kg",
+            "unitPrice": 500,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 7,
-            name: "Item 7",
-            price: 700,
+            "id": "8",
+            "name": "Sheep meat",
+            "unit": "kg",
+            "unitPrice": 450,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 8,
-            name: "Item 8",
-            price: 800,
+            "id": "9",
+            "name": "Chicken meat",
+            "unit": "kg",
+            "unitPrice": 150,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 9,
-            name: "Item 9",
-            price: 900,
+            "id": "10",
+            "name": "Duck meat",
+            "unit": "piece",
+            "unitPrice": 200,
+            "taxPercentage": 2,
+            "imageLink": null
         },
         {
-            id: 10,
-            name: "Item 10",
-            price: 1000,
+            "id": "11",
+            "name": "Goose meat",
+            "unit": "kg",
+            "unitPrice": 220,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "12",
+            "name": "Chicken egg",
+            "unit": "piece",
+            "unitPrice": 10,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "13",
+            "name": "Duck egg",
+            "unit": "piece",
+            "unitPrice": 8,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "14",
+            "name": "Goose egg",
+            "unit": "piece",
+            "unitPrice": 8,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "15",
+            "name": "Butter",
+            "unit": "litre",
+            "unitPrice": 80,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "16",
+            "name": "Rosogolla",
+            "unit": "kg",
+            "unitPrice": 250,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "17",
+            "name": "Roshmalai",
+            "unit": "kg",
+            "unitPrice": 300,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "18",
+            "name": "Khir",
+            "unit": "kg",
+            "unitPrice": 280,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "1",
+            "name": "Cow Milk",
+            "unit": "kg",
+            "unitPrice": 80,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "22",
+            "name": "Cheese",
+            "unit": "kg",
+            "unitPrice": 250,
+            "taxPercentage": 2,
+            "imageLink": null
+        },
+        {
+            "id": "24",
+            "name": "Curd",
+            "unit": "kg",
+            "unitPrice": 250,
+            "taxPercentage": 3,
+            "imageLink": null
         }
     ];
     let selectedFarmerItems = [];
     let focusedIndex = -1;
     let farmerName = '';
-    let smeName = '';
-    let vendorName = '';
     let farmerError="";
     let selectedFarmer = null;
     let filteredFarmers = farmers;
     export let buyRequestFarmer={
-        farmer: null,
+        farmerNid: null,
         items: [],
         total: 0,
-        dueDeduction: 0,
-        taxAmount: 0,
-        cashBack: 0,
-        finalAmount: 0
+        totalTax: 0,
+        totalDeduction: 0,
+        cashback: 0,
+        finalAmount:0,
+
     }
     $: filteredFarmers = farmers.filter((farmer) => farmer.name.toLowerCase().includes(farmerName.toLowerCase()));
-    $: buyRequestFarmer.farmer = selectedFarmer;
+    $: buyRequestFarmer.farmerNid = selectedFarmer?.nid;
     $: buyRequestFarmer.items = selectedFarmerItems;
     $: buyRequestFarmer.total = selectedFarmerItems.reduce((acc, item) => acc + item.total, 0);
-    $: buyRequestFarmer.dueDeduction = buyRequestFarmer.total * 0.1;
-    $: buyRequestFarmer.taxAmount = buyRequestFarmer.total * 0.05;
-    $: buyRequestFarmer.cashBack = buyRequestFarmer.total * 0.05;
-    $: buyRequestFarmer.finalAmount = buyRequestFarmer.total - buyRequestFarmer.dueDeduction + buyRequestFarmer.taxAmount - buyRequestFarmer.cashBack;
+    $: buyRequestFarmer.totalTax = Math.round(selectedFarmerItems.reduce((acc, item) => acc + item.total*item.taxPercentage/100, 0)*(1-selectedFarmer?.taxDeduction/100));
+    $: buyRequestFarmer.totalDeduction = Math.min(selectedFarmer?.remaining,Math.round((buyRequestFarmer.total-buyRequestFarmer.totalTax) * selectedFarmer?.deduction/100));
+    $: buyRequestFarmer.cashback = Math.round((buyRequestFarmer.total-buyRequestFarmer.totalTax-buyRequestFarmer.totalDeduction) * selectedFarmer?.cashback/100);
+    $: buyRequestFarmer.finalAmount = buyRequestFarmer.total - buyRequestFarmer.totalDeduction - buyRequestFarmer.totalTax + buyRequestFarmer.cashback;
     
 
     function handleFarmerKey(event) {
@@ -108,12 +241,13 @@
             }
             else{
                 if(filteredFarmers.length==0 || filteredFarmers[0].name.toLowerCase()!=farmerName.toLowerCase()){
-                    farmerError = `Please Select a valid ${type.toLowerCase()}`;
+                    farmerError = `Please Select a valid ${type}`;
                 }
                 else {
                     farmerError="";
                     showFarmerDropdown = false;
                     selectedFarmer = filteredFarmers[0];
+                    
                 }
             } // Prevent submitting the form
         }
@@ -169,20 +303,22 @@
         </Label>
         {#if selectedFarmer}
             <div class="flex items-center p-4 py-4 w-full border-2 rounded-lg border-divider_col">
-                <Avatar class="w-48 h-48 ring-border_custom me-12" border/>
+                <Avatar class="w-48 h-48 ring-border_custom me-12" src={selectedFarmer.avatarLink} border/>
                 <Table divClass="grow relative overflow-x-auto bg-body_custom">
                     <TableBody>
                         <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md bg-body_custom">
                             <TableBodyCell class="w-56 text-custom_font-deep font-bold">Name</TableBodyCell>
                             <TableBodyCell class="text-custom_font-light">{selectedFarmer.name}</TableBodyCell>
                         </TableBodyRow>
+                        {#if type === "Farmer"}
                         <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md bg-body_custom">
                             <TableBodyCell class="text-custom_font-deep font-bold">Type</TableBodyCell>
                             <TableBodyCell class="text-custom_font-light">{selectedFarmer.farmerType}</TableBodyCell>
                         </TableBodyRow>
+                        {/if}
                         <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md bg-body_custom">
-                            <TableBodyCell class="text-custom_font-deep font-bold">Points</TableBodyCell>
-                            <TableBodyCell class="text-custom_font-light">{selectedFarmer.points}</TableBodyCell>
+                            <TableBodyCell class="text-custom_font-deep font-bold">Phone</TableBodyCell>
+                            <TableBodyCell class="text-custom_font-light">{selectedFarmer.phone}</TableBodyCell>
                         </TableBodyRow>
                         <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md bg-body_custom">
                             <TableBodyCell class="text-custom_font-deep font-bold">Rank</TableBodyCell>
@@ -199,15 +335,15 @@
                 </div>
                 <div class="flex flex-row p-3 px-6 border-b-2 border-divider_col bg-body_custom">
                     <div class="grow "><span class="text-custom_font-table-header font-bold">Due Deduction</span></div>
-                    <div class="text-custom_font-table-header text-right">{buyRequestFarmer.dueDeduction}</div>
+                    <div class="text-custom_font-table-header text-right">{buyRequestFarmer.totalDeduction}</div>
                 </div>
                 <div class="flex flex-row p-3 px-6 border-b-2 border-divider_col bg-body_custom">
                     <div class="grow "><span class="text-custom_font-table-header font-bold">Tax Amount</span></div>
-                    <div class="text-custom_font-table-header text-right">{buyRequestFarmer.taxAmount}</div>
+                    <div class="text-custom_font-table-header text-right">{buyRequestFarmer.totalTax}</div>
                 </div>
                 <div class="flex flex-row p-3 px-6 border-divider_col bg-body_custom">
                     <div class="grow "><span class="text-custom_font-table-header font-bold">Cash Back</span></div>
-                    <div class="text-custom_font-table-header text-right">{buyRequestFarmer.cashBack}</div>
+                    <div class="text-custom_font-table-header text-right">{buyRequestFarmer.cashback}</div>
                 </div>
                 <div class="grow bg-body_custom">
                 </div>

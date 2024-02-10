@@ -26,7 +26,9 @@
             "points": "0",
             "farmerType": "Dairy",
             "cashback": 0,
-            "taxDeduction": 0
+            "taxDeduction": 0,
+            "remaining": 157880,
+            "deduction": 10
         },
         {
             "nid": "123",
@@ -38,7 +40,9 @@
             "points": "330",
             "farmerType": "Dairy",
             "cashback": 0.5,
-            "taxDeduction": 1.2
+            "taxDeduction": 1.2,
+            "remaining": 157880,
+            "deduction": 10
         }
     ];
     let farmerItems = [
@@ -204,13 +208,13 @@
         }
     ];
     let buyRequestFarmer={
-        farmer: null,
+        farmerNid: null,
         items: [],
         total: 0,
-        dueDeduction: 0,
-        taxAmount: 0,
-        cashBack: 0,
-        finalAmount: 0
+        totalTax: 0,
+        totalDeduction: 0,
+        cashback: 0,
+        finalAmount:0,
     }
     const addFarmerBuy = () => {
         console.log('Adding a new buy record');
@@ -334,11 +338,11 @@
             </TabItem>
             <TabItem title="SME" >
                 <div class="space-y-3">
-                    <TransactionTable tableTitle="Sell History" transactionPerPage="6"/>
+                    <TransactionTable tableTitle="Sell History" transactionPerPage={6}/>
                     <div class="w-full grid grid-cols-1 place-items-end">
                         <Button class="bg-logo-1 text-white" on:click={() => (showSellSMEModal = true)}>Add Sell Record</Button>   
                     </div>
-                    <TransactionTable tableTitle="Buy History" transactionPerPage="6"/>
+                    <TransactionTable tableTitle="Buy History" transactionPerPage={6}/>
                     <div class="w-full grid grid-cols-1 place-items-end">
                         <Button class="bg-logo-1 text-white" on:click={() => (showBuySMEModal = true)}>Add Buy Record</Button>   
                     </div>

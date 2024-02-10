@@ -4,12 +4,14 @@
 
     export let items ;
     export let selectedItems;
+    console.log(items);
     let itemName = '';
     let showItemDropdown = false;
     let focusedIndex = -1;
-    export let itemSearchBox;
+    let itemSearchBox;
     let filteredItems = items;
     $: filteredItems = items.filter((item) => item.name.toLowerCase().includes(itemName.toLowerCase()));
+    $: console.log("selected ",selectedItems);
     const handleItemKey = (event) => {
         if (event.key === "ArrowDown") {
             focusedIndex = (focusedIndex + 1);
@@ -52,11 +54,14 @@
     }
     function addItem(index){
         let item = {
-            id: filteredItems[index].id,
+            productId: filteredItems[index].id,
             name: filteredItems[index].name,
-            price: filteredItems[index].price,
+            price: filteredItems[index].unitPrice,
+            taxPercentage: filteredItems[index].taxPercentage,
+            unit: filteredItems[index].unit,
+            imageLink: filteredItems[index].imageLink,
             quantity: null,
-            total: 0
+            total: 0,
         };
         selectedItems = [...selectedItems, item];
         items = items.filter((it) => item.id !== it.id);
@@ -66,9 +71,12 @@
 
     function removeItem(index){
         let item = {
-            id: selectedItems[index].id,
+            id: selectedItems[index].productId,
             name: selectedItems[index].name,
-            price: selectedItems[index].price
+            unitPrice: selectedItems[index].price,
+            taxPercentage: selectedItems[index].taxPercentage,
+            unit: selectedItems[index].unit,
+            imageLink: selectedItems[index].imageLink,
         }
         items = [...items, item];
         selectedItems = selectedItems.filter((it, i) => i !== index);
@@ -96,9 +104,9 @@
     {#if selectedItems.length > 0}
         {#each selectedItems as item,index}
             <input type="search" class="w-full p-2 border-2 border-divider_col rounded-md text-sm col-span-2" value={item.name} on:keydown={(event)=> event.preventDefault()} on:input|preventDefault={()=> {removeItem(index)} } />
-            <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" bind:value={item.price} disabled/>
+            <input class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" value={`${item.price}/${item.unit}`} disabled/>
             <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" bind:value={item.quantity} on:input={()=>item.total=item.quantity*item.price} on:keydown={handleNumKey} autofocus required/>
-            <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" bind:value={item.total} disabled/>
+            <input type="number" class="w-full p-2 border-2 border-divider_col rounded-md text-sm text-right" value={item.total} disabled/>
         {/each}
         <div class="relative col-span-2">
             <MagnifyingGlassSolid class="absolute left-3 top-2 w-4 text-slate-500"/>
