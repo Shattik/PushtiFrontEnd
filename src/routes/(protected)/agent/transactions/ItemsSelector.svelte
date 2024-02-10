@@ -117,7 +117,7 @@
                 {#if index === focusedIndex}
                     <DropdownItem 
                     on:click={() => (itemName = item.name, focusedIndex = -1, showItemDropdown = false, addItem(index))
-                    } class="rounded p-2 bg-logo-1 text-white">{item.name}</DropdownItem>
+                    } class="bg-gray-100 hover:bg-gray-100">{item.name}</DropdownItem>
                 {:else}
                     <DropdownItem 
                     on:click={() => (itemName = item.name,  showItemDropdown = false, addItem(index))

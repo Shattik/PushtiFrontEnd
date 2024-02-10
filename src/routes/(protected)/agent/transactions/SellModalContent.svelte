@@ -80,7 +80,7 @@
     $: sellRequestFarmer.items = selectedFarmerItems;
     $: sellRequestFarmer.total = selectedFarmerItems.reduce((acc, item) => acc + item.total, 0);
     $: sellRequestFarmer.cashBack = sellRequestFarmer.total * 0.05;
-    $: sellRequestFarmer.finalAmount = sellRequestFarmer.total - sellRequestFarmer.dueDeduction + sellRequestFarmer.taxAmount - sellRequestFarmer.cashBack;
+    $: sellRequestFarmer.finalAmount = sellRequestFarmer.total - sellRequestFarmer.cashBack;
     
 
     function handleFarmerKey(event) {
@@ -142,7 +142,7 @@
             <span class="text-md text-custom_font-deep font-bold ">{type}: </span>
             <div class="relative">
                 <MagnifyingGlassSolid class="absolute left-3 top-2 w-4 text-slate-500"/>
-                <input type="search" id="farmer-search" class="w-full p-2 border-2 border-divider_col rounded-md indent-8 text-sm" bind:value={farmerName} on:keydown={handleFarmerKey} on:focus={()=> showFarmerDropdown=true} bind:this={farmerSearchBox} on:click={() =>console.log("clicked")} placeholder="Search" autofocus required/>
+                <input type="search" id="farmer-search" class="w-full p-2 border-2 border-divider_col rounded-md indent-8 text-sm" bind:value={farmerName} on:keydown={handleFarmerKey} on:focus={()=> showFarmerDropdown=true} on:click={() =>console.log("clicked")} placeholder="Search" autofocus required/>
             </div>
             {#if filteredFarmers.length > 0 }
                 <Dropdown bind:open={showFarmerDropdown} class="w-full" containerClass="divide-y z-50 w-11/12" >
@@ -150,7 +150,7 @@
                         {#if index === focusedIndex}
                             <DropdownItem 
                             on:click={() => (farmerName = farmer.name, focusedIndex = -1, selectedFarmer = farmer, showFarmerDropdown = false)
-                            } class="rounded p-2 bg-logo-1 text-white">{farmer.name}</DropdownItem>
+                            } class="bg-gray-100 hover:bg-gray-100">{farmer.name}</DropdownItem>
                         {:else}
                             <DropdownItem 
                             on:click={() => (farmerName = farmer.name, selectedFarmer = farmer, showFarmerDropdown = false )
