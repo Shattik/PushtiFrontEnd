@@ -1,7 +1,7 @@
 <script>
     import { Alert, Avatar, Button, Dropdown, DropdownItem, Label, Modal, Search, TabItem, Table, TableBody, TableBodyCell, TableBodyRow, Tabs } from 'flowbite-svelte';
     import { BanSolid, MagnifyingGlassSolid } from 'svelte-awesome-icons';
-    import ItemsSelector from './ItemsSelector.svelte';
+    import SellItemsSelector from './SellItemsSelector.svelte';
     import { onMount } from 'svelte';
     import { get } from "svelte/store";
     import { jwtToken } from "$lib/Components/token.js";
@@ -143,10 +143,6 @@
                             <TableBodyCell class="text-custom_font-light">{selectedFarmer.name}</TableBodyCell>
                         </TableBodyRow>
                         <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md bg-body_custom">
-                            <TableBodyCell class="text-custom_font-deep font-bold">Type</TableBodyCell>
-                            <TableBodyCell class="text-custom_font-light">{selectedFarmer.farmerType}</TableBodyCell>
-                        </TableBodyRow>
-                        <TableBodyRow class="border-b-2 border-divider_col drop-shadow-md bg-body_custom">
                             <TableBodyCell class="text-custom_font-deep font-bold">Points</TableBodyCell>
                             <TableBodyCell class="text-custom_font-light">{selectedFarmer.points}</TableBodyCell>
                         </TableBodyRow>
@@ -157,7 +153,7 @@
                     </TableBody>
                 </Table>
             </div>
-            <ItemsSelector bind:items={farmerItems} bind:selectedItems={selectedFarmerItems}/>
+            <SellItemsSelector bind:items={farmerItems} bind:selectedItems={selectedFarmerItems}/>
             <div class="text-sm flex flex-col p-4 py-4 w-full border-2 rounded-lg border-divider_col">
                 <div class="flex flex-row p-3 px-6 border-b-2 border-divider_col bg-body_custom">
                     <div class="grow "><span class="texttext-custom_font-table-header font-bold">Total</span></div>
