@@ -93,6 +93,6 @@
     {/if}
     <div class="w-full h-screen p-5">
         <Header page="Transactions"/>
-        <TransactionsTab bind:ongoing={ongoing} bind:transactions={completed} tableType="Buy" userType="Vendor">
+        <TransactionsTab bind:ongoing={ongoing} bind:transactions={completed} tableType="Buy" userType="Vendor"/>
     </div>
 </div>
