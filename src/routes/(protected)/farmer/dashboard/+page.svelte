@@ -27,7 +27,9 @@
   console.log($page.data);
 
   let more_points =
-    parseInt(data.rankandpoint.maxPoint) - parseInt(data.rankandpoint.points);
+    parseInt(data.rankandpoint.maxPoint) - parseInt(data.rankandpoint.points) + 1;
+
+  let rank_point_range = parseFloat(data.rankandpoint.maxPoint) - parseFloat(data.rankandpoint.minPoint);
   let farmer = {
     name: data.basicData.name,
     nid: data.basicData.nid,
@@ -85,7 +87,7 @@
   console.log(salesDataMonthList);
 
   onMount(async () => {
-    progress = (farmer.points / (farmer.points + farmer.more_points)) * 100;
+    progress = (parseFloat(farmer.points) / rank_point_range) * 100;
     textColor = "text-rank-" + farmer.rank.toLowerCase();
     nextRankColor = "text-rank-" + farmer.next_rank.toLowerCase();
     card = card;

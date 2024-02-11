@@ -25,8 +25,13 @@
   let data = $page.data;
 
   console.log($page.data);
+
+  let rank_point_range =
+    parseFloat(data.rankandpoint.maxPoint) -
+    parseFloat(data.rankandpoint.minPoint);
+
   let more_points =
-    parseInt(data.rankandpoint.maxPoint) - parseInt(data.rankandpoint.points);
+    parseInt(data.rankandpoint.maxPoint) - parseInt(data.rankandpoint.points) + 1;
   let vendor = {
     name: data.basicData.name,
     nid: data.basicData.nid,
@@ -85,7 +90,7 @@
   let hex = "-[#ffd700]";
   console.log(vendor);
   onMount(async () => {
-    progress = (vendor.points / (vendor.points + vendor.more_points)) * 100;
+    progress = (vendor.points / rank_point_range) * 100;
     textColor = "text-rank-" + vendor.rank.toLowerCase();
     nextRankColor = "text-rank-" + vendor.next_rank.toLowerCase();
     card = card;
