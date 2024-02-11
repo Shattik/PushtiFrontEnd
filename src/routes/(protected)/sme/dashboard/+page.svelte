@@ -53,12 +53,12 @@
     let nextRankColor = "";
     let hex = "-[#ffd700]";
   
-    let salesData = data.sellHistoryOneYear;
+    let salesData = data.transactionHistoryOneYear;
   
-    let salesDataJson = [{ month: "", amount: 0 }];
+    let salesDataJson = [{ month: "", total: 0 }];
   
-    salesData.forEach((/** @type {{ month: any; amount: any; }} */ data) => {
-      const obj = { month: data.month, amount: data.amount };
+    salesData.forEach((/** @type {{ month: any; total: any; }} */ data) => {
+      const obj = { month: data.month, total: data.total };
       salesDataJson = [obj, ...salesDataJson];
     });
   
@@ -68,13 +68,13 @@
   
     // salesDataMonthList is an array of months, converted from the salesDataJson array
     let salesDataMonthList = salesDataJson.map(
-      (/** @type {{ month: any; amount: any; }} */ data) => data.month
+      (/** @type {{ month: any; total: any; }} */ data) => data.month
     );
   
     // salesDataAmountList is an array of amounts, converted from the salesDataJson array(need to convert to number, first convert to string, then to number)
     let salesDataAmountList = salesDataJson.map(
-      (/** @type {{ month: any; amount: any; }} */ data) =>
-        parseInt(String(data.amount))
+      (/** @type {{ month: any; total: any; }} */ data) =>
+        parseInt(String(data.total))
     );
   
     // reverse salesDataMonthList and salesDataAmountList
@@ -200,8 +200,8 @@
   
       <!-- Insert chart for card here -->
       <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
-        <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Sells</p>
-        <Scatter labels={salesDataMonthList} data={salesDataAmountList} name="Monthly Sell" />
+        <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Transactions</p>
+        <Scatter labels={salesDataMonthList} data={salesDataAmountList} name="Monthly Transaction" />
       </Card>
     </div>
   </div>
