@@ -298,7 +298,7 @@
                 timestamp: data[0].timestamp,
                 status: data[0].status,
             }
-            smeSellHistory=[transaction, ...smeSellHistory];
+            vendorSellHistory=[transaction, ...vendorSellHistory];
             showSellVendorModal = false;
         } else {
             console.log('Failed to submit sell request');
@@ -319,7 +319,7 @@
         <RolledSidebar bind:focused />
     {/if}
     <div class="w-full h-screen p-5">
-        <Header page="Loan Requests" />
+        <Header page="Transactions" />
         <Tabs style="underline" contentClass="p-4 bg-divider_col rounded-lg dark:bg-gray-800 mt-4 h-5/5">
             <TabItem open title="Farmer" >
                 <div class="space-y-3">

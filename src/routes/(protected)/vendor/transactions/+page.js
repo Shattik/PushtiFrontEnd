@@ -7,7 +7,7 @@ export async function load() {
     console.log("load");
     console.log(get(jwtToken));
     const response = await fetch(
-        `${PUBLIC_API_GATEWAY_URL}/farmer/sell/history`,
+        `${PUBLIC_API_GATEWAY_URL}/vendor/buy/history`,
         {
             method: "GET",
             headers: {
