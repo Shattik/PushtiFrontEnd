@@ -205,8 +205,8 @@
 
     <!-- Insert chart for card here -->
     <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
-      <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Sells</p>
-      <Scatter labels={buyDataMonthList} data={buyDataAmountList}/>
+      <p class="text-2xl font-bold text-custom_font-deep mb-5">Monthly Buy</p>
+      <Scatter labels={buyDataMonthList} data={buyDataAmountList} name="Monthly Buy"/>
     </Card>
   </div>
 </div>
