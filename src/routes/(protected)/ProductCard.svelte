@@ -19,9 +19,9 @@
 </script>
 
 <div class="space-y-4 w-full">
-  <ProductCard {img} class="max-w-full" imgClass="rounded-t-lg h-24">
+  <ProductCard {img} class="max-w-full aspect-[5/3]" imgsClass="rounded-t-lg h-64">
     <h5
-      class="mb-2 text-3xl font-bold tracking-tight text-[#308140] dark:text-white text-center"
+      class="mb-2 text-2xl font-bold tracking-tight text-[#308140] dark:text-white text-center"
     >
       {name}
     </h5>
@@ -32,22 +32,22 @@
     <Table divClass="overflow-clip">
       <TableBody>
         <TableBodyRow>
-          <TableBodyCell class="text-xl text-[#45B577]">Amount:</TableBodyCell>
-          <TableBodyCell
-            ><Button class="w-20 text-lg" color="green">{quantity}</Button
+          <TableBodyCell class="text-lg text-[#45B577]">Amount:</TableBodyCell>
+          <TableBodyCell class="px-2"
+            ><Button class="w-16 text-md" color="green">{quantity}</Button
             ></TableBodyCell
           >
-          <TableBodyCell class="text-xl text-[#45B577]">{unit}</TableBodyCell>
+          <TableBodyCell class="text-lg text-[#45B577]">{unit}</TableBodyCell>
         </TableBodyRow>
         <TableBodyRow>
-          <TableBodyCell class="text-xl text-[#45B577]"
+          <TableBodyCell class="text-lg text-[#45B577]"
             >Unit Price:</TableBodyCell
           >
-          <TableBodyCell
-            ><Button class="w-20 text-lg" color="green">{unitPrice}</Button
+          <TableBodyCell class="px-2"
+            ><Button class="w-16 text-md" color="green">{unitPrice}</Button
             ></TableBodyCell
           >
-          <TableBodyCell class="text-xl text-[#45B577]">Tk</TableBodyCell>
+          <TableBodyCell class="text-lg text-[#45B577]">Tk</TableBodyCell>
         </TableBodyRow>
       </TableBody>
     </Table>

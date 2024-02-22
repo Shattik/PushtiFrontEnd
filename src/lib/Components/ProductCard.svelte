@@ -18,7 +18,7 @@
     img?: string;
     padding?: SizeType | "none";
     size?: SizeType | "none";
-    imgClass?: string;
+    imgsClass?: string;
   }
 
   const paddings: Record<SizeType | "none", string> = {
@@ -55,9 +55,10 @@
 
   export let imgClass: string;
   $: imgClass = twMerge(
-    reverse ? "rounded-b-lg" : "rounded-t-lg h-96",
+    reverse ? "rounded-b-lg" : "rounded-t-lg h-64",
     horizontal && "object-cover w-full h-96 md:h-auto md:w-48 md:rounded-none",
-    horizontal && (reverse ? "md:rounded-e-lg" : "md:rounded-s-lg")
+    horizontal && (reverse ? "md:rounded-e-lg" : "md:rounded-s-lg"),
+    $$props.imgsClass
   );
 </script>
 

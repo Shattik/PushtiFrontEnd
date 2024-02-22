@@ -381,7 +381,7 @@
               </TableBodyCell>
             </TableBodyRow>
           {:else}
-            {#each filtered_farmer_loans as loan, i}
+            {#each filtered_farmer_loans.slice(pagination_page_farmer*10, (pagination_page_farmer+1)*10+1) as loan, i}
               <TableBodyRow
                 class="border-b-2 border-divider_col bg-body_custom drop-shadow-md"
                 on:click={() => toggleRowFarmer(i)}
@@ -587,7 +587,7 @@
               </TableBodyCell>
             </TableBodyRow>
           {:else}
-            {#each filtered_sme_loans as loan, i}
+            {#each filtered_sme_loans.slice(pagination_page_sme*10, (pagination_page_sme+1)*10+1) as loan, i}
               <TableBodyRow
                 class="border-b-2 border-divider_col bg-body_custom drop-shadow-md"
                 on:click={() => toggleRowSME(i)}
