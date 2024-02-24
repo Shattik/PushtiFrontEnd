@@ -39,6 +39,8 @@ const config = {
                 },
                 rank: {
                     gold: "#FFD700",
+                    silver: "#C0C0C0",
+                    bronze: "#CD7F32",
                 },
                 body_custom: "#FDFFF5",
                 border_custom: "#BFF8A4",
