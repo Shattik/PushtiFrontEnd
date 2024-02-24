@@ -7,7 +7,8 @@ export const ssr = false;
 export async function load() {
   console.log("load");
   console.log(get(jwtToken));
-  const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/leaderboard`, {
+  console.log("Bhai req ditasi");
+  const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/farmer/leaderboard`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -7,7 +7,7 @@ export const ssr = false;
 export async function load() {
   console.log("load");
   console.log(get(jwtToken));
-  const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/leaderboard`, {
+  const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/sme/leaderboard`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
