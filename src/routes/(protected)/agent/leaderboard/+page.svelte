@@ -69,7 +69,7 @@
                             >Rank</TableHeadCell
                             >
                             <TableHeadCell
-                                class="text-custom_font-table_header font-bold text-center bg-sidebar_bg w-1/2"
+                                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/2"
                             >Name</TableHeadCell
                             >
                             <TableHeadCell
@@ -100,7 +100,7 @@
                                             {rank}
                                         {/if}
                                     </TableBodyCell>
-                                    <TableBodyCell class="text-custom_font-table-header flex flex-row items-center">
+                                    <TableBodyCell class="text-custom_font-table-header  flex flex-row items-center">
                                         <Avatar
                                         class="w-7 h-7 me-2"
                                         src={avatarLink}
@@ -164,7 +164,7 @@
                             >Rank</TableHeadCell
                             >
                             <TableHeadCell
-                                class="text-custom_font-table_header font-bold text-center bg-sidebar_bg w-1/2"
+                                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/2"
                             >Name</TableHeadCell
                             >
                             <TableHeadCell
@@ -259,7 +259,7 @@
                             >Rank</TableHeadCell
                             >
                             <TableHeadCell
-                                class="text-custom_font-table_header font-bold text-center bg-sidebar_bg w-1/2"
+                                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/2"
                             >Name</TableHeadCell
                             >
                             <TableHeadCell
@@ -354,11 +354,11 @@
                             >Rank</TableHeadCell
                             >
                             <TableHeadCell
-                                class="text-custom_font-table_header font-bold text-center bg-sidebar_bg w-1/6"
+                                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/6"
                             >Name</TableHeadCell
                             >
                             <TableHeadCell
-                                class="text-custom_font-table_header font-bold text-center bg-sidebar_bg w-1/3"
+                                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/3"
                             >Agent</TableHeadCell
                             >
                             <TableHeadCell
