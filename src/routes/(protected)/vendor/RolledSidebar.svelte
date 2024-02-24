@@ -15,6 +15,7 @@
     StoreSolid
   } from "svelte-awesome-icons";
   import { page } from "$app/stores";
+    import { fly } from '$lib/transitions.js';
   let spanClass = "flex-1 ms-3 whitespace-nowrap";
 
   let site = {
@@ -36,7 +37,7 @@
   on:mouseleave={() => {
     focused = false;
   }}
-  aria-label="placeholder"
+  aria-label="placeholder" in:fly={{x:100, duration:200}}
 >
   <Sidebar
     class="w-20 h-screen fixed bg-sidebar_bg overflow-x-hidden"

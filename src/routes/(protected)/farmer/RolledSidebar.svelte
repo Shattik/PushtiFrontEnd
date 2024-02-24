@@ -2,6 +2,7 @@
   import { Sidebar, SidebarWrapper, SidebarBrand, SidebarItem, SidebarGroup } from 'flowbite-svelte';
   import { ChartPieSolid, EnvelopeSolid, HandHoldingDollarSolid, MoneyCheckDollarSolid, TrophySolid } from 'svelte-awesome-icons';
   import { page } from '$app/stores';
+    import { fly } from '$lib/transitions.js';
   let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 
   let site = {
@@ -16,7 +17,7 @@
 </script>
 
 
-<div role="navigation" on:mouseenter={()=>{focused=true;}} on:mouseleave={()=>{focused=false;}} aria-label="placeholder">
+<div role="navigation" on:mouseenter={()=>{focused=true;}} on:mouseleave={()=>{focused=false;}} aria-label="placeholder" in:fly={{x:100, duration:200}}>
 <Sidebar class="w-20 h-screen fixed bg-sidebar_bg overflow-x-hidden" 
       activeClass="flex items-center w-20 p-2 text-base font-normal text-logo-2 bg-body_custom dark:bg-gray-700 rounded-2xl shadow-inner dark:text-white hover:bg-body_custom dark:hover:bg-gray-700 disabled" 
       nonActiveClass="flex items-center w-20 p-2 text-base font-normal text-logo-2 rounded-2xl hover:text-logo-1 hover:bg-logo-1 hover:font-bold hover:bg-opacity-15 dark:hover:bg-gray-700"
