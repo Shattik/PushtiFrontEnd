@@ -3,6 +3,7 @@
     import { Avatar } from 'flowbite-svelte';
 
 	export let page="";
+    export let avatarLink="";
 </script>
 
 <div class="flex flex-row justify-between items-center">
@@ -11,7 +12,7 @@
             <BellSolid class="w-4 h-4 text-logo-1"/>
             <CircleInfoSolid class="w-4 h-4 text-logo-1"/>
             <GearSolid class="w-4 h-4 text-logo-1"/>
-            <Avatar class="ms-3 w-6 h-76 ring-border-custom" border />   
+            <Avatar class="ms-3 w-6 h-76 ring-border-custom" src={avatarLink} border />   
         </div> 
     </div>
     <hr class="mt-3 border-divider_col shadow"/>
