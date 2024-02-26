@@ -60,7 +60,7 @@
             time:Date.now(),
             status:"pending"
         }
-        const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/agent/send-ticket`, {
+        const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/vendor/send-ticket`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
