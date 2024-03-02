@@ -45,6 +45,21 @@
     };
 
     avatar.set(page_data.basicData.avatarLink);
+
+    let totalLoan =
+    page_data.generalStats.totalFarmerLoan +
+    page_data.generalStats.totalSmeLoan;
+  let pieData = [
+    parseInt(page_data.generalStats.availableBudget),
+    parseInt(page_data.generalStats.totalFarmerLoan),
+    parseInt(page_data.generalStats.totalSmeLoan),
+  ];
+  let barData = [
+    totalLoan,
+    page_data.generalStats.totalBuy,
+    page_data.generalStats.totalSell,
+    page_data.generalStats.totalTax,
+  ];
   
     //   let progress=0;
     let focused = false;
@@ -161,7 +176,20 @@
   
       <hr class="mt-3 border-divider_col shadow" />
       <hr class="mb-3 border-divider_col shadow" />
-  
+
+    <!-- Insert chart for card here -->
+    <div class="flex flex-row w-full max-w-full items-center space-x-5">
+      <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
+        <p class="text-3xl font-bold text-custom_font-deep mb-5">
+          Budget Status
+        </p>
+        <Pie data={pieData} />
+      </Card>
+      <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
+        <p class="text-3xl font-bold text-custom_font-deep mb-5">Statistics</p>
+        <Bar data={barData} />
+      </Card>
+    </div>
       <!-- Insert chart for card here -->
     </div>
   </div>
