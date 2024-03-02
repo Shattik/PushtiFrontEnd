@@ -21,6 +21,7 @@
   import Bar from "../../bar.svelte";
   import Scatter from "../../Scatter.svelte";
   import { page } from "$app/stores";
+  import { avatar } from "$lib/Components/avatar.js";
 
   /** @type { SvelteComponent } */
   let card;
@@ -38,6 +39,8 @@
     next_rank: "Platinum",
     benefits: ["Free insurance", "Free seeds"],
   };
+
+  avatar.set(page_data.basicData.avatarLink);
 
   let taxData = page_data.taxData;
 
@@ -109,7 +112,7 @@
     <Header page="Dashboard" />
     <Card class="max-w-full w-full bg-body_custom" padding="md" horizontal>
       <div class="flex items-center pb-4 w-full">
-        <Avatar class="w-48 h-48 ring-border_custom me-12" border />
+        <Avatar class="w-48 h-48 ring-border_custom me-12" src={page_data.basicData.avatarLink} border />
         <div class="grow flex flex-col">
           <Table divClass="grow relative overflow-x-auto">
             <TableBody>

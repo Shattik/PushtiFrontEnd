@@ -22,6 +22,7 @@
     import Bar from "../../bar.svelte";
     import Scatter from "../../Scatter.svelte";
     import { page } from "$app/stores";
+    import { avatar } from "$lib/Components/avatar.js";
   
     /** @type { SvelteComponent } */
     let card;
@@ -37,7 +38,7 @@
       dob: format(new Date(page_data.basicData.dob).toLocaleDateString(), "d MMMM, yyyy"),
     };
   
-    
+    avatar.set(page_data.basicData.avatarLink);
   
     //   let progress=0;
     let focused = false;
