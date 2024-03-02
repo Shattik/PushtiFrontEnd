@@ -11,10 +11,10 @@
 <div class="flex flex-row justify-between items-center">
         <h1 class="text-xl text-custom_font-deep font-bold ms-1">{page}</h1>
         <div class="flex flex-row space-x-3 items-center">
-            <BellSolid class="w-4 h-4 text-logo-1"/>
-            <CircleInfoSolid class="w-4 h-4 text-logo-1"/>
-            <GearSolid class="w-4 h-4 text-logo-1"/>
-            <Avatar class="ms-3 w-6 h-76 ring-border-custom" src={avatarLink} border />   
+            <BellSolid class="w-5 h-5 text-logo-1"/>
+            <CircleInfoSolid class="w-5 h-5 text-logo-1"/>
+            <GearSolid class="w-5 h-5 text-logo-1"/>
+            <Avatar class="ms-3 w-8 h-76 ring-border-custom" src={avatarLink} />   
         </div> 
     </div>
     <hr class="mt-3 border-divider_col shadow"/>

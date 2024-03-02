@@ -17,8 +17,10 @@
     let focused = false;
     let value = "";
     let showModal = false;
+    let reopenModal = false;
     let subject="";
     let details="";
+    let oldDetails="";
     $: filteredMessages = messages.filter((message) => (message.subject.toLowerCase().includes(value.toLowerCase())||message.details.toLowerCase().includes(value.toLowerCase())));
     function timeSince(date) {
         // Get the current timestamp in milliseconds
@@ -54,6 +56,8 @@
     }
 
     async function addMessage(){
+
+        if(oldDetails!="")details=oldDetails+"\n\nNewly Added Details:\n"+details;
         let newMessage = {
             subject:subject,
             details:details,
@@ -74,6 +78,7 @@
         subject="";
         details="";
         showModal=false;
+        reopenModal=false;
     }
 </script>
 
@@ -115,8 +120,23 @@
                             <Label class="text-2xl font-bold text-custom_font-reddish">{filteredMessages[selectedIndex].subject}</Label>
                             <Label class="text-md text-custom_font-table_header ">{new Date(filteredMessages[selectedIndex].time).toLocaleTimeString([],{hour:"numeric",minute:"numeric"})+", "+new Date(filteredMessages[selectedIndex].time).toLocaleDateString([],{day:"numeric", month:"long",year:"numeric"})} ({timeSince(filteredMessages[selectedIndex].time)})</Label>
                             <Label class="text-xl text-custom_font-table_header text-custom_font-reddish">Details :</Label>
-                            <Label class="text-lg text-custom_font-table_header grow">{filteredMessages[selectedIndex].details}</Label>
-                            <Label class="text-xl text-custom_font-reddish ">Status : <span class="font-bold">{filteredMessages[selectedIndex].status}</span></Label>
+                            <pre class="text-lg text-custom_font-table_header grow">{filteredMessages[selectedIndex].details}</pre>
+                            {#if filteredMessages[selectedIndex].status=="pending"}
+                                <Label class="text-xl text-custom_font-reddish ">Status : <span class="font-bold">{filteredMessages[selectedIndex].status}</span></Label>
+                            {:else}
+                                <div class="flex flex-col space-y-4">
+                                    <div class="grow bg-gray-200 rounded-lg p-3 text-2xs" >{filteredMessages[selectedIndex].adminComment} </div>
+                                    <Button type="submit" size="sm" class="ms-auto w-1/6 items-end text-center font-bold bg-red-500 hover:bg-red-600" 
+                                        on:click={()=> {
+                                            reopenModal=true;
+                                            subject="Re:"+filteredMessages[selectedIndex].subject;
+                                            oldDetails=filteredMessages[selectedIndex].details + "\n\nAdmin Comment On this : \n"+filteredMessages[selectedIndex].adminComment;
+                                            details="";
+                                            }
+                                        }>Reopen Ticket</Button>
+                                </div>
+                            {/if}
+                            
                         </div>
                         
                     {/if}
@@ -127,14 +147,29 @@
 </div> 
 
 <Modal bind:open={showModal} title="Add a new Support Ticket">
-    <div class="flex flex-col space-y-4">
+    <form class="flex flex-col space-y-4" on:submit|preventDefault={addMessage}>
         <Label class="text-xl text-custom_font-table_header">Subject</Label>
-        <input type="text" class="w-full border border-border_custom p-2 rounded-md" bind:value={subject}/>
+        <input type="text" class="w-full border border-border_custom p-2 rounded-md" bind:value={subject} required/>
         <Label class="text-xl text-custom_font-table_header">Details</Label>
-        <textarea class="w-full border border-border_custom p-2 rounded-md" rows="6" bind:value={details}></textarea>
+        <textarea class="w-full border border-border_custom p-2 rounded-md" rows="6" bind:value={details} required></textarea>
         <div class="flex flex-row justify-end space-x-4">
-            <Button class="bg-red-500" on:click={()=> {showModal=false, subject="", details="";} }>Cancel</Button>
-            <Button class="bg-logo-1" on:click={addMessage}>Create</Button>
+            <Button class="bg-red-500" on:click={()=> {showModal=false, subject="", details="";}  } type="reset">Cancel</Button>
+            <Button class="bg-logo-1" type="submit">Create</Button>
         </div>
-    </div>
+    </form>
+</Modal>
+
+<Modal bind:open={reopenModal} title="Reopen the Support Ticket">
+    <form class="flex flex-col space-y-4" on:submit|preventDefault={addMessage}>
+        <Label class="text-xl text-custom_font-table_header">Subject</Label>
+        <input type="text" class="w-full border border-border_custom p-2 rounded-md" bind:value={subject} disabled/>
+        <Label class="text-xl text-custom_font-table_header">Previously Provided Details</Label>
+        <textarea class="w-full border border-border_custom p-2 rounded-md" rows="6" bind:value={oldDetails} disabled></textarea>
+        <Label class="text-xl text-custom_font-table_header">Add Details</Label>
+        <textarea class="w-full border border-border_custom p-2 rounded-md" rows="6" bind:value={details} required></textarea>
+        <div class="flex flex-row justify-end space-x-4">
+            <Button class="bg-red-500" on:click={()=> {reopenModal=false, subject="", details="";} }>Cancel</Button>
+            <Button class="bg-logo-1" type="submit" >Reopen</Button>
+        </div>
+    </form>
 </Modal>
