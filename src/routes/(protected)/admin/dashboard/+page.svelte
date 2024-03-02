@@ -37,7 +37,11 @@
       dob: format(new Date(page_data.basicData.dob).toLocaleDateString(), "d MMMM, yyyy"),
     };
   
-    
+    let countSummary = {
+      farmers: page_data.countSummary.totalFarmers,
+      smes: page_data.countSummary.totalSmes,
+      vendors: page_data.countSummary.totalVendors,
+    };
   
     //   let progress=0;
     let focused = false;
@@ -132,19 +136,19 @@
                 class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish"
               >
                 <p class="mt-2">No. of Farmers</p>
-                <p class="mt-3 mb-2 text-xl">{admin.farmers}</p>
+                <p class="mt-3 mb-2 text-xl">{countSummary.farmers}</p>
               </div>
               <div
                 class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish"
               >
                 <p class="mt-2">No. of SMEs</p>
-                <p class="mt-3 mb-2 text-xl">{admin.smes}</p>
+                <p class="mt-3 mb-2 text-xl">{countSummary.smes}</p>
               </div>
               <div
                 class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish"
               >
                 <p class="mt-2">No. of Vendors</p>
-                <p class="mt-3 mb-2 text-xl">{admin.vendors}</p>
+                <p class="mt-3 mb-2 text-xl">{countSummary.vendors}</p>
               </div>
             </div>
           </div>
