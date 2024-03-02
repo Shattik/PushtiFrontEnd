@@ -1,9 +1,11 @@
 <script>
     import { BellSolid, CircleInfoSolid, GearSolid } from 'svelte-awesome-icons';
     import { Avatar } from 'flowbite-svelte';
+    import { get } from 'svelte/store';
+    import { avatar } from '$lib/Components/avatar.js';
 
 	export let page="";
-    export let avatarLink="";
+    export let avatarLink=get(avatar);
 </script>
 
 <div class="flex flex-row justify-between items-center">

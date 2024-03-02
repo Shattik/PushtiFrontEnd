@@ -22,6 +22,7 @@
     import Bar from "../../bar.svelte";
     import Scatter from "../../Scatter.svelte";
     import { page } from "$app/stores";
+    import { avatar } from "$lib/Components/avatar.js";
   
     /** @type { SvelteComponent } */
     let card;
@@ -42,6 +43,8 @@
       smes: page_data.countSummary.totalSmes,
       vendors: page_data.countSummary.totalVendors,
     };
+
+    avatar.set(page_data.basicData.avatarLink);
   
     //   let progress=0;
     let focused = false;

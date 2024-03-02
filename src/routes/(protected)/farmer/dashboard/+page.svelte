@@ -19,6 +19,7 @@
   import { StarRegular } from "svelte-awesome-icons";
   import { SvelteComponent } from "svelte";
   import { page } from "$app/stores";
+  import { avatar } from "$lib/Components/avatar.js";
   /** @type { SvelteComponent } */
   let card;
 
@@ -54,6 +55,8 @@
   let textColor = "";
   let nextRankColor = "";
   let hex = "-[#ffd700]";
+
+  avatar.set(data.basicData.avatarLink);
 
   let salesData = data.sellHistoryOneYear;
 
@@ -108,7 +111,7 @@
     <Header page="Dashboard" />
     <Card class="max-w-full w-full bg-body_custom" padding="md" horizontal>
       <div class="flex items-center pb-4 w-full">
-        <Avatar class="w-48 h-48 ring-border_custom me-12" border />
+        <Avatar class="w-48 h-48 ring-border_custom me-12" src={data.basicData.avatarLink} border />
         <Table divClass="grow relative overflow-x-auto">
           <TableBody>
             <TableBodyRow
