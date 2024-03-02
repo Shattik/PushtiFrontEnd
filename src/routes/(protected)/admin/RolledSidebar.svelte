@@ -35,7 +35,7 @@
             <FileContractSolid class="w-7 h-7 ms-1.5  text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>
         </SidebarItem>
-        <SidebarItem  href="/admin/product-management" {spanClass}>
+        <SidebarItem  href="/admin/products" {spanClass}>
           <svelte:fragment slot="icon">
             <StoreSolid class="w-7 h-7 ms-1.5  text-logo-1 transition duration-75 dark:text-gray-400 group-hover:text-logo-2 dark:group-hover:text-white" />
           </svelte:fragment>

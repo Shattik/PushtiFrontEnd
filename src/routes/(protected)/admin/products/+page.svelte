@@ -5,6 +5,10 @@
     import AdminProduct from "../AdminProduct.svelte";
     import { Search, Modal, Label, Input, Button } from 'flowbite-svelte';
     import { PlusSolid } from "svelte-awesome-icons";
+    import { page } from '$app/stores';
+    import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
+    import { get } from 'svelte/store';
+    import { jwtToken } from '$lib/Components/token.js';
   
     let focused = false;
     let value = "";
@@ -14,13 +18,24 @@
   
   
     // let inventory = [ {name: "KUE", quantity: 3, price: 23}, {name: "Khaan", quantity: 3, price: 23}, {name: "Zaura", quantity: 3, price: 23} ]
-    // let data = $page.data;
+    let data = $page.data.data;
+    let mainInventory = [];
     // // let inventory = $page.data;
     // console.log(data);
     // let mainInventory = data.inventory;
-    let mainInventory = [ {name: "KUE", unitPrice: 23, unit: "kg", tax: 2, imageLink: "https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=", id: 1}, 
-                            {name: "Khaan", unitPrice: 23, unit: "piece", tax:4, imageLink: "https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=", id: 2}, 
-                            {name: "Zaura", unitPrice: 23, unit: "ltr", tax:5, imageLink: "https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=", id: 3}]
+    // let mainInventory = [ {name: "KUE", unitPrice: 23, unit: "kg", tax: 2, imageLink: "https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=", id: 1}, 
+    //                         {name: "Khaan", unitPrice: 23, unit: "piece", tax:4, imageLink: "https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=", id: 2}, 
+    //                         {name: "Zaura", unitPrice: 23, unit: "ltr", tax:5, imageLink: "https://media.istockphoto.com/id/1297005860/photo/raw-milk-being-poured-into-container.jpg?s=612x612&w=0&k=20&c=5Xumh49_zYs9GjLkGpZXM41tS17K8M-svN9jLMv0JpE=", id: 3}];
+    for (let i = 0; i < data.length; i++) {
+        mainInventory.push({
+            name: data[i].name,
+            unitPrice: data[i].unitPrice,
+            unit: data[i].unit,
+            tax: data[i].taxPercentage,
+            imageLink: data[i].imageLink,
+            id: data[i].id
+        });
+    }
     let inventory;
   
     let index = 0;
@@ -28,7 +43,53 @@
     let openModalAdd = false;
 
     async function editProduct() {
-        console.log("paisi");
+        const res = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/product/update-product`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: get(jwtToken),
+            },
+            body: JSON.stringify({
+                unit_price: unitPriceVal,
+                tax_amount: taxVal,
+                id: inventory[index].id
+            })
+        });
+        if(res.ok){
+          inventory[index].unitPrice = unitPriceVal;
+          inventory[index].tax = taxVal;
+          openModal = false;
+        }
+    }
+
+    async function addProduct() {
+        const res = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/product/add-product`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: get(jwtToken),
+            },
+            body: JSON.stringify({
+                name: newName,
+                unit: newUnit,
+                unit_price: newPrice,
+                tax_amount: newTax,
+                image_link: newLink
+            })
+        });
+        if(res.ok){
+            mainInventory.push({
+                name: newName,
+                unitPrice: newPrice,
+                unit: newUnit,
+                tax: newTax,
+                imageLink: newLink,
+                id: mainInventory.length + 1
+            });
+            inventory = mainInventory;
+            value = "";
+            openModalAdd = false;
+        }
     }
     
     $:inventory = mainInventory.filter((item) => item.name.toLowerCase().includes(value.toLowerCase())); 
@@ -102,11 +163,11 @@
     </form>
   </Modal>
   <Modal bind:open={openModalAdd} size="md" autoclose={false} class="w-full">
-    <form class="flex flex-col space-y-6" on:submit|preventDefault={editProduct}>
+    <form class="flex flex-col space-y-6" on:submit|preventDefault={addProduct}>
       <h3 class="mb-4 text-xl font-medium text-gray-900 text-center dark:text-white">Add New Product</h3>
       <Label class="space-y-2">
         <span>Name</span>
-        <Input type="number" bind:value={newName} required />
+        <Input type="text" bind:value={newName} required />
       </Label>
       <Label class="space-y-2">
         <span>Unit</span>
