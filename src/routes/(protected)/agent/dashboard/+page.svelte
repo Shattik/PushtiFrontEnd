@@ -41,7 +41,7 @@
   };
 
   avatar.set(page_data.basicData.avatarLink);
-  name.set(data.basicData.name);
+  name.set(page_data.basicData.name);
 
   let taxData = page_data.taxData;
 
@@ -176,26 +176,6 @@
         </div>
       </div>
     </Card>
-
-    <!-- <hr class="mt-3 border-divider_col shadow"/>
-      <hr class="mb-3 border-divider_col shadow"/> -->
-
-    <!-- <Card bind:this={card} class="max-w-full w-full bg-body_custom">
-          <div class="flex flex-row justify-between items-center mb-3">
-              
-              <h1 class= {twJoin("text-xl font-bold", textColor)}>{farmer.rank}</h1>
-              <h1 class="text-xl text-custom_font-deep font-bold ms-1">{farmer.points} Points</h1>
-          </div>
-          <Progressbar {progress} animate tweenDuration={1500} easing={sineOut} size="h-3"  class="mb-3 bg-primary-200" labelInside labelInsideClass="h-3 text-transparent text-xs font-medium text-center p-0.5 leading-none rounded-full bg-rank-{farmer.rank.toLowerCase()}"/>
-          <p class="text-lg text-custom_font-deep font-medium">{farmer.more_points} points to <span class={twJoin("text-lg font-medium", nextRankColor)}>{farmer.next_rank}</span></p>
-          <p class="my-3"><span class={twJoin("text-xl font-medium", textColor)}>Your Rewards</span></p>
-          {#each farmer.benefits as benefit}
-          <div class="flex flex-row">
-              <StarRegular class="w-6 h-6 me-3 mb-4 text-rank-{farmer.rank.toLowerCase()}"/>
-              <p class="text-lg text-custom_font-deep font-medium">{benefit}</p>
-          </div>
-          {/each}
-      </Card> -->
 
     <hr class="mt-3 border-divider_col shadow" />
     <hr class="mb-3 border-divider_col shadow" />

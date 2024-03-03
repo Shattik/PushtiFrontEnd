@@ -267,6 +267,9 @@
     loading=false;
   }
 
+  let agent;
+  let taxDataAmountList, taxDataMonthList;
+
   async function getUnionDetails() {
     loading=true;
     const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/report/union`, {
@@ -279,9 +282,60 @@
     });
     console.log(response);
     const data = await response.json();
+    agent = {
+      name: data.agentDashboardData.basicData.name,
+      nid: data.agentDashboardData.basicData.nid,
+      email: data.agentDashboardData.basicData.email,
+      union: data.agentDashboardData.basicData.unionName,
+      farmers: data.agentDashboardData.unionDetails[0].noFarmers,
+      smes: data.agentDashboardData.unionDetails[0].noSme,
+      vendors: data.agentDashboardData.unionDetails[0].noVendors,
+      avatarLink: data.agentDashboardData.basicData.avatarLink,
+    };
     console.log(data);
+    let totalLoan =
+      parseInt(data.agentDashboardData.unionDetails[0].totalFarmerLoan) +
+      parseInt(data.agentDashboardData.unionDetails[0].totalSmeLoan);
+    let totalBuy = parseInt(data.agentDashboardData.unionDetails[0].totalBuy);
+    let totalSell = parseInt(data.agentDashboardData.unionDetails[0].totalSell);
+    let totalTax = parseInt(data.agentDashboardData.unionDetails[0].totalTax);
+    pieData = [
+      parseInt(data.agentDashboardData.unionDetails[0].availableBudget),
+      parseInt(data.agentDashboardData.unionDetails[0].totalFarmerLoan),
+      parseInt(data.agentDashboardData.unionDetails[0].totalSmeLoan),
+    ];
+
+    barData = [totalLoan, totalBuy, totalSell, totalTax];
     // page_data.generalStats = data.unionStats;
     // generalLeaderboard = data.unionLeaderboard;
+    let taxData = data.agentDashboardData.taxData;
+
+  let taxDataJson = [{ month: "", amount: 0 }];
+
+  taxData.forEach((/** @type {{ month: any; taxAmount: any; }} */ data) => {
+    const obj = { month: data.month, amount: data.taxAmount };
+    taxDataJson = [obj, ...taxDataJson];
+  });
+
+  taxDataJson.pop();
+
+  console.log(taxDataJson);
+
+  // taxDataMonthList is an array of months, converted from the taxDataJson array
+  taxDataMonthList = taxDataJson.map(
+    (/** @type {{ month: any; amount: any; }} */ data) => data.month
+  );
+
+  // taxDataAmountList is an array of amounts, converted from the taxDataJson array(need to convert to number, first convert to string, then to number)
+    taxDataAmountList = taxDataJson.map(
+        (/** @type {{ month: any; amount: any; }} */ data) => parseInt(String(data.amount))
+    );
+
+    // reverse taxDataMonthList and taxDataAmountList
+    taxDataMonthList = taxDataMonthList.reverse();
+    taxDataAmountList = taxDataAmountList.reverse();
+
+    console.log(taxDataAmountList);
     leaderboardType = "Agent";
     loading=false;
   }
@@ -398,6 +452,97 @@
     <hr class="mb-3 border-divider_col shadow" />
     {#if loading}
       <Loading/>
+    {:else if leaderboardType == "Agent"}
+      <Card class="max-w-full w-full bg-body_custom" padding="md" horizontal>
+        <div class="flex items-center pb-4 w-full">
+          <Avatar class="w-48 h-48 ring-border_custom me-12" src={agent.avatarLink} border />
+          <div class="grow flex flex-col">
+            <Table divClass="grow relative overflow-x-auto">
+              <TableBody>
+                <TableBodyRow
+                  class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl"
+                >
+                  <TableBodyCell class="w-96 text-custom_font-deep font-bold"
+                    >Name</TableBodyCell
+                  >
+                  <TableBodyCell class="text-custom_font-light"
+                    >{agent.name}</TableBodyCell
+                  >
+                </TableBodyRow>
+                <!-- <TableBodyRow class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl">
+                            <TableBodyCell class="text-custom_font-deep font-bold">NID</TableBodyCell>
+                            <TableBodyCell class="text-custom_font-light">{agent.nid}</TableBodyCell>
+                        </TableBodyRow> -->
+                <TableBodyRow
+                  class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl"
+                >
+                  <TableBodyCell class="text-custom_font-deep font-bold"
+                    >Email</TableBodyCell
+                  >
+                  <TableBodyCell class="text-custom_font-light"
+                    >{agent.email}</TableBodyCell
+                  >
+                </TableBodyRow>
+                <TableBodyRow
+                  class="border-b-2 border-divider_col bg-body_custom drop-shadow-md text-xl"
+                >
+                  <TableBodyCell class="text-custom_font-deep font-bold"
+                    >Union</TableBodyCell
+                  >
+                  <TableBodyCell class="text-custom_font-light"
+                    >{agent.union}</TableBodyCell
+                  >
+                </TableBodyRow>
+              </TableBody>
+            </Table>
+            <div class="flex flex-row items-center w-full space-x-48 mt-10 ml-10">
+              <div
+                class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish"
+              >
+                <p class="mt-2">No. of Farmers</p>
+                <p class="mt-3 mb-2 text-xl">{agent.farmers}</p>
+              </div>
+              <div
+                class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish"
+              >
+                <p class="mt-2">No. of SMEs</p>
+                <p class="mt-3 mb-2 text-xl">{agent.smes}</p>
+              </div>
+              <div
+                class="border-4 border-custom_font-reddish text-center rounded-xl w-48 text-md text-custom_font-reddish"
+              >
+                <p class="mt-2">No. of Vendors</p>
+                <p class="mt-3 mb-2 text-xl">{agent.vendors}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <hr class="mt-3 border-divider_col shadow" />
+      <hr class="mb-3 border-divider_col shadow" />
+
+      <!-- Insert chart for card here -->
+      <div class="flex flex-row w-full max-w-full items-center space-x-5">
+        <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
+          <p class="text-3xl font-bold text-custom_font-deep mb-5">
+            Budget Status
+          </p>
+          <Pie data={pieData} />
+        </Card>
+        <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
+          <p class="text-3xl font-bold text-custom_font-deep mb-5">Statistics</p>
+          <Bar data={barData} />
+        </Card>
+      </div>
+      <div class="flex flex-row w-full max-w-full items-center">
+        <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
+          <p class="text-3xl font-bold text-custom_font-deep mb-5">
+            Monthly Tax Income
+          </p>
+          <Scatter labels={taxDataMonthList} data={taxDataAmountList} />
+        </Card>
+      </div>
     {:else}
     <!-- Insert chart for card here -->
       <div class="flex flex-row w-full max-w-full items-center space-x-5">
