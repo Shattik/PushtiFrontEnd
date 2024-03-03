@@ -3,7 +3,8 @@
 
   export let data = [20000, 12000, 7000, 2500];
   
-  const options = {
+  let options;
+  $:options = {
     colors: ['#21ad42'],
     series: [
       {

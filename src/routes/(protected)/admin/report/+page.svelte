@@ -1,6 +1,7 @@
 <script>
   import { format } from "date-fns";
   import Header from "../../Header.svelte";
+  import Loading from "../../../loading.svelte";
   import { onMount } from "svelte";
   import {
     Progressbar,
@@ -48,6 +49,8 @@
   } from "svelte-awesome-icons";
 
   import { PUBLIC_API_GATEWAY_URL } from "$env/static/public";
+  import { get } from "svelte/store";
+  import { jwtToken } from "$lib/Components/token.js";
 
   /** @type { SvelteComponent } */
   let card;
@@ -67,7 +70,8 @@
 
   let upazillas = [{ value: "", name: "" }];
   let unions = [{ value: "", name: "" }];
-
+  let loading=false;
+  let leaderboardType ="Division";
   onMount(async () => {
     const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/sme`, {
       method: "GET",
@@ -99,6 +103,7 @@
   });
 
   async function getDistricts() {
+    loading=true;
     const req_body = { division };
     console.log("req_body", req_body);
     const response = await fetch(
@@ -113,7 +118,6 @@
     );
 
     let districts_array = await response.json();
-
     console.log(districts_array);
 
     // do same as division
@@ -135,10 +139,27 @@
 
     districts = district_json;
 
-    console.log(districts);
+    const response2 = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/reports/division`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify({division_id:division})
+    });
+    console.log(response2);
+    const data = await response2.json();
+    console.log(data);
+    page_data.generalStats = data.divisionStats;
+    generalLeaderboard = data.divisionLeaderboard;
+    leaderboardType = "District";
+    console.log(generalLeaderboard);  
+    console.log(page_data.generalStats);
+    loading=false;
   }
 
   async function getUpazillas() {
+    loading=true;
     const req_body = { district };
     console.log("req_body", req_body);
     const response = await fetch(
@@ -176,9 +197,27 @@
     upazillas = upazilla_json;
 
     console.log(upazillas);
+    const response2 = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/report/district`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify({district_id:district})
+    });
+    console.log(response2);
+    const data = await response2.json();
+    console.log(data);
+    page_data.generalStats = data.districtStats;
+    generalLeaderboard = data.districtLeaderboard;
+    leaderboardType = "Upazilla";
+    console.log(generalLeaderboard);  
+    console.log(page_data.generalStats);
+    loading=false;  
   }
 
   async function getUnions() {
+    loading=true;
     const req_body = { upazilla };
     console.log("req_body", req_body);
     const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/register/union`, {
@@ -211,6 +250,40 @@
     unions = union_json;
 
     console.log(unions);
+    const response2 = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/report/upazilla`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify({upazilla_id:district})
+    });
+    console.log(response2);
+    const data = await response2.json();
+    console.log(data);
+    page_data.generalStats = data.upazillaStats;
+    generalLeaderboard = data.upazillaLeaderboard;
+    leaderboardType = "Union";
+    loading=false;
+  }
+
+  async function getUnionDetails() {
+    loading=true;
+    const response = await fetch(`${PUBLIC_API_GATEWAY_URL}/admin/report/union`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            authorization: get(jwtToken),
+        },
+        body: JSON.stringify({union_id:union})
+    });
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    // page_data.generalStats = data.unionStats;
+    // generalLeaderboard = data.unionLeaderboard;
+    leaderboardType = "Agent";
+    loading=false;
   }
 
   let pagination_page_general = 0;
@@ -224,20 +297,25 @@
 
   let generalLeaderboard = page_data.generalLeaderboard;
 
-  let totalLoan =
+  let totalLoan; 
+  $:totalLoan=
     page_data.generalStats.totalFarmerLoan +
     page_data.generalStats.totalSmeLoan;
-  let pieData = [
+  let pieData;
+  $:pieData = [
     parseInt(page_data.generalStats.availableBudget),
     parseInt(page_data.generalStats.totalFarmerLoan),
     parseInt(page_data.generalStats.totalSmeLoan),
   ];
-  let barData = [
+  let barData;
+  $:barData = [
     totalLoan,
     page_data.generalStats.totalBuy,
     page_data.generalStats.totalSell,
     page_data.generalStats.totalTax,
   ];
+  $:console.log(barData);
+  $:console.log(pieData);
 </script>
 
 <div class="hidden">
@@ -251,7 +329,7 @@
     <RolledSidebar bind:focused />
   {/if}
 
-  <div class="w-full h-screen p-5">
+  <div class="flex flex-col w-full h-screen p-5">
     <Header page="Report" />
 
     <div class="flex flex-row flex-wrap space-x-6">
@@ -268,6 +346,7 @@
             getDistricts();
           }}
           required
+          disabled={loading}
         />
       </Label>
       {#if division}
@@ -283,6 +362,7 @@
               getUpazillas();
             }}
             required
+            disabled={loading}
           />
         </Label>
       {/if}
@@ -298,138 +378,175 @@
               getUnions();
             }}
             required
+            disabled={loading}
           />
         </Label>
       {/if}
       {#if upazilla}
         <Label class="space-y-2">
           <span class="font-bold">Union</span>
-          <Select class="mt-2" items={unions} bind:value={union} required />
+          <Select class="mt-2" items={unions} bind:value={union} on:change={() => {
+              getUnionDetails();
+            }}
+            required 
+            disabled={loading}/>
         </Label>
       {/if}
     </div>
 
     <hr class="mt-3 border-divider_col shadow" />
     <hr class="mb-3 border-divider_col shadow" />
-
+    {#if loading}
+      <Loading/>
+    {:else}
     <!-- Insert chart for card here -->
-    <div class="flex flex-row w-full max-w-full items-center space-x-5">
-      <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
-        <p class="text-3xl font-bold text-custom_font-deep mb-5">
-          Budget Status
-        </p>
-        <Pie data={pieData} />
-      </Card>
-      <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
-        <p class="text-3xl font-bold text-custom_font-deep mb-5">Statistics</p>
-        <Bar data={barData} />
-      </Card>
-    </div>
+      <div class="flex flex-row w-full max-w-full items-center space-x-5">
+        <Card class="max-w-full w-1/2 bg-body_custom mb-5 h-[32rem]">
+          <p class="text-3xl font-bold text-custom_font-deep mb-5">
+            Budget Status
+          </p>
+          <Pie bind:data={pieData} />
+        </Card>
+        <Card class="max-w-full w-full bg-body_custom mb-5 h-[32rem]">
+          <p class="text-3xl font-bold text-custom_font-deep mb-5">Statistics</p>
+          <Bar bind:data={barData} />
+        </Card>
+      </div>
 
-    <hr class="mt-3 border-divider_col shadow" />
-    <hr class="mb-3 border-divider_col shadow" />
+      <hr class="mt-3 border-divider_col shadow" />
+      <hr class="mb-3 border-divider_col shadow" />
 
-    <div>
-      <Table shadow>
-        <TableHead>
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Rank</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/2"
-            >Division Name</TableHeadCell
-          >
-          <TableHeadCell
-            class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
-            >Points</TableHeadCell
-          >
-        </TableHead>
-        {#if generalLeaderboard.length == 0}
-          <TableBodyRow
-            class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl"
-          >
-            <TableBodyCell
-              colspan="8"
-              class="text-custom_font-table_header items-center rounded-b-xl"
+      <div>
+        <Table shadow>
+          <TableHead>
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
+              >Rank</TableHeadCell
             >
-              <div class="flex flex-col items-center justify-center">
-                <span class="text-custom_font-table_header text-xl"
-                  >No Farmers Found</span
-                >
-                <UsersSlashSolid class="w-48 h-48 mt-4 text-gray-400" />
-              </div>
-            </TableBodyCell>
-          </TableBodyRow>
-        {:else}
-          {#each generalLeaderboard.slice(pagination_page_general * 10, (pagination_page_general + 1) * 10 + 1) as { name, avatarLink, points, rank }, i}
+            {#if leaderboardType == "Union"}
+              <TableHeadCell
+                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/3"
+                >Agent Name</TableHeadCell
+              >
+              <TableHeadCell
+                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/3"
+                >Union Name</TableHeadCell
+              >
+            {:else}
+              <TableHeadCell
+                class="text-custom_font-table_header font-bold text-left bg-sidebar_bg w-1/2"
+                >{leaderboardType} Name</TableHeadCell
+              >
+            {/if}
+            <TableHeadCell
+              class="text-custom_font-table_header font-bold text-center bg-sidebar_bg"
+              >Points</TableHeadCell
+            >
+          </TableHead>
+          {#if generalLeaderboard.length == 0}
             <TableBodyRow
-              class="bg-body_custom drop-shadow-md border-b-2 border-divider_col"
+              class="border-b-2 border-divider_col bg-primary-50 rounded-b-xl"
             >
-              <TableBodyCell class="text-custom_font-table-header text-center">
-                {#if rank == 1}
-                  <MedalSolid class="w-5 h-5 text-rank-gold m-auto" />
-                {:else if rank == 2}
-                  <MedalSolid class="w-5 h-5 text-rank-silver m-auto" />
-                {:else if rank == 3}
-                  <MedalSolid class="w-5 h-5 text-rank-bronze m-auto" />
-                {:else}
-                  {rank}
-                {/if}
-              </TableBodyCell>
               <TableBodyCell
-                class="text-custom_font-table-header  flex flex-row items-center"
+                colspan="8"
+                class="text-custom_font-table_header items-center rounded-b-xl"
               >
-                {name}
+                <div class="flex flex-col items-center justify-center">
+                  <span class="text-custom_font-table_header text-xl"
+                    >No Farmers Found</span
+                  >
+                  <UsersSlashSolid class="w-48 h-48 mt-4 text-gray-400" />
+                </div>
               </TableBodyCell>
-              <TableBodyCell class="text-custom_font-table-header text-center"
-                >{points}</TableBodyCell
-              >
             </TableBodyRow>
-          {/each}
-          <TableBodyRow
-            class="bg-body_custom drop-shadow-md border-b-2 border-divider_col rounded-b-xl"
-          >
-            <TableBodyCell colspan="7">
-              <div class="flex flex-row items-center justify-between w-full">
-                <Button
-                  on:click={previousGeneral}
-                  disabled={pagination_page_general == 0}
-                  class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom"
-                >
-                  <ChevronLeftSolid class="w-4 h-4" />
-                  Previous
-                </Button>
-                <p class="text-custom_font-table_header grow text-center">
-                  Showing
-                  <span class="font-bold"
-                    >{pagination_page_general * 10 + 1}</span
+          {:else}
+            {#each generalLeaderboard.slice(pagination_page_general * 10, (pagination_page_general + 1) * 10 + 1) as { name, avatarLink, points, rank,agentname }, i}
+              <TableBodyRow
+                class="bg-body_custom drop-shadow-md border-b-2 border-divider_col"
+              >
+                <TableBodyCell class="text-custom_font-table-header text-center">
+                  {#if rank == 1}
+                    <MedalSolid class="w-5 h-5 text-rank-gold m-auto" />
+                  {:else if rank == 2}
+                    <MedalSolid class="w-5 h-5 text-rank-silver m-auto" />
+                  {:else if rank == 3}
+                    <MedalSolid class="w-5 h-5 text-rank-bronze m-auto" />
+                  {:else}
+                    {rank}
+                  {/if}
+                </TableBodyCell>
+                {#if leaderboardType == "Union"}
+                  <TableBodyCell
+                    class="text-custom_font-table-header flex flex-row items-center"
                   >
-                  to
-                  <span class="font-bold"
-                    >{Math.min(
-                      generalLeaderboard.length,
-                      pagination_page_general * 10 + 10
-                    )}</span
+                    <Avatar
+                      class="w-10 h-10"
+                      src={avatarLink}
+                      alt="avatar"
+                    />
+                    <span class="ml-2">{agentname}</span>
+                  </TableBodyCell>
+                  <TableBodyCell
+                    class="text-custom_font-table-header items-center"
                   >
-                  of
-                  <span class="font-bold">{generalLeaderboard.length}</span>
-                  entries
-                </p>
-                <Button
-                  on:click={nextGeneral}
-                  disabled={pagination_page_general >=
-                    generalLeaderboard.length / 10 - 1}
-                  class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom"
+                    {name}
+                  </TableBodyCell>
+                {:else}
+                  <TableBodyCell
+                    class="text-custom_font-table-header items-center"
+                  >
+                    {name}
+                  </TableBodyCell>
+                {/if}
+                <TableBodyCell class="text-custom_font-table-header text-center"
+                  >{points}</TableBodyCell
                 >
-                  Next
-                  <ChevronRightSolid class="w-4 h-4" />
-                </Button>
-              </div>
-            </TableBodyCell>
-          </TableBodyRow>
-        {/if}
-      </Table>
-    </div>
+              </TableBodyRow>
+            {/each}
+            <TableBodyRow
+              class="bg-body_custom drop-shadow-md border-b-2 border-divider_col rounded-b-xl"
+            >
+              <TableBodyCell colspan="7">
+                <div class="flex flex-row items-center justify-between w-full">
+                  <Button
+                    on:click={previousGeneral}
+                    disabled={pagination_page_general == 0}
+                    class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom"
+                  >
+                    <ChevronLeftSolid class="w-4 h-4" />
+                    Previous
+                  </Button>
+                  <p class="text-custom_font-table_header grow text-center">
+                    Showing
+                    <span class="font-bold"
+                      >{pagination_page_general * 10 + 1}</span
+                    >
+                    to
+                    <span class="font-bold"
+                      >{Math.min(
+                        generalLeaderboard.length,
+                        pagination_page_general * 10 + 10
+                      )}</span
+                    >
+                    of
+                    <span class="font-bold">{generalLeaderboard.length}</span>
+                    entries
+                  </p>
+                  <Button
+                    on:click={nextGeneral}
+                    disabled={pagination_page_general >=
+                      generalLeaderboard.length / 10 - 1}
+                    class="text-xs bg-custom_font-sub_header text-white hover:bg-custom_font-light hover:drop-shadow-md disabled:invisible focus:ring-border_custom"
+                  >
+                    Next
+                    <ChevronRightSolid class="w-4 h-4" />
+                  </Button>
+                </div>
+              </TableBodyCell>
+            </TableBodyRow>
+          {/if}
+        </Table>
+      </div>
+    {/if}
   </div>
 </div>

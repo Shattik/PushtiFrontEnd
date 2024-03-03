@@ -4,7 +4,9 @@
     import { navigating } from '$app/stores';
 </script>
 {#if $navigating}
-	<Loading />
+    <div class="h-screen">
+	    <Loading />
+    </div>
 {:else}
 	<slot />
 {/if}

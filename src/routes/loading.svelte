@@ -9,7 +9,7 @@
     });
 </script>
 
-<center class="grid grid-cols-1 place-items-center h-screen w-screen">
+<center class="grow grid grid-cols-1 place-items-center h-full">
 {#if val == 0}
     <Stretch size="100" color="#27c848"/>
 {:else if val == 1}

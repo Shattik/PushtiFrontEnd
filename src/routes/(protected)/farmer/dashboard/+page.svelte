@@ -19,7 +19,7 @@
   import { StarRegular } from "svelte-awesome-icons";
   import { SvelteComponent } from "svelte";
   import { page } from "$app/stores";
-  import { avatar } from "$lib/Components/avatar.js";
+  import { avatar, name } from "$lib/Components/avatar.js";
   /** @type { SvelteComponent } */
   let card;
 
@@ -57,6 +57,7 @@
   let hex = "-[#ffd700]";
 
   avatar.set(data.basicData.avatarLink);
+  name.set(data.basicData.name);
 
   let salesData = data.sellHistoryOneYear;
 

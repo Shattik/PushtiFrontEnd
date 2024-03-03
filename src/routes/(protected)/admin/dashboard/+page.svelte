@@ -22,7 +22,7 @@
     import Bar from "../../bar.svelte";
     import Scatter from "../../Scatter.svelte";
     import { page } from "$app/stores";
-    import { avatar } from "$lib/Components/avatar.js";
+    import { avatar,name } from "$lib/Components/avatar.js";
   
     /** @type { SvelteComponent } */
     let card;
@@ -45,6 +45,7 @@
     };
 
     avatar.set(page_data.basicData.avatarLink);
+    name.set(page_data.basicData.name);
 
     let totalLoan =
     page_data.generalStats.totalFarmerLoan +
