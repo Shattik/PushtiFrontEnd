@@ -31,6 +31,7 @@
   "dependencies": {
     "@skeletonlabs/skeleton": "^2.7.1",
     "date-fns": "^3.3.1",
+    "pdfmake": "^0.2.9",
     "svelte-range-slider-pips": "^2.3.1",
     "tailwind-merge": "^2.2.1"
   }

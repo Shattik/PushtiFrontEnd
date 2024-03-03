@@ -21,7 +21,7 @@
   import Bar from "../../bar.svelte";
   import Scatter from "../../Scatter.svelte";
   import { page } from "$app/stores";
-  import { avatar, name } from "$lib/Components/avatar.js";
+  import { avatar, name, phone } from "$lib/Components/avatar.js";
 
   /** @type { SvelteComponent } */
   let card;
@@ -42,6 +42,7 @@
 
   avatar.set(page_data.basicData.avatarLink);
   name.set(page_data.basicData.name);
+  phone.set(page_data.basicData.phone);
 
   let taxData = page_data.taxData;
 
@@ -62,16 +63,16 @@
   );
 
   // taxDataAmountList is an array of amounts, converted from the taxDataJson array(need to convert to number, first convert to string, then to number)
-    let taxDataAmountList = taxDataJson.map(
-        (/** @type {{ month: any; amount: any; }} */ data) => parseInt(String(data.amount))
-    );
+  let taxDataAmountList = taxDataJson.map(
+    (/** @type {{ month: any; amount: any; }} */ data) =>
+      parseInt(String(data.amount))
+  );
 
-    // reverse taxDataMonthList and taxDataAmountList
-    taxDataMonthList = taxDataMonthList.reverse();
-    taxDataAmountList = taxDataAmountList.reverse();
+  // reverse taxDataMonthList and taxDataAmountList
+  taxDataMonthList = taxDataMonthList.reverse();
+  taxDataAmountList = taxDataAmountList.reverse();
 
-    console.log(taxDataAmountList);
-  
+  console.log(taxDataAmountList);
 
   //   let progress=0;
   let focused = false;
@@ -113,7 +114,11 @@
     <Header page="Dashboard" />
     <Card class="max-w-full w-full bg-body_custom" padding="md" horizontal>
       <div class="flex items-center pb-4 w-full">
-        <Avatar class="w-48 h-48 ring-border_custom me-12" src={page_data.basicData.avatarLink} border />
+        <Avatar
+          class="w-48 h-48 ring-border_custom me-12"
+          src={page_data.basicData.avatarLink}
+          border
+        />
         <div class="grow flex flex-col">
           <Table divClass="grow relative overflow-x-auto">
             <TableBody>

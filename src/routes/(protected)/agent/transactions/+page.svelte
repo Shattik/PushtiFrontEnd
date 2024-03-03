@@ -6,7 +6,7 @@
     import Sidebar from '../Sidebar.svelte';
     import TransactionTable from './TransactionTable.svelte';
     import Header from '../../Header.svelte';
-    import { BanSolid, MagnifyingGlassSolid } from 'svelte-awesome-icons';
+    import { BanSolid, MagnifyingGlassSolid, DownloadSolid } from 'svelte-awesome-icons';
     import ItemsSelector from './ItemsSelector.svelte';
     import SellModalContent from './SellModalContent.svelte';
     import { page } from '$app/stores';
