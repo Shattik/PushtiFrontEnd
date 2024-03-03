@@ -78,14 +78,16 @@
             })
         });
         if(res.ok){
+            let {id} = await res.json();
             mainInventory.push({
                 name: newName,
                 unitPrice: newPrice,
                 unit: newUnit,
                 tax: newTax,
                 imageLink: newLink,
-                id: mainInventory.length + 1
+                id: id
             });
+            console.log(id);
             inventory = mainInventory;
             value = "";
             openModalAdd = false;
